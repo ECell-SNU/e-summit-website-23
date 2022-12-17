@@ -1,44 +1,13 @@
-import { type NextPage, type GetServerSidePropsContext } from "next";
-import Head from "next/head";
+import { type NextPage } from "next";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
-import { authOptions } from "../pages/api/auth/[...nextauth]";
-import { unstable_getServerSession } from "next-auth/next";
-
 import { trpc } from "../utils/trpc";
 
+// Add this to every page to protect from users who haven't filled the form
+export { default as getServerSideProps } from "../lib/serverProps";
+
 import Layout from "../components/layout";
-
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const session = await unstable_getServerSession(
-    ctx.req,
-    ctx.res,
-    authOptions
-  );
-
-  if (session) {
-    return {
-      redirect: {
-        destination: "/fill-the-form",
-        permanent: false,
-      },
-    };
-  }
-
-  // if (!session) {
-  //   return {
-  //     redirect: {
-  //       destination: '/',
-  //       permanent: false,
-  //     },
-  //   }
-  // }
-
-  return {
-    props: {},
-  };
-}
 
 const Home: NextPage = () => {
   const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
