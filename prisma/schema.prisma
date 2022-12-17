@@ -55,6 +55,9 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+
+  // if this is false, pester the user to fill the form
+  hasFilledInfo Boolean   @default(false)
 }
 
 model VerificationToken {
