@@ -19,7 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
+      <Navbar page={title} />
       <main>{children}</main>
     </>
   );

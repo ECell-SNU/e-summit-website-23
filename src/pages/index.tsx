@@ -17,7 +17,7 @@ import Layout from "../components/layout";
 
 const Home: NextPage = () => {
   return (
-    <Layout>
+    <Layout title="Home">
       <div className="flex h-[90vh] w-screen items-center justify-between">
         <div className="select-none">
           <Image draggable={false} alt="" src={splashImgLeftUni} />

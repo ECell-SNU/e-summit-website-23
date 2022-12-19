@@ -28,7 +28,13 @@ const navItems = [
   // },
 ];
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  page?: string;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ page }) => {
+  // const activeStyle = page ? " text-white" : " text-gray-500";
+
   return (
     <nav className="flex h-[10vh] items-center justify-between">
       <div className="">
@@ -42,11 +48,17 @@ const Navbar: React.FC = () => {
           return drop ? (
             // TODO: make the dropdown here
             <div>
-              <div className="ml-8">{title}</div>
+              <div className="ml-8 text-gray-400">{title}</div>
             </div>
           ) : (
             <Link href={href ? href : ""}>
-              <div className="ml-8">{title}</div>
+              <div
+                className={
+                  "ml-8" + (page === title ? " text-white" : " text-gray-400")
+                }
+              >
+                {title}
+              </div>
             </Link>
           );
         })}
