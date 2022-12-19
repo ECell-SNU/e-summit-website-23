@@ -1,6 +1,8 @@
 import { type ReactNode } from "react";
 import Head from "next/head";
 
+import Navbar from "./navbar";
+
 interface LayoutProps {
   title?: string;
   children: ReactNode;
@@ -17,8 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* TODO: Navbar goes here */}
-      <nav></nav>
+      <Navbar />
       <main>{children}</main>
     </>
   );
