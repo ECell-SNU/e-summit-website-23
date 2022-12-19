@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import eSummitLogo from "../assets/e-summit-logo.png";
 
@@ -20,11 +21,11 @@ const navItems = [
     title: "Contact",
     href: "/contact",
   },
-  {
-    title: "More",
-    drop: true,
-    dropItems: [],
-  },
+  // {
+  //   title: "More",
+  //   drop: true,
+  //   dropItems: [],
+  // },
 ];
 
 const Navbar: React.FC = () => {
@@ -34,9 +35,21 @@ const Navbar: React.FC = () => {
         <Image alt="E-Summit 2023" src={eSummitLogo} />
       </div>
       <div className="flex">
-        {navItems.map(({ title, href }) => (
+        {/* {navItems.map(({ title, href }) => (
           <div className="ml-8">{title}</div>
-        ))}
+        ))} */}
+        {navItems.map(({ title, href, drop }) => {
+          return drop ? (
+            // TODO: make the dropdown here
+            <div>
+              <div className="ml-8">{title}</div>
+            </div>
+          ) : (
+            <Link href={href ? href : ""}>
+              <div className="ml-8">{title}</div>
+            </Link>
+          );
+        })}
       </div>
       <div className="item-center flex items-center">
         <div>Login</div>
