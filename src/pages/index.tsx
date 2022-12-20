@@ -42,7 +42,10 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
   Math.min(Math.max(number, min), max)
 
 const Home: NextPage = () => {
-	const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, startIndex: 1 });
+	const [emblaRef, emblaApi] = useEmblaCarousel({
+		// loop: true,
+		startIndex: 1
+	});
 	
 	const spons = [delphi, kyber, samsung, upbit, ubisoft, maker, binance];
 	const images = [
@@ -89,19 +92,18 @@ const Home: NextPage = () => {
       const tweenValue = 1 - Math.abs(diffToTarget * TWEEN_FACTOR)
       return numberWithinRange(tweenValue, 0, 1)
     })
-		setTweenValues(styles)
-		console.log(styles);
+		setTweenValues(styles);
   }, [emblaApi, setTweenValues])
 
-  useEffect(() => {
-    if (!emblaApi) return
-
-    onScroll()
-    emblaApi.on('scroll', () => {
-      flushSync(() => onScroll())
-    })
-    emblaApi.on('reInit', onScroll)
-  }, [emblaApi, onScroll])
+	useEffect(() => {
+		if (!emblaApi) return
+		
+		onScroll()
+		emblaApi.on('scroll', () => {
+			flushSync(() => onScroll())
+		})
+		emblaApi.on('reInit', onScroll);
+	}, [emblaApi, onScroll]);
 	
 	return (
 		<Layout title="Home">
@@ -123,16 +125,18 @@ const Home: NextPage = () => {
 					<Image className="absolute -z-10 -top-1/6 h-full w-1/2 object-contain" draggable={false} alt="" src={universe} />
 					<Image className="absolute -z-10 -top-1/6 h-[125%] w-full object-contain" draggable={false} alt="" src={redEllipse} />
 					<div className="w-full overflow-hidden" ref={emblaRef}>
-						<div className="embla__container flex">
+						<div className="embla__container flex h-[400px] items-center">
 							{images.map((image, index) => (
 								<div
-									className="h-[300px] aspect-video overflow-hidden relative flex grow-0 shrink-0 items-end border border-white/60 rounded-md bg-black"
+									className="h-[300px] m-[-10px] aspect-video overflow-hidden relative flex grow-0 shrink-0 items-end border border-white/60 rounded-md bg-black"
 									key={index}
 									style={{
-										// ...(tweenValues.length && {
-										// 	transform: `scale(${tweenValues[index]})`,
-										// 	zIndex: (tweenValues[index]??0) > 0.5 ? 1 : 0,
-										// }),
+										...(tweenValues.length && {
+											transform: `scale(${1 + ((tweenValues[index] ?? 0) * 0.3)})`,
+											zIndex: (tweenValues[index] ?? 0) > 0.2 ? 1 : 0,
+											opacity: (Math.abs(tweenValues.findIndex((value) => value > 0.1) - index) < 2) ? 1 : 0,
+											transition: 'opacity 0.3s ease-in-out'
+										}),
               		}}>
 									<Image className="h-[150%] w-[150%] absolute -left-1/2 -bottom-1/2 object-contain" draggable={false} alt="" src={universe} />
 									<Image className="h-[175%] w-[150%] absolute -left-1/2 -bottom-3/4 object-contain" draggable={false} alt="" src={image[1]} />
@@ -150,7 +154,7 @@ const Home: NextPage = () => {
 					</div>
 				</div>
 				<div className="mx-auto my-8 p-[1px] w-3/4 h-fit relative rounded-[50px] bg-gradient-to-r from-white to-white/0">
-					<Image className="absolute top-0 m-5" draggable={false} alt="" src={cornerBorder} />
+					<Image className="absolute top-0 m-5 object-contain w-[95%]" draggable={false} alt="" src={cornerBorder} />
 					<div className="pt-5 flex justify-center rounded-[50px] bg-black">
 						<div className="w-3/4 flex flex-wrap gap-[30px] justify-center">
 							{spons.map((image, index) => (
