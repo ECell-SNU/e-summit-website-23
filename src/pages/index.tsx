@@ -27,6 +27,15 @@ export { default as getServerSideProps } from "../lib/serverProps";
 import Layout from "../components/layout";
 import { flushSync } from "react-dom";
 
+import cornerBorder from "../assets/corner-border.svg";
+import delphi from "../assets/delphi.svg";
+import kyber from "../assets/kyber.svg";
+import samsung from "../assets/samsung.svg";
+import upbit from "../assets/upbit.svg";
+import ubisoft from "../assets/ubisoft.svg";
+import maker from "../assets/maker.svg";
+import binance from "../assets/binance.svg";
+
 const TWEEN_FACTOR = 4.2
 
 const numberWithinRange = (number: number, min: number, max: number): number =>
@@ -35,7 +44,7 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
 const Home: NextPage = () => {
 	const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, startIndex: 1 });
 	
-	
+	const spons = [delphi, kyber, samsung, upbit, ubisoft, maker, binance];
 	const images = [
 		[
 			startupverse,
@@ -137,6 +146,16 @@ const Home: NextPage = () => {
 									</div>
 								</div>
 						))}
+						</div>
+					</div>
+				</div>
+				<div className="mx-auto my-8 p-[1px] w-3/4 h-fit relative rounded-[50px] bg-gradient-to-r from-white to-white/0">
+					<Image className="absolute top-0 m-5" draggable={false} alt="" src={cornerBorder} />
+					<div className="pt-5 flex justify-center rounded-[50px] bg-black">
+						<div className="w-3/4 flex flex-wrap gap-[30px] justify-center">
+							{spons.map((image, index) => (
+								<Image className="h-[100px] w-[100px] m-2" draggable={false} alt="" src={image} key={index} />
+							))}
 						</div>
 					</div>
 				</div>
