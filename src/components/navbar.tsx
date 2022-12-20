@@ -69,7 +69,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       <div className="flex">
         {navItems.map(({ title, href, drop, dropItems }) => {
           return drop ? (
-            <div className="ml-8 text-gray-400">
+            <div className="ml-8 text-gray-400" key={title}>
               {/* blasphemy */}
               <Menu>
                 <MenuButton _hover={{ textColor: "white" }}>
@@ -77,7 +77,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                 </MenuButton>
                 <MenuList textColor="#000">
                   {dropItems.map((dropItem) => (
-                    <Link href={dropItem.href}>
+                    <Link href={dropItem.href} key={dropItem.title}>
                       <MenuItem>{dropItem.title}</MenuItem>
                     </Link>
                   ))}
@@ -85,7 +85,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
               </Menu>
             </div>
           ) : (
-            <Link href={href ? href : ""}>
+            <Link href={href ? href : ""} key={title}>
               <div
                 className={
                   "ml-8" + (page === title ? " text-white" : " text-gray-400")
