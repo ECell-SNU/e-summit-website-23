@@ -15,6 +15,7 @@ export default async function getServerSideProps(
   if (session) {
     // TODO: Check if hasFilledInfo is false in db using
     // prisma directly since this runs server side only
+    const email = session.user?.email;
     const hasFilledInfo = false;
 
     if (!hasFilledInfo) {

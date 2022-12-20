@@ -67,13 +67,15 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 
   return (
     <nav className="flex h-[10vh] items-center justify-between">
-      <div className="">
-        <Image
-          className="phone:ml-3 phone:w-28"
-          alt="E-Summit 2023"
-          src={eSummitLogo}
-        />
-      </div>
+      <Link href="/">
+        <div className="">
+          <Image
+            className="phone:ml-3 phone:w-28"
+            alt="E-Summit 2023"
+            src={eSummitLogo}
+          />
+        </div>
+      </Link>
       <div className="flex phone:hidden">
         {navItems.map(({ title, href, drop, dropItems }) => {
           return drop ? (
@@ -109,7 +111,11 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
         {/* <div>Login</div> */}
         <div
           className="mx-8 cursor-pointer rounded-full bg-blue-500 px-7 py-3 transition-transform duration-300 ease-in-out hover:-translate-y-px"
-          onClick={sessionData ? () => signOut() : () => signIn("google")}
+          onClick={
+            sessionData
+              ? () => signOut({ callbackUrl: "/" })
+              : () => signIn("google")
+          }
         >
           {sessionData ? "Sign out" : "Sign in"}
         </div>
