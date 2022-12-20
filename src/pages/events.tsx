@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { type NextPage } from "next";
 import Image from "next/image";
 import Layout from "../components/layout";
@@ -14,9 +14,9 @@ const Events: NextPage = () => {
 		minutes: 0,
 		seconds: 0
 	});
-	const eventDate = new Date("Jan 20, 2021 00:00:00").getTime();
+	const eventDate = new Date("Jan 20, 2023 00:00:00").getTime();
 	
-	const timer = () => {
+	const timer = useCallback(() => {
 		const now = new Date().getTime();
 		const distance = eventDate - now;
 		
@@ -31,11 +31,11 @@ const Events: NextPage = () => {
 			minutes: minutes,
 			seconds: seconds
 		});
-	}
+	}, [eventDate]);
 	
 	useEffect(() => {
 		setInterval(timer, 1000);
-	}, []);
+	}, [timer]);
 	
 	const details = [
 		{
@@ -121,8 +121,11 @@ Meet with investors
 							</button>
 						</div>
 						<p className="text-sm">Registration ends in</p>
+						<h1 className="text-2xl font-bold">
+							{time.days} : {time.hours} : {time.minutes} : {time.seconds} Days
+						</h1>
 					</div>
-					<div className="grid grid-cols-2 h-min w-1/4 bg-[#111111] rounded-2xl px-10 py-6 gap-4 items-center">
+					<div className="grid grid-cols-2 h-min w-[30%] bg-[#111111] rounded-2xl px-10 py-6 gap-4 items-center">
 						{details.map((detail, index) => (
 							<div className="flex flex-col gap-1" key={index}>
 								<p className="text-md text-white/50 whitespace-nowrap">{detail.title}</p>
