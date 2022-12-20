@@ -20,7 +20,7 @@ export const regRouter = router({
         };
       }
 
-      req.ctx.prisma.emailReg.create({ data: { email } });
+      await req.ctx.prisma.emailReg.create({ data: { email } });
 
       console.log({ email });
     }),
