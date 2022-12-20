@@ -1,22 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-import { useCallback, useEffect, useState } from "react";
 import { type NextPage } from "next";
 import Image from "next/image";
-import paradigm from "../assets/paradigm.svg";
-import startupverse from "../assets/startupverse.svg";
-import ideathon from "../assets/ideathon.svg";
-import startupexpo from "../assets/startupexpo.svg";
+
 import paradigm from "../assets/paradigm.svg";
 import startupverse from "../assets/startupverse.svg";
 import ideathon from "../assets/ideathon.svg";
 import startupexpo from "../assets/startupexpo.svg";
 
-import universe from "../assets/universe.svg";
-import redEllipse from "../assets/red-ellipse.svg";
-import redEllipse1 from "../assets/red-ellipse1.svg";
-import redEllipse2 from "../assets/red-ellipse2.svg";
-import blueEllipse from "../assets/blue-ellipse.svg";
-import blueEllipse1 from "../assets/blue-ellipse1.svg";
 import universe from "../assets/universe.svg";
 import redEllipse from "../assets/red-ellipse.svg";
 import redEllipse1 from "../assets/red-ellipse1.svg";
