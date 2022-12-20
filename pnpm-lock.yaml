@@ -29,10 +29,11 @@ specifiers:
   prisma: ^4.5.0
   react: 18.2.0
   react-dom: 18.2.0
+  react-hook-form: ^7.41.0
   superjson: 1.9.1
   tailwindcss: ^3.2.0
   typescript: ^4.8.4
-  zod: ^3.18.0
+  zod: ^3.20.2
 
 dependencies:
   '@chakra-ui/icons': 2.0.14_react@18.2.0
@@ -51,6 +52,7 @@ dependencies:
   next-auth: 4.18.6_pknogjuzx4bv7zxtatcb2ahtsq
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-hook-form: 7.41.0_react@18.2.0
   superjson: 1.9.1
   zod: 3.20.2
 
@@ -3699,6 +3701,15 @@ packages:
       react-clientside-effect: 1.2.6_react@18.2.0
       use-callback-ref: 1.3.0_kzbn2opkn2327fwg5yzwzya5o4
       use-sidecar: 1.1.2_kzbn2opkn2327fwg5yzwzya5o4
+    dev: false
+
+  /react-hook-form/7.41.0_react@18.2.0:
+    resolution: {integrity: sha512-u1cHOXujr+AsNBoeCtcCuRwPh87mXAgKtXqd3qTCBgNFYzVZLXjYgLcynORpAgqhe24r5scucR8+6gfWaXBtHQ==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-is/16.13.1:
