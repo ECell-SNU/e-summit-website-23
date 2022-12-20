@@ -4,6 +4,8 @@ import z from "zod";
 
 import { useToast } from "@chakra-ui/react";
 
+import { trpc } from "../utils/trpc";
+
 interface RegFormInput {
   email: string;
 }
@@ -13,6 +15,8 @@ const regFormInput = z.object({
 });
 
 const RegBox: React.FC = () => {
+  const mutation = trpc.reg.regUser.useMutation();
+
   const toast = useToast();
 
   const {
@@ -21,11 +25,12 @@ const RegBox: React.FC = () => {
     formState: { errors },
   } = useForm<RegFormInput>();
 
-  const onSubmit: SubmitHandler<RegFormInput> = (data) => {
+  const onSubmit: SubmitHandler<RegFormInput> = async (data) => {
     try {
       regFormInput.parse(data);
 
       // write trpc code to add email to db here
+      mutation.mutate({ email: data.email });
       console.log(data);
 
       toast({

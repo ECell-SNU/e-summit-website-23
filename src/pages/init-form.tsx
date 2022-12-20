@@ -13,17 +13,21 @@ import {
   Button,
 } from "@chakra-ui/react";
 
+import { trpc } from "../utils/trpc";
+
 import Layout from "../components/layout";
 
 interface InitFormInputs {
   university: string;
   fieldOfStudy: string;
-  yearOfStudy: number;
+  yearOfStudy: string;
   mobileNumber: string;
 }
 
 const InitialForm: NextPage = () => {
   const { data: sessionData } = useSession();
+
+  const mutation = trpc.reg.fillUserInfo.useMutation();
 
   const {
     register,
@@ -33,6 +37,7 @@ const InitialForm: NextPage = () => {
 
   const onSubmit: SubmitHandler<InitFormInputs> = (data) => {
     console.log(data);
+    mutation.mutate(data);
   };
 
   return sessionData ? (
@@ -75,7 +80,10 @@ const InitialForm: NextPage = () => {
             marginTop="38px"
             variant="flushed"
             placeholder="Year of Study"
-            {...register("yearOfStudy", { required: true })}
+            {...register("yearOfStudy", {
+              required: true,
+              pattern: /^[0-9]{4}$/,
+            })}
           >
             <option value="2023">2023</option>
             <option value="2024">2024</option>
@@ -91,8 +99,15 @@ const InitialForm: NextPage = () => {
             className="mt-10 w-[80%]"
             variant="flushed"
             placeholder="Mobile number"
-            {...register("mobileNumber", { required: true })}
+            {...register("mobileNumber", {
+              required: true,
+              pattern: /^(\+\d{1,3}[- ]?)?\d{10}$/,
+            })}
           />
+          <FormHelperText>
+            Please enter your number without spaces, beginning with an extension
+            like '+91' for India.
+          </FormHelperText>
           {errors.mobileNumber && (
             <FormHelperText color="red.400">
               This field is required
