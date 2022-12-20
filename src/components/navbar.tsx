@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { signIn, signOut, useSession } from "next-auth/react";
+
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
@@ -57,6 +59,8 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ page }) => {
+  const { data: sessionData } = useSession();
+
   return (
     <nav className="flex h-[10vh] items-center justify-between">
       <div className="">
@@ -65,14 +69,13 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       <div className="flex">
         {navItems.map(({ title, href, drop, dropItems }) => {
           return drop ? (
-            // blasphemy
             <div className="ml-8 text-gray-400">
+              {/* blasphemy */}
               <Menu>
                 <MenuButton _hover={{ textColor: "white" }}>
                   {title} <ChevronDownIcon />
                 </MenuButton>
                 <MenuList textColor="#000">
-                  <MenuItem>Test</MenuItem>
                   {dropItems.map((dropItem) => (
                     <Link href={dropItem.href}>
                       <MenuItem>{dropItem.title}</MenuItem>
@@ -96,8 +99,11 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       </div>
       <div className="item-center flex items-center">
         {/* <div>Login</div> */}
-        <div className="mx-8 cursor-pointer rounded-full bg-blue-500 px-7 py-3 transition-transform duration-300 ease-in-out hover:-translate-y-px">
-          Sign up
+        <div
+          className="mx-8 cursor-pointer rounded-full bg-blue-500 px-7 py-3 transition-transform duration-300 ease-in-out hover:-translate-y-px"
+          onClick={sessionData ? () => signOut() : () => signIn("google")}
+        >
+          {sessionData ? "Sign out" : "Sign in"}
         </div>
       </div>
     </nav>
