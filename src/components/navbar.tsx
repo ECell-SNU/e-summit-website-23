@@ -109,7 +109,11 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
         {/* <div>Login</div> */}
         <div
           className="mx-8 cursor-pointer rounded-full bg-blue-500 px-7 py-3 transition-transform duration-300 ease-in-out hover:-translate-y-px"
-          onClick={sessionData ? () => signOut() : () => signIn("google")}
+          onClick={
+            sessionData
+              ? () => signOut({ callbackUrl: "/" })
+              : () => signIn("google")
+          }
         >
           {sessionData ? "Sign out" : "Sign in"}
         </div>
