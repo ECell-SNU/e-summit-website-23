@@ -37,6 +37,15 @@ const Events: NextPage = () => {
 		setInterval(timer, 1000);
 	}, [timer]);
 	
+	// useEffect to check screen size
+	const [sm, setSm] = useState(false);
+	
+	useEffect(() => {
+		if (window.innerWidth > 640) {
+			setSm(true);
+		}
+	}, []);
+	
 	const details = [
 		{
 			title: "Venue",
@@ -96,17 +105,35 @@ Meet with investors
 		},
 	];
 	
+	const DetailGrid: React.FC = () => {
+		return (
+			<div className={`flex flex-wrap lg:grid lg:grid-cols-2 lg:h-fit col-span-1 p-2 sm:p-6 gap-4 items-center
+				${sm ? "bg-[#111111] rounded-2xl" : ""}
+			`}>
+				{details.map((detail, index) => (
+					<div className="flex flex-col gap-1" key={index}>
+						<p className="text-xs sm:text-md text-white/50 whitespace-nowrap">{detail.title}</p>
+						<p className="text-sm sm:text-lg">{detail.content}</p>
+					</div>
+				))}
+			</div>
+		);
+	};
+	
 	return (
 		<Layout>
-			<div className="flex flex-col w-screen items-center p-14 gap-4">
+			<div className="flex flex-col w-screen items-center p-3 sm:p-6 lg:p-14 gap-8">
 				<Image className="w-full" alt="" src={paradigm} />
-				<div className="flex flex-wrap w-full gap-6">
-					<div className="flex flex-col w-2/5 h-fit bg-[#111111] rounded-2xl p-8 gap-2 items-center">
-						<h1 className="w-full text-2xl font-bold">About the Event</h1>
-						<p className="text-xl">
+				<div className="grid lg:grid-cols-[57%_40%] xl:grid-cols-[40%_30%_27%] w-full gap-6">
+					<div className="flex flex-col col-span-1 h-fit bg-[#111111] rounded-2xl p-4 sm:p-8 gap-2 items-center">
+						<h1 className="w-full text-md sm:text-2xl font-bold">About the Event</h1>
+						<p className="text-sm sm:text-lg lg:text-xl">
 							The hackathon will be held on the 20th of January, as part of Day 0 of The E-Summit &apos;23 includes free of cost registrations. This event will bring together talented individuals from the business-to-business (B2B) sector as well as IT sector professionals to come and judge your submissions. An amazing opportunity for students to participate and create innovative solutions to real-world challenges in the B2B sector. Participants will go through a selection round and an on-campus round before moving on to the pitching rounds. The winning teams will have the chance to take home a prize pool worth up to 1.6 Lakh rupees.
 						</p>
-						<div className="w-full flex justify-between gap-10 px-4 m-6">
+						{
+							!sm && <DetailGrid />
+						}
+						<div className="w-full flex flex-col md:flex-row justify-between gap-5 md:gap-10 md:px-4 m-2 sm:m-6">
 							<button
 								className="w-full py-2 rounded-lg text-lg"
 								style={{
@@ -120,22 +147,17 @@ Meet with investors
 								Event Details
 							</button>
 						</div>
-						<p className="text-sm">Registration ends in</p>
-						<h1 className="text-2xl font-bold">
+						<p className="text-xs sm:text-sm">Registration ends in</p>
+						<h1 className="text-lg sm:text-2xl font-bold">
 							{time.days} : {time.hours} : {time.minutes} : {time.seconds} Days
 						</h1>
 					</div>
-					<div className="grid grid-cols-2 h-min w-[30%] bg-[#111111] rounded-2xl px-10 py-6 gap-4 items-center">
-						{details.map((detail, index) => (
-							<div className="flex flex-col gap-1" key={index}>
-								<p className="text-md text-white/50 whitespace-nowrap">{detail.title}</p>
-								<p className="text-lg">{detail.content}</p>
-							</div>
-						))}
-					</div>
-					<div className="flex flex-col gap-4 w-1/4">
+					{
+						sm && <DetailGrid />
+					}
+					<div className="flex flex-col gap-4 col-span-1">
 						{prizes.map((prize, index) => (
-							<div className="w-full flex flex-col bg-[#111111] rounded-2xl p-6 gap-3 items-start" key={index}>
+							<div className="w-full flex flex-col bg-[#111111] rounded-2xl p-4 sm:p-6 gap-3 items-start" key={index}>
 								<p className="text-lg font-bold text-[#FBC82E]">{prize.title}</p>
 								<p className="text-md whitespace-pre-wrap">{prize.content}</p>
 							</div>
@@ -143,9 +165,9 @@ Meet with investors
 					</div>
 					<div className="flex flex-col gap-6">
 						<h1 className="text-2xl font-bold">Judges</h1>
-						<div className="flex gap-6 w-full">
-							<Image className="w-1/3" alt="" src={judgeComingSoon} />
-							<Image className="w-1/3" alt="" src={judgeComingSoon} />
+						<div className="flex flex-wrap gap-6 w-full">
+							<Image className="xl:w-1/3" alt="" src={judgeComingSoon} />
+							<Image className="xl:w-1/3" alt="" src={judgeComingSoon} />
 						</div>
 					</div>
 				</div>
