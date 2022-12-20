@@ -105,7 +105,7 @@ const Home: NextPage = () => {
 	
 	return (
 		<Layout title="Home">
-			<div className="flex flex-col h-[90vh] w-screen items-center">
+			<div className="flex flex-col w-screen items-center">
 				<div className="flex items-center justify-between">
 					<div className="select-none">
 						<Image draggable={false} alt="" src={splashImgLeftUni} />
