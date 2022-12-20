@@ -67,13 +67,15 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 
   return (
     <nav className="flex h-[10vh] items-center justify-between">
-      <div className="">
-        <Image
-          className="phone:ml-3 phone:w-28"
-          alt="E-Summit 2023"
-          src={eSummitLogo}
-        />
-      </div>
+      <Link href="/">
+        <div className="">
+          <Image
+            className="phone:ml-3 phone:w-28"
+            alt="E-Summit 2023"
+            src={eSummitLogo}
+          />
+        </div>
+      </Link>
       <div className="flex phone:hidden">
         {navItems.map(({ title, href, drop, dropItems }) => {
           return drop ? (
