@@ -2,6 +2,7 @@ import { type ReactNode } from "react";
 import Head from "next/head";
 
 import Navbar from "./navbar";
+import Footer from "./footer";
 
 interface LayoutProps {
   title?: string;
@@ -20,7 +21,8 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar page={title} />
-      <main>{children}</main>
+			<main>{children}</main>
+			<Footer />
     </>
   );
 };
