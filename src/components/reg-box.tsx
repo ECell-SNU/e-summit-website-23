@@ -4,6 +4,8 @@ import z from "zod";
 
 import { useToast } from "@chakra-ui/react";
 
+import { trpc } from "../utils/trpc";
+
 interface RegFormInput {
   email: string;
 }
@@ -13,6 +15,8 @@ const regFormInput = z.object({
 });
 
 const RegBox: React.FC = () => {
+  const mutation = trpc.reg.regUser.useMutation();
+
   const toast = useToast();
 
   const {
@@ -21,11 +25,12 @@ const RegBox: React.FC = () => {
     formState: { errors },
   } = useForm<RegFormInput>();
 
-  const onSubmit: SubmitHandler<RegFormInput> = (data) => {
+  const onSubmit: SubmitHandler<RegFormInput> = async (data) => {
     try {
       regFormInput.parse(data);
 
       // write trpc code to add email to db here
+      mutation.mutate({ email: data.email });
       console.log(data);
 
       toast({
@@ -50,18 +55,14 @@ const RegBox: React.FC = () => {
   };
 
   return (
-    <div className="flex w-[40vw] translate-x-16">
+    <div className="flex w-[40vw] phone:w-[90vw] phone:flex-col phone:items-center laptop:translate-x-16">
       <input
-        className="min-w-[65%] rounded-full border border-slate-500 bg-black px-10 py-5 text-gray-400 outline-none focus:ring-0"
+        className="min-w-[65%] rounded-full border border-slate-500 bg-black px-10 py-5 text-gray-400 outline-none focus:ring-0 phone:min-w-[90%] phone:p-4"
         placeholder="Email Address"
         {...register("email")}
       />
       <button
-        className="min-w-[35%] -translate-x-16 rounded-full py-1 font-bold"
-        style={{
-          background:
-            "linear-gradient(90deg, #AD05BC 0%, #FF1761 52.4%, #FBC82E 100%)",
-        }}
+        className="text-l z-10 min-w-[35%] rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 py-1 font-bold phone:mt-3 phone:py-5 phone:px-12 laptop:-translate-x-16"
         onClick={handleSubmit(onSubmit)}
       >
         Register
