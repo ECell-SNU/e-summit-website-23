@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+
 import eSummitLogo from "../assets/e-summit-logo.png";
 
 const navItems = [
@@ -15,7 +18,28 @@ const navItems = [
   {
     title: "Events",
     drop: true,
-    dropItems: [],
+    dropItems: [
+      {
+        title: "Startupverse",
+        href: "/events/startupverse",
+      },
+      {
+        title: "My Story",
+        href: "/events/my-story",
+      },
+      {
+        title: "Ideathon",
+        href: "/events/ideathon",
+      },
+      {
+        title: "Hackathon",
+        href: "/events/hackathon",
+      },
+      {
+        title: "StartupXpo",
+        href: "/events/hackathon",
+      },
+    ],
   },
   {
     title: "Contact",
@@ -33,22 +57,29 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ page }) => {
-  // const activeStyle = page ? " text-white" : " text-gray-500";
-
   return (
     <nav className="flex h-[10vh] items-center justify-between">
       <div className="">
         <Image alt="E-Summit 2023" src={eSummitLogo} />
       </div>
       <div className="flex">
-        {/* {navItems.map(({ title, href }) => (
-          <div className="ml-8">{title}</div>
-        ))} */}
-        {navItems.map(({ title, href, drop }) => {
+        {navItems.map(({ title, href, drop, dropItems }) => {
           return drop ? (
-            // TODO: make the dropdown here
-            <div>
-              <div className="ml-8 text-gray-400">{title}</div>
+            // blasphemy
+            <div className="ml-8 text-gray-400">
+              <Menu>
+                <MenuButton _hover={{ textColor: "white" }}>
+                  {title} <ChevronDownIcon />
+                </MenuButton>
+                <MenuList textColor="#000">
+                  <MenuItem>Test</MenuItem>
+                  {dropItems.map((dropItem) => (
+                    <Link href={dropItem.href}>
+                      <MenuItem>{dropItem.title}</MenuItem>
+                    </Link>
+                  ))}
+                </MenuList>
+              </Menu>
             </div>
           ) : (
             <Link href={href ? href : ""}>
@@ -64,7 +95,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
         })}
       </div>
       <div className="item-center flex items-center">
-        <div>Login</div>
+        {/* <div>Login</div> */}
         <div className="mx-8 cursor-pointer rounded-full bg-blue-500 px-7 py-3 transition-transform duration-300 ease-in-out hover:-translate-y-px">
           Sign up
         </div>

@@ -2,9 +2,22 @@ import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+
 import { trpc } from "../utils/trpc";
 
 import "../styles/globals.css";
+
+const theme = extendTheme({
+  styles: {
+    global: () => ({
+      body: {
+        bg: "",
+        color: "white",
+      },
+    }),
+  },
+});
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -12,7 +25,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <ChakraProvider theme={theme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
     </SessionProvider>
   );
 };
