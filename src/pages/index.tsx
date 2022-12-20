@@ -120,15 +120,15 @@ const Home: NextPage = () => {
 						<Image draggable={false} alt="" src={splashImgRightUni} />
 					</div>
 				</div>
-				<div className="w-full flex flex-col relative justify-center items-center gap-[80px]">
-					<p className="text-white text-[50px] text-center">Become the part of<br /> these amazing <b>Events</b></p>
+				<div className="w-full flex flex-col relative justify-center items-center md:gap-[20px]">
+					<p className="text-white text-[1.5rem] md:text-[50px] text-center">Become the part of<br /> these amazing <b>Events</b></p>
 					<Image className="absolute -z-10 -top-1/6 h-full w-1/2 object-contain" draggable={false} alt="" src={universe} />
 					<Image className="absolute -z-10 -top-1/6 h-[125%] w-full object-contain" draggable={false} alt="" src={redEllipse} />
 					<div className="w-full overflow-hidden" ref={emblaRef}>
-						<div className="embla__container flex h-[400px] items-center">
+						<div className="embla__container flex h-[170px] md:h-[400px] items-center">
 							{images.map((image, index) => (
 								<div
-									className="h-[300px] m-[-10px] aspect-video overflow-hidden relative flex grow-0 shrink-0 items-end border border-white/60 rounded-md bg-black"
+									className={`h-[125px] md:h-[300px] md:m-[-10px] aspect-video overflow-hidden relative flex grow-0 shrink-0 items-end border border-white/60 rounded-md bg-black`}
 									key={index}
 									style={{
 										...(tweenValues.length && {
@@ -143,8 +143,8 @@ const Home: NextPage = () => {
 									<Image className="h-[150%] w-[150%] absolute -right-1/2 -top-1/2 object-contain" draggable={false} alt="" src={universe} />
 									<Image className="h-[175%] w-[150%] absolute -right-1/2 -top-1/2 object-contain" draggable={false} alt="" src={image[1]} />
 									<Image className="h-[95%] absolute bottom-0" draggable={false} alt="" src={image[0]} />
-									<div className="m-2 px-7 py-1 border border-white/30 rounded-md backdrop-blur-md text-xs">
-										<p>
+									<div className="m-2 px-7 py-1 border border-white/30 rounded-md backdrop-blur-md">
+										<p className="text-[0.25rem] md:text-xs">
 											Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula....Learn More
 										</p>
 									</div>
