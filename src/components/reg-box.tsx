@@ -50,18 +50,14 @@ const RegBox: React.FC = () => {
   };
 
   return (
-    <div className="flex w-[40vw] translate-x-16 phone:hidden">
+    <div className="flex w-[40vw] phone:w-[90vw] phone:flex-col phone:items-center laptop:translate-x-16">
       <input
-        className="min-w-[65%] rounded-full border border-slate-500 bg-black px-10 py-5 text-gray-400 outline-none focus:ring-0"
+        className="min-w-[65%] rounded-full border border-slate-500 bg-black px-10 py-5 text-gray-400 outline-none focus:ring-0 phone:min-w-[90%] phone:p-4"
         placeholder="Email Address"
         {...register("email")}
       />
       <button
-        className="min-w-[35%] -translate-x-16 rounded-full py-1 font-bold"
-        style={{
-          background:
-            "linear-gradient(90deg, #AD05BC 0%, #FF1761 52.4%, #FBC82E 100%)",
-        }}
+        className="text-l z-10 min-w-[35%] rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 py-1 font-bold phone:mt-3 phone:py-5 phone:px-12 laptop:-translate-x-16"
         onClick={handleSubmit(onSubmit)}
       >
         Register

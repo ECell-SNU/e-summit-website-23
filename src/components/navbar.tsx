@@ -127,7 +127,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
         className={
           `${
             showMobileNav ? "" : "invisible "
-          }absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-80 laptop:hidden`
+          }absolute top-0 bottom-0 left-0 right-0 z-40 bg-black bg-opacity-80 laptop:hidden`
           // showMobileNav
           //   ? ""
           //   : " invisible"
@@ -167,7 +167,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
         })}
 
         <div
-          className="absolute bottom-20 left-[47vw] text-3xl"
+          className="absolute bottom-20 left-[47vw] cursor-pointer text-3xl"
           onClick={() => setShowMobileNav(false)}
         >
           <CloseIcon />
