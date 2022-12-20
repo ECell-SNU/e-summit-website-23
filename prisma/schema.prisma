@@ -59,6 +59,11 @@ model User {
 
   // if this is false, pester the user to fill the form
   hasFilledInfo Boolean   @default(false)
+
+  university    String?
+  fieldOfStudy  String?
+  yearOfStudy   String?
+  mobileNumber  String?
 }
 
 model VerificationToken {
@@ -67,4 +72,8 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model EmailReg {
+  email String @unique
 }
