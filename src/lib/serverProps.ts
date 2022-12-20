@@ -1,5 +1,7 @@
 import { type GetServerSidePropsContext } from "next";
 
+import { prisma } from "../server/db/client";
+
 import { authOptions } from "../pages/api/auth/[...nextauth]";
 import { unstable_getServerSession } from "next-auth/next";
 
@@ -15,12 +17,22 @@ export default async function getServerSideProps(
   if (session) {
     // TODO: Check if hasFilledInfo is false in db using
     // prisma directly since this runs server side only
-    const hasFilledInfo = false;
+    const email = session.user?.email;
+    const user = await prisma.user.findFirst({ where: { email } });
 
-    if (!hasFilledInfo) {
+    console.log({ user });
+
+    if (!user?.hasFilledInfo) {
       return {
         redirect: {
           destination: "/init-form",
+          permanent: false,
+        },
+      };
+    } else {
+      return {
+        redirect: {
+          destination: "/dashboard",
           permanent: false,
         },
       };
