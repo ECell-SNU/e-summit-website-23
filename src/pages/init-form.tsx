@@ -11,11 +11,14 @@ import {
   Input,
   Select,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 
 import { trpc } from "../utils/trpc";
 
 import Layout from "../components/layout";
+
+export { default as getServerSideProps } from "../lib/serverProps";
 
 interface InitFormInputs {
   university: string;
@@ -26,6 +29,8 @@ interface InitFormInputs {
 
 const InitialForm: NextPage = () => {
   const { data: sessionData } = useSession();
+
+  const toast = useToast();
 
   const mutation = trpc.reg.fillUserInfo.useMutation();
 
@@ -38,6 +43,24 @@ const InitialForm: NextPage = () => {
   const onSubmit: SubmitHandler<InitFormInputs> = (data) => {
     console.log(data);
     mutation.mutate(data);
+
+    if (mutation.isError) {
+      toast({
+        title: "Error",
+        description: "An error occurred.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Success",
+        description: "You have successfully updated your details.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   return sessionData ? (
@@ -106,7 +129,7 @@ const InitialForm: NextPage = () => {
           />
           <FormHelperText>
             Please enter your number without spaces, beginning with an extension
-            like '+91' for India.
+            like &#39;+91&#39; for India.
           </FormHelperText>
           {errors.mobileNumber && (
             <FormHelperText color="red.400">
