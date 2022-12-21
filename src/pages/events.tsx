@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
 import { type NextPage } from "next";
 import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
 import Layout from "../components/layout";
 
-import paradigm from "../assets/paradigm.png";
 import judgeComingSoon from "../assets/judge-coming-soon.png";
+import paradigm from "../assets/paradigm.png";
 
 const Events: NextPage = () => {
 	// countdown timer with days : hours : minutes : seconds
@@ -15,16 +15,16 @@ const Events: NextPage = () => {
 		seconds: 0
 	});
 	const eventDate = new Date("Jan 20, 2023 00:00:00").getTime();
-	
+
 	const timer = useCallback(() => {
 		const now = new Date().getTime();
 		const distance = eventDate - now;
-		
+
 		const days = Math.floor(distance / (1000 * 60 * 60 * 24));
 		const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 		const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 		const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-		
+
 		setTime({
 			days: days,
 			hours: hours,
@@ -32,20 +32,20 @@ const Events: NextPage = () => {
 			seconds: seconds
 		});
 	}, [eventDate]);
-	
+
 	useEffect(() => {
 		setInterval(timer, 1000);
 	}, [timer]);
-	
+
 	// useEffect to check screen size
 	const [sm, setSm] = useState(false);
-	
+
 	useEffect(() => {
 		if (window.innerWidth > 640) {
 			setSm(true);
 		}
 	}, []);
-	
+
 	const details = [
 		{
 			title: "Venue",
@@ -74,9 +74,9 @@ const Events: NextPage = () => {
 		{
 			title: "Teams notified via Gmail",
 			content: "20th Jan 2023"
-		},			
+		},
 	];
-	
+
 	const prizes = [
 		{
 			title: "1st Runner Up",
@@ -104,7 +104,7 @@ Meet with investors
 			content: `2nd day access pass to the E-Summit`,
 		},
 	];
-	
+
 	const DetailGrid: React.FC = () => {
 		return (
 			<div className={`flex flex-wrap lg:grid lg:grid-cols-2 lg:h-fit col-span-1 p-2 sm:p-6 gap-4 items-center
@@ -119,7 +119,7 @@ Meet with investors
 			</div>
 		);
 	};
-	
+
 	return (
 		<Layout>
 			<div className="flex flex-col w-screen items-center p-3 sm:p-6 lg:p-14 gap-8">
@@ -159,11 +159,15 @@ Meet with investors
 						{prizes.map((prize, index) => (
 							<div className="w-full flex flex-col bg-[#111111] rounded-2xl p-4 sm:p-6 gap-3 items-start" key={index}>
 								<p className="text-lg font-bold text-[#FBC82E]">{prize.title}</p>
-								<p className="text-md whitespace-pre-wrap">{prize.content}</p>
+								<ul className="text-md whitespace-pre-wrap list-disc list-inside">
+									{prize.content.split("\n").map((item, index) => (
+										<li key={index}>{item}</li>
+									))}
+								</ul>
 							</div>
 						))}
 					</div>
-					<div className="flex flex-col gap-6">
+					<div className="flex flex-col gap-6 col-span-1 xl:col-span-2">
 						<h1 className="text-2xl font-bold">Judges</h1>
 						<div className="flex flex-wrap gap-6 w-full">
 							<Image className="xl:w-1/3" alt="" src={judgeComingSoon} />
