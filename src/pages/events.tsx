@@ -1,43 +1,14 @@
 import { type NextPage } from "next";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../components/layout";
 
 import judgeComingSoon from "../assets/judge-coming-soon.png";
 import paradigm from "../assets/paradigm.png";
+import { useCountdown } from "../utils/countdownHook";
 
 const Events: NextPage = () => {
-	// countdown timer with days : hours : minutes : seconds
-	const [time, setTime] = useState({
-		days: 0,
-		hours: 0,
-		minutes: 0,
-		seconds: 0
-	});
-	const eventDate = new Date("Jan 20, 2023 00:00:00").getTime();
-
-	const timer = useCallback(() => {
-		const now = new Date().getTime();
-		const distance = eventDate - now;
-
-		const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-		const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-		const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-		setTime({
-			days: days,
-			hours: hours,
-			minutes: minutes,
-			seconds: seconds
-		});
-	}, [eventDate]);
-
-	useEffect(() => {
-		setInterval(timer, 1000);
-	}, [timer]);
-
-	// useEffect to check screen size
+	const time = useCountdown(new Date("Jan 20, 2023 00:00:00").getTime());
 	const [sm, setSm] = useState(false);
 
 	useEffect(() => {
@@ -149,7 +120,7 @@ Meet with investors
 						</div>
 						<p className="text-xs sm:text-sm">Registration ends in</p>
 						<h1 className="text-lg sm:text-2xl font-bold">
-							{time.days} : {time.hours} : {time.minutes} : {time.seconds} Days
+							{time} Days
 						</h1>
 					</div>
 					{
