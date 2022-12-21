@@ -4,13 +4,13 @@ import Image from "next/image";
 
 const Footer: React.FC = () => {
 	return (
-		<footer className="flex w-full h-fit p-12 sm:p-20 justify-between">
+		<footer className="flex w-full h-fit p-12 sm:p-24 justify-between">
 			<div className="flex flex-col w-full text-sm gap-5">
 				<Image className="-m-7" draggable={false} alt="" src={logo} />
-				<div className="flex flex-col md:flex-row w-full gap-5">
+				<div className="flex flex-col md:flex-row w-full gap-5 justify-between">
 					<div className="flex flex-col gap-5">
 						<p className="text-white/50">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et<br /> massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
 						</p>
 						<div className="flex justify-start">
 							<p>FOLLOW US</p>
