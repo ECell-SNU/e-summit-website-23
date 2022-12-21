@@ -118,18 +118,18 @@ const Home: NextPage = () => {
 					</div>
 					<Image className="absolute right-0 top-[-12%] select-none h-[125%] object-right object-contain -z-10" draggable={false} alt="" src={splashImgRightUni} />
 				</div>
-				<div className="flex flex-col items-center relative h-full w-full aspect-video justify-center">
-					<Image className="absolute -z-20 -top-[25%] left-0 h-1/2 w-full object-contain rotate-180" draggable={false} alt="" src={blueUniverse} />
-					<p className="absolute top-[15%] left-[10%] w-[30%] text-center z-10 text-[8px] md:text-xs lg:text-base">
+				<div className="flex flex-col items-center relative h-full w-full aspect-[7/8] sm:aspect-video justify-center">
+					<Image className="absolute -z-20 -top-[22%] sm:-top-[25%] left-0 h-1/2 w-full object-contain rotate-180" draggable={false} alt="" src={blueUniverse} />
+					<p className="absolute top-[15%] left-4 md:left-[10%] w-1/2 md:w-[30%] text-left md:text-center z-10 text-[8px] md:text-xs lg:text-base">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
 					</p>
 					<Image className="absolute -z-10 top-[12%] right-0 w-1/2 object-contain" draggable={false} alt="" src={imagination} />
-					<div className="w-1/2 relative rounded-[50px] overflow-hidden">
+					<div className="sm:w-1/2 relative rounded-2xl md:rounded-[50px] overflow-hidden mx-4">
 						<Image className="w-full object-contain" draggable={false} alt="" src={videoThumbnail} />
 						<div className="absolute bottom-0 left-0 w-full h-1/6 bg-gradient-to-t from-black to-transparent" />
 						<Image className="absolute bottom-0 left-0 w-1/5" draggable={false} alt="" src={playButton} />
 					</div>
-					<p className="absolute bottom-[15%] right-[10%] w-[30%] text-center z-10">
+					<p className="absolute bottom-[15%] right-4 md:right-[10%] w-1/2 md:w-[30%] text-right md:text-center z-10 text-[8px] md:text-xs lg:text-base">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
 					</p>
 					<Image className="absolute -z-10 bottom-[12%] left-0 w-1/2 object-contain" draggable={false} alt="" src={innovation} />
