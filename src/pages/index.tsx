@@ -1,8 +1,10 @@
 import { type NextPage } from "next";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-
+import { useAnimation, motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import useEmblaCarousel from 'embla-carousel-react';
+
 import blueEllipse from "../assets/blue-ellipse.svg";
 import blueEllipse1 from "../assets/blue-ellipse1.svg";
 import blueUniverse from "../assets/blue-universe.png";
@@ -45,28 +47,30 @@ const Home: NextPage = () => {
 		startIndex: 1
 	});
 	const time = useCountdown(new Date("Jan 20, 2023 00:00:00").getTime());
-
-	const images = [
-		[
-			startupverse,
-			redEllipse2,
-		],
-		[
-			paradigm,
-			redEllipse1,
-		],
-		[
-			ideathon,
-			blueEllipse,
-		],
-		[
-			startupexpo,
-			blueEllipse1,
-		],
-	];
-
+	const [video, setVideo] = useState(false);
+	const images = [[startupverse, redEllipse2], [paradigm, redEllipse1], [ideathon, blueEllipse], [startupexpo, blueEllipse1]];
 	const [tweenValues, setTweenValues] = useState<number[]>([])
-
+	const controls = useAnimation();
+	const [ref, inView] = useInView();
+	
+	const imaginationVariants = {
+		hidden: { x: "50%" },
+		visible: { x: "0%" },
+	};
+	
+	// useEffect(() => {
+	// 	// scroll to the position of the iframe
+	// 	if (video) {
+	// 		window.scrollTo({
+	// 			top: document.getElementById("video")?.offsetTop,
+	// 			behavior: "smooth",
+	// 		});
+	// 	}
+	// 	setTimeout(() => {
+			
+	// 	}, 800);
+	// });
+	
 	const onScroll = useCallback(() => {
 		if (!emblaApi) return
 
@@ -123,25 +127,57 @@ const Home: NextPage = () => {
 					<p className="absolute top-[15%] left-4 md:left-[10%] w-1/2 md:w-[30%] text-left md:text-center z-10 text-[8px] md:text-xs lg:text-base">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
 					</p>
-					<Image className="absolute -z-10 top-[12%] right-0 w-1/2 object-contain" draggable={false} alt="" src={imagination} />
-					<div className="sm:w-1/2 relative rounded-2xl md:rounded-[50px] overflow-hidden mx-4">
+					<motion.div
+						className="w-[95%] absolute -z-10 top-[12%] right-0"
+						// initial="hidden"
+						// variants={{
+						// 	hidden: { x: "50%" },
+						// 	visible: { x: "0%"},
+						// }}
+						// animate={{ x: [50, 5, 4, 3, 0]}}
+						// whileInView="visible"
+						// transition={{ duration: 0.8, type: "spring", times: [0, 0.98, 0.99, 1]}}
+					>
+						<Image
+							className="w-full object-contain"
+							draggable={false}
+							alt=""
+							src={imagination} />
+					</motion.div>
+					{/* {video &&
+						<div className="fixed top-0 left-0 h-full w-full z-50 backdrop-blur-lg">
+							
+						</div>
+					} */}
+					<div
+						className="sm:w-1/2 relative rounded-2xl md:rounded-[50px] overflow-hidden mx-4"
+						style={{
+							transform: video ? 'scale(1.5)' : 'scale(1)',
+							transition: 'transform 0.8s',
+							zIndex: video ? 100 : 0,
+						}}>
 						<Image className="w-full object-contain" draggable={false} alt="" src={videoThumbnail} />
 						<div className="absolute bottom-0 left-0 w-full h-1/6 bg-gradient-to-t from-black to-transparent" />
-						<Image className="absolute bottom-0 left-0 w-1/5" draggable={false} alt="" src={playButton} />
+						<button
+							className="absolute bottom-0 left-0 w-1/5"
+							onClick={() => setVideo(v=> !v)}>
+							<Image className="w-full" draggable={false} alt="" src={playButton} />
+						</button>
+						{video &&
+							<iframe
+								className="absolute top-0 left-0 w-full h-full"
+								src="https://www.youtube.com/embed/pR0sQaWS5oc"
+								title="YouTube video player"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+								allowFullScreen
+							/>
+						}
 					</div>
 					<p className="absolute bottom-[15%] right-4 md:right-[10%] w-1/2 md:w-[30%] text-right md:text-center z-10 text-[8px] md:text-xs lg:text-base">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
 					</p>
-					<Image className="absolute -z-10 bottom-[12%] left-0 w-1/2 object-contain" draggable={false} alt="" src={innovation} />
+					<Image className="absolute -z-10 bottom-[12%] left-0 w-[95%] object-contain" draggable={false} alt="" src={innovation} />
 					<Image className="absolute -z-20 -bottom-[10%] left-0 h-1/2 w-full object-contain" draggable={false} alt="" src={blueUniverse} />
-					{/* <iframe
-						width="560"
-						height="315"
-						src="https://www.youtube.com/embed/pR0sQaWS5oc"
-						title="YouTube video player"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-						allowFullScreen
-					/> */}
 				</div>
 				<div className="w-full flex flex-col relative justify-center items-center md:gap-[20px]">
 					<p className="text-white text-[1.5rem] md:text-[50px] text-center">Become the part of<br /> these amazing <b>Events</b></p>
