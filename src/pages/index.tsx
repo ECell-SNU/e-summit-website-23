@@ -1,9 +1,10 @@
 import { type NextPage } from "next";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useAnimation, motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import useEmblaCarousel from 'embla-carousel-react';
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 import blueEllipse from "../assets/blue-ellipse.svg";
 import blueEllipse1 from "../assets/blue-ellipse1.svg";
@@ -52,24 +53,23 @@ const Home: NextPage = () => {
 	const [tweenValues, setTweenValues] = useState<number[]>([])
 	const controls = useAnimation();
 	const [ref, inView] = useInView();
+	const lockRef = useRef<HTMLDivElement>(null);
 	
 	const imaginationVariants = {
 		hidden: { x: "50%" },
 		visible: { x: "0%" },
 	};
 	
-	// useEffect(() => {
-	// 	// scroll to the position of the iframe
-	// 	if (video) {
-	// 		window.scrollTo({
-	// 			top: document.getElementById("video")?.offsetTop,
-	// 			behavior: "smooth",
-	// 		});
-	// 	}
-	// 	setTimeout(() => {
-			
-	// 	}, 800);
-	// });
+	useEffect(() => {
+		if (video) {
+			if (lockRef.current) {
+				lockRef.current.scrollIntoView({ block: "center" });
+			}
+			disableBodyScroll(lockRef.current);
+		} else {
+			enableBodyScroll(lockRef.current);
+		}
+	}, [video]);
 	
 	const onScroll = useCallback(() => {
 		if (!emblaApi) return
@@ -134,7 +134,7 @@ const Home: NextPage = () => {
 						// 	hidden: { x: "50%" },
 						// 	visible: { x: "0%"},
 						// }}
-						// animate={{ x: [50, 5, 4, 3, 0]}}
+						animate={{ x: [50, 5, 4, 3, 1, 0]}}
 						// whileInView="visible"
 						// transition={{ duration: 0.8, type: "spring", times: [0, 0.98, 0.99, 1]}}
 					>
@@ -144,13 +144,15 @@ const Home: NextPage = () => {
 							alt=""
 							src={imagination} />
 					</motion.div>
-					{/* {video &&
-						<div className="fixed top-0 left-0 h-full w-full z-50 backdrop-blur-lg">
-							
-						</div>
-					} */}
+					{video &&
+						<button
+							className="fixed top-0 left-0 h-full w-full z-50 backdrop-blur-lg"
+							onClick={() => setVideo(false)}
+						/>
+					}
 					<div
 						className="sm:w-1/2 relative rounded-2xl md:rounded-[50px] overflow-hidden mx-4"
+						ref={lockRef}
 						style={{
 							transform: video ? 'scale(1.5)' : 'scale(1)',
 							transition: 'transform 0.8s',
@@ -166,7 +168,7 @@ const Home: NextPage = () => {
 						{video &&
 							<iframe
 								className="absolute top-0 left-0 w-full h-full"
-								src="https://www.youtube.com/embed/pR0sQaWS5oc"
+								src="https://www.youtube.com/embed/pR0sQaWS5oc?autoplay=1"
 								title="YouTube video player"
 								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 								allowFullScreen

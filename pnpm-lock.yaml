@@ -18,6 +18,7 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^5.33.0
   '@typescript-eslint/parser': ^5.33.0
   autoprefixer: ^10.4.7
+  body-scroll-lock: 4.0.0-beta.0
   embla-carousel-react: ^7.0.5
   eslint: ^8.26.0
   eslint-config-next: 13.0.2
@@ -49,6 +50,7 @@ dependencies:
   '@trpc/next': 10.5.0_q6lti2yqb5ucxxhg2n7xl26q2q
   '@trpc/react-query': 10.5.0_hkttq5uvq7kltri3tppuogqqou
   '@trpc/server': 10.5.0
+  body-scroll-lock: 4.0.0-beta.0
   embla-carousel-react: 7.0.5_react@18.2.0
   framer-motion: 7.10.2_biqbaboplfbrettd7655fr4n2y
   next: 13.0.2_biqbaboplfbrettd7655fr4n2y
@@ -2059,6 +2061,10 @@ packages:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
     dev: true
+
+  /body-scroll-lock/4.0.0-beta.0:
+    resolution: {integrity: sha512-a7tP5+0Mw3YlUJcGAKUqIBkYYGlYxk2fnCasq/FUph1hadxlTRjF+gAcZksxANnaMnALjxEddmSi/H3OR8ugcQ==}
+    dev: false
 
   /brace-expansion/1.1.11:
     resolution: {integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==}
