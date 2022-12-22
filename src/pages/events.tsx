@@ -73,7 +73,7 @@ Meet with investors
 		<Layout>
 			<div className="flex flex-col w-screen items-center p-3 sm:p-6 lg:p-14 mt-[70px] gap-8">
 				<Image className="w-full" alt="" src={paradigm} />
-				<div className="grid grid-cols-[57%_40%] xl:grid-cols-[40%_27%_30%] w-full gap-6">
+				<div className="grid xl:grid-cols-[40%_27%_30%] w-full gap-3 sm:gap-6">
 					<div className="flex flex-col col-span-1 h-fit bg-[#111111] rounded-2xl p-4 sm:p-8 gap-2 items-center">
 						<h1 className="w-full text-md sm:text-2xl font-bold">About the Event</h1>
 						<p className="text-sm sm:text-lg lg:text-xl">
@@ -110,17 +110,17 @@ Meet with investors
 							</div>
 						))}
 					</div>
-					<div className="flex flex-wrap lg:h-fit col-span-1 p-2 sm:p-6 gap-4 items-center bg-[#111111] rounded-2xl self-start
-						sticky top-[80px] lg:grid lg:grid-cols-2 row-start-1 xl:row-start-1 col-start-2 xl:col-start-3
+					<div className=" lg:h-fit col-span-1 p-6 gap-4 items-center bg-[#111111] rounded-2xl self-start
+						sm:sticky sm:top-[80px] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-1 lg:grid-cols-2 row-start-2 md:row-start-1 col-start-1 md:col-start-2 xl:col-start-3
 					">
 						{details.map((detail, index) => (
 							<div className="flex flex-col gap-1" key={index}>
 								<p className="text-xs sm:text-md text-white/50 whitespace-nowrap">{detail.title}</p>
-								<p className="text-sm sm:text-lg">{detail.content}</p>
+								<p className="text-sm sm:text-md lg:text-lg">{detail.content}</p>
 							</div>
 						))}
 					</div>
-					<div className="flex flex-col gap-6 col-span-1 xl:col-span-2 row-start-3 xl:row-start-2">
+					<div className="flex flex-col gap-6 col-span-1 xl:col-span-2 row-start-4 xl:row-start-2">
 						<h1 className="text-2xl font-bold">Judges</h1>
 						<div className="flex flex-wrap gap-6 w-full">
 							<Image className="xl:w-1/3" alt="" src={judgeComingSoon} />
