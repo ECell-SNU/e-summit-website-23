@@ -9,20 +9,6 @@ import { useCountdown } from "../utils/countdownHook";
 
 const Events: NextPage = () => {
 	const time = useCountdown(new Date("Jan 20, 2023 00:00:00").getTime());
-	const [md, setSm] = useState(false);
-
-	useEffect(() => {
-		const resize = () => {
-			if (window.innerWidth > 640) {
-				setSm(true);
-			} else {
-				setSm(false);
-			}
-		};
-		
-		resize();
-		window.addEventListener("resize", () => resize());
-	}, []);
 
 	const details = [
 		{
@@ -83,34 +69,16 @@ Meet with investors
 		},
 	];
 
-	const DetailGrid: React.FC = () => {
-		return (
-			<div className={`flex flex-wrap lg:grid lg:grid-cols-2 lg:h-fit col-span-1 p-2 sm:p-6 gap-4 items-center
-				${md ? "bg-[#111111] rounded-2xl" : ""}
-			`}>
-				{details.map((detail, index) => (
-					<div className="flex flex-col gap-1" key={index}>
-						<p className="text-xs sm:text-md text-white/50 whitespace-nowrap">{detail.title}</p>
-						<p className="text-sm sm:text-lg">{detail.content}</p>
-					</div>
-				))}
-			</div>
-		);
-	};
-
 	return (
 		<Layout>
 			<div className="flex flex-col w-screen items-center p-3 sm:p-6 lg:p-14 mt-[70px] gap-8">
 				<Image className="w-full" alt="" src={paradigm} />
-				<div className="grid lg:grid-cols-[57%_40%] xl:grid-cols-[40%_30%_27%] w-full gap-6">
+				<div className="grid grid-cols-[57%_40%] xl:grid-cols-[40%_27%_30%] w-full gap-6">
 					<div className="flex flex-col col-span-1 h-fit bg-[#111111] rounded-2xl p-4 sm:p-8 gap-2 items-center">
 						<h1 className="w-full text-md sm:text-2xl font-bold">About the Event</h1>
 						<p className="text-sm sm:text-lg lg:text-xl">
 							The hackathon will be held on the 20th of January, as part of Day 0 of The E-Summit &apos;23 includes free of cost registrations. This event will bring together talented individuals from the business-to-business (B2B) sector as well as IT sector professionals to come and judge your submissions. An amazing opportunity for students to participate and create innovative solutions to real-world challenges in the B2B sector. Participants will go through a selection round and an on-campus round before moving on to the pitching rounds. The winning teams will have the chance to take home a prize pool worth up to 1.6 Lakh rupees.
 						</p>
-						{
-							!md && <DetailGrid />
-						}
 						<div className="w-full flex flex-col md:flex-row justify-between gap-5 md:gap-10 md:px-4 m-2 sm:m-6">
 							<button
 								className="w-full py-2 rounded-lg text-lg"
@@ -130,10 +98,7 @@ Meet with investors
 							{time} Days
 						</h1>
 					</div>
-					{
-						md && <DetailGrid />
-					}
-					<div className="flex flex-col gap-4 col-span-1">
+					<div className="flex flex-col gap-4 col-span-1 col-start-1 xl:col-start-2">
 						{prizes.map((prize, index) => (
 							<div className="w-full flex flex-col bg-[#111111] rounded-2xl p-4 sm:p-6 gap-3 items-start" key={index}>
 								<p className="text-lg font-bold text-[#FBC82E]">{prize.title}</p>
@@ -145,7 +110,17 @@ Meet with investors
 							</div>
 						))}
 					</div>
-					<div className="flex flex-col gap-6 col-span-1 xl:col-span-2">
+					<div className="flex flex-wrap lg:h-fit col-span-1 p-2 sm:p-6 gap-4 items-center bg-[#111111] rounded-2xl self-start
+						sticky top-[80px] lg:grid lg:grid-cols-2 row-start-1 xl:row-start-1 col-start-2 xl:col-start-3
+					">
+						{details.map((detail, index) => (
+							<div className="flex flex-col gap-1" key={index}>
+								<p className="text-xs sm:text-md text-white/50 whitespace-nowrap">{detail.title}</p>
+								<p className="text-sm sm:text-lg">{detail.content}</p>
+							</div>
+						))}
+					</div>
+					<div className="flex flex-col gap-6 col-span-1 xl:col-span-2 row-start-3 xl:row-start-2">
 						<h1 className="text-2xl font-bold">Judges</h1>
 						<div className="flex flex-wrap gap-6 w-full">
 							<Image className="xl:w-1/3" alt="" src={judgeComingSoon} />
