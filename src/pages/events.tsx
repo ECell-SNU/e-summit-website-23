@@ -9,12 +9,19 @@ import { useCountdown } from "../utils/countdownHook";
 
 const Events: NextPage = () => {
 	const time = useCountdown(new Date("Jan 20, 2023 00:00:00").getTime());
-	const [sm, setSm] = useState(false);
+	const [md, setSm] = useState(false);
 
 	useEffect(() => {
-		if (window.innerWidth > 640) {
-			setSm(true);
-		}
+		const resize = () => {
+			if (window.innerWidth > 640) {
+				setSm(true);
+			} else {
+				setSm(false);
+			}
+		};
+		
+		resize();
+		window.addEventListener("resize", () => resize());
 	}, []);
 
 	const details = [
@@ -79,7 +86,7 @@ Meet with investors
 	const DetailGrid: React.FC = () => {
 		return (
 			<div className={`flex flex-wrap lg:grid lg:grid-cols-2 lg:h-fit col-span-1 p-2 sm:p-6 gap-4 items-center
-				${sm ? "bg-[#111111] rounded-2xl" : ""}
+				${md ? "bg-[#111111] rounded-2xl" : ""}
 			`}>
 				{details.map((detail, index) => (
 					<div className="flex flex-col gap-1" key={index}>
@@ -102,7 +109,7 @@ Meet with investors
 							The hackathon will be held on the 20th of January, as part of Day 0 of The E-Summit &apos;23 includes free of cost registrations. This event will bring together talented individuals from the business-to-business (B2B) sector as well as IT sector professionals to come and judge your submissions. An amazing opportunity for students to participate and create innovative solutions to real-world challenges in the B2B sector. Participants will go through a selection round and an on-campus round before moving on to the pitching rounds. The winning teams will have the chance to take home a prize pool worth up to 1.6 Lakh rupees.
 						</p>
 						{
-							!sm && <DetailGrid />
+							!md && <DetailGrid />
 						}
 						<div className="w-full flex flex-col md:flex-row justify-between gap-5 md:gap-10 md:px-4 m-2 sm:m-6">
 							<button
@@ -124,7 +131,7 @@ Meet with investors
 						</h1>
 					</div>
 					{
-						sm && <DetailGrid />
+						md && <DetailGrid />
 					}
 					<div className="flex flex-col gap-4 col-span-1">
 						{prizes.map((prize, index) => (
