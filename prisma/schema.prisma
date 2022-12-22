@@ -66,6 +66,7 @@ model User {
   yearOfStudy  String?
   mobileNumber String?
   Payment      Payment[]
+  Accomodation Accomodation[]
 }
 
 model VerificationToken {
@@ -90,7 +91,6 @@ model Event {
 }
 
 // create a payment model for paytm gateway
-
 model Payment {
   id        String   @id @default(cuid())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -104,6 +104,14 @@ model Payment {
   orderId   String
 }
 
+model Accomodation {
+  id     String  @id @default(cuid())
+  userId String
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room   String? @default("N/A")
+  hostel String? @default("N/A")
+}
+
 // Role user or admin
 enum Role {
   USER
@@ -115,5 +123,3 @@ enum EventType {
   TWO_DAY
   THREE_DAY
 }
-
-// 
