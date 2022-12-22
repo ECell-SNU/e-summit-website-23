@@ -127,14 +127,14 @@ const Home: NextPage = () => {
 	return (
 		<Layout title="Home">
 			<div className="flex flex-col w-screen items-center">
-				<div className="flex items-center justify-start w-full relative pt-14">
+				<div className="flex items-center justify-start w-full relative pt-[10vh]">
 					<Image className="absolute left-0 top-[-12%] select-none object-left object-contain h-[125%] -z-10" draggable={false} alt="" src={splashImgLeftUni} />
 					<div className="w-full h-full select-none flex flex-col items-center justify-start">
-						<Image className="w-full md:w-3/4 -ml-[8%] md:m-0" draggable={false} alt="" src={splashImg} />
+						<Image className="w-full md:w-3/4 -ml-[8%] mt-[8%] md:ml-0" draggable={false} alt="" src={splashImg} />
 						<RegBox />
 						<div className="flex flex-col items-center gap-2 mt-6 md:mt-12">
-							<h1 className="text-lg sm:text-5xl font-thin">{time}</h1>
-							<h1 className="text-lg sm:text-3xl font-thin">DAYS TO GO</h1>
+							<h1 className="text-lg sm:text-6xl font-semibold">{time}</h1>
+							<h1 className="text-lg sm:text-4xl font-thin">DAYS TO GO</h1>
 						</div>
 					</div>
 					<Image className="absolute right-0 top-[-12%] select-none h-[125%] object-right object-contain -z-10" draggable={false} alt="" src={splashImgRightUni} />
@@ -142,11 +142,9 @@ const Home: NextPage = () => {
 				<div className="flex flex-col items-center relative h-full w-full aspect-[7/8] sm:aspect-video justify-center overflow-hidden">
 					<Image className="absolute -z-20 -top-[22%] sm:-top-[25%] left-0 h-1/2 w-full object-contain rotate-180" draggable={false} alt="" src={blueUniverse} />
 					<motion.p
-						className="absolute top-[17%] sm:top-[10%] left-4 sm:left-[10%] w-1/2 sm:w-[30%] z-10"
+						className="absolute top-[17%] sm:top-[10%] left-4 sm:left-[10%] w-1/2 sm:w-[30%] z-10 text-left md:text-center text-[8px] md:text-xs lg:text-base"
 						style={{ y: useTransform(scrollYProgress, [0, 1], ['0%', '100%']), }}>
-						<p className="w-full text-left md:text-center text-[8px] md:text-xs lg:text-base">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
-						</p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
 					</motion.p>
 					<motion.div
 						className='w-[95%] absolute -z-10 top-[12%] -right-1/2'
@@ -189,11 +187,9 @@ const Home: NextPage = () => {
 						</button>
 					</div>
 					<motion.p
-						className="absolute bottom-[17%] sm:bottom-[10%] right-4 sm:right-[10%] w-1/2 sm:w-[30%] z-10"
+						className="absolute bottom-[17%] sm:bottom-[10%] right-4 sm:right-[10%] w-1/2 sm:w-[30%] z-10 text-right md:text-center text-[8px] md:text-xs lg:text-base"
 						style={{ y: useTransform(scrollYProgress, [0, 1], ['0%', '-100%']), }}>
-						<p className="w-full text-right md:text-center text-[8px] md:text-xs lg:text-base">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
-						</p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
 					</motion.p>
 					<motion.div
 						className="absolute -z-10 bottom-[12%] -left-1/2 w-[95%]"
