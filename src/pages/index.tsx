@@ -127,7 +127,7 @@ const Home: NextPage = () => {
 	return (
 		<Layout title="Home">
 			<div className="flex flex-col w-screen items-center">
-				<div className="flex items-center justify-start w-full relative pt-[10vh]">
+				<div className="flex items-center justify-start w-full relative pt-[70px]">
 					<Image className="absolute left-0 top-[-12%] select-none object-left object-contain h-[125%] -z-10" draggable={false} alt="" src={splashImgLeftUni} />
 					<div className="w-full h-full select-none flex flex-col items-center justify-start">
 						<Image className="w-full md:w-3/4 -ml-[8%] mt-[8%] md:ml-0" draggable={false} alt="" src={splashImg} />

@@ -100,7 +100,7 @@ Meet with investors
 
 	return (
 		<Layout>
-			<div className="flex flex-col w-screen items-center p-3 sm:p-6 lg:p-14 gap-8">
+			<div className="flex flex-col w-screen items-center p-3 sm:p-6 lg:p-14 mt-[70px] gap-8">
 				<Image className="w-full" alt="" src={paradigm} />
 				<div className="grid lg:grid-cols-[57%_40%] xl:grid-cols-[40%_30%_27%] w-full gap-6">
 					<div className="flex flex-col col-span-1 h-fit bg-[#111111] rounded-2xl p-4 sm:p-8 gap-2 items-center">

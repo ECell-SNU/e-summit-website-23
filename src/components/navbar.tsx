@@ -5,11 +5,10 @@ import Link from "next/link";
 
 import { signIn, signOut, useSession } from "next-auth/react";
 
-import { Menu, MenuButton, MenuList, MenuItem, MenuDivider, Flex, flexbox, Avatar } from "@chakra-ui/react";
-import { TriangleDownIcon, ChevronDownIcon, ChevronRightIcon, HamburgerIcon, CloseIcon, ArrowForwardIcon } from "@chakra-ui/icons";
+import { Menu, MenuButton, MenuList, MenuItem, MenuDivider, Avatar } from "@chakra-ui/react";
+import { ChevronDownIcon, ChevronRightIcon, HamburgerIcon, CloseIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 
 import eSummitLogo from "../assets/e-summit-logo.png";
-import { createSecureContext } from "tls";
 
 const navItems = [
   {
@@ -77,10 +76,8 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 			if (!ref.current || !ref.current.style) return;
 			
       if (window.scrollY > 1) {
-				ref.current.style.height = "70px";
-				ref.current.style.padding = "2rem";
+				ref.current.style.padding = "2rem 0";
       } else {
-				ref.current.style.height = "";
 				ref.current.style.padding = "";
       }
     });
@@ -128,13 +125,13 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 
   return (
 		<nav
-			className="flex h-[10vh] items-center justify-between pt-14 pb-4 px-8 fixed top-0 left-0 w-full z-50 backdrop-blur-md"
+			className="flex h-[70px] items-center justify-between laptop:pt-6 lg:px-8 fixed top-0 left-0 w-full z-50 backdrop-blur-md"
 			ref={ref}
 		>
       <Link href="/">
         <div className="">
           <Image
-						className="phone:ml-3 phone:w-28 object-contain"
+						className="phone:ml-3 phone:w-28 object-contain mr-8"
 						height={85}
             alt="E-Summit 2023"
             src={eSummitLogo}
@@ -164,7 +161,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 					</Menu>
 				) : (
 						<div
-							className="mx-8 cursor-pointer rounded-full bg-blue-500 px-7 py-1 transition-transform duration-300 ease-in-out hover:-translate-y-px text-lg"
+							className="cursor-pointer rounded-full bg-blue-500 px-7 py-1 transition-transform duration-300 ease-in-out hover:-translate-y-px text-lg"
 							onClick={() => signIn("google")}
 						>
 							Sign in
