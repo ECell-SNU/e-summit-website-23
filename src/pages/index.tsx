@@ -36,20 +36,22 @@ import cornerBorder from "../assets/corner-border.svg";
 import spons from "../assets/spons.png";
 import { useCountdown } from "../utils/countdownHook";
 
-const TWEEN_FACTOR = 4.2
-
-const numberWithinRange = (number: number, min: number, max: number): number =>
-	Math.min(Math.max(number, min), max)
-
 const Home: NextPage = () => {
-	const [emblaRef, emblaApi] = useEmblaCarousel({
-		// loop: true,
-		startIndex: 1
-	});
 	const time = useCountdown(new Date("Jan 20, 2023 00:00:00").getTime());
 	const [video, setVideo] = useState(false);
-	const images = [[startupverse, redEllipse2], [paradigm, redEllipse1], [ideathon, blueEllipse], [startupexpo, blueEllipse1]];
-	const [tweenValues, setTweenValues] = useState<number[]>([])
+	const temp = [
+		[startupverse, redEllipse2],
+		[paradigm, redEllipse1],
+		[ideathon, blueEllipse],
+		[startupexpo, blueEllipse1]
+	];
+	// glitch at last index, so pad it with 10 repeats
+	const images = [...Array(10)].map(() => temp).flat();
+	const [emblaRef, emblaApi] = useEmblaCarousel({
+		loop: true,
+		startIndex: images.length / 2 + 1,
+	});
+	const [selectedIndex, setSelectedIndex] = useState(images.length / 2 + 1);
 	const controls = useAnimation();
 	const videoRef = useRef<HTMLDivElement>(null);
 	const { scrollYProgress } = useScroll({
@@ -74,41 +76,19 @@ const Home: NextPage = () => {
 		}
 	}, [video]);
 
-	const onScroll = useCallback(() => {
-		if (!emblaApi) return
-
-		const engine = emblaApi.internalEngine()
-		const scrollProgress = emblaApi.scrollProgress()
-
-		const styles = emblaApi.scrollSnapList().map((scrollSnap, index) => {
-			if (!emblaApi.slidesInView().includes(index)) return 0
-			let diffToTarget = scrollSnap - scrollProgress
-
-			if (engine.options.loop) {
-				engine.slideLooper.loopPoints.forEach((loopItem) => {
-					const target = loopItem.target().get()
-					if (index === loopItem.index && target !== 0) {
-						const sign = Math.sign(target)
-						if (sign === -1) diffToTarget = scrollSnap - (1 + scrollProgress)
-						if (sign === 1) diffToTarget = scrollSnap + (1 - scrollProgress)
-					}
-				})
-			}
-			const tweenValue = 1 - Math.abs(diffToTarget * TWEEN_FACTOR)
-			return numberWithinRange(tweenValue, 0, 1)
-		})
-		setTweenValues(styles);
-	}, [emblaApi, setTweenValues])
-
 	useEffect(() => {
 		if (!emblaApi) return
-
-		onScroll()
-		emblaApi.on('scroll', () => {
-			flushSync(() => onScroll())
-		})
-		emblaApi.on('reInit', onScroll);
-	}, [emblaApi, onScroll]);
+		
+		emblaApi.on('pointerDown', () => {
+			setSelectedIndex(-1);
+		});
+		emblaApi.on('pointerUp', () => {
+			setSelectedIndex(emblaApi.selectedScrollSnap());
+		});
+		emblaApi.on('select', () => {
+			setSelectedIndex(emblaApi.selectedScrollSnap());
+		});
+	}, [emblaApi, setSelectedIndex]);
 	
 	useEffect(() => {
 		const resize = () => {
@@ -139,7 +119,7 @@ const Home: NextPage = () => {
 					</div>
 					<Image className="absolute right-0 top-[-12%] select-none h-[125%] object-right object-contain -z-10" draggable={false} alt="" src={splashImgRightUni} />
 				</div>
-				<div className="flex flex-col items-center relative h-full w-full aspect-[7/8] sm:aspect-video justify-center overflow-hidden">
+				<div className="flex flex-col items-center relative h-full w-full aspect-[7/8] sm:aspect-video justify-center overflow-visible overflow-x-clip">
 					<Image className="absolute -z-20 -top-[22%] sm:-top-[25%] left-0 h-1/2 w-full object-contain rotate-180" draggable={false} alt="" src={blueUniverse} />
 					<motion.p
 						className="absolute top-[17%] sm:top-[10%] left-4 sm:left-[10%] w-1/2 sm:w-[30%] z-10 text-left md:text-center text-[8px] md:text-xs lg:text-base"
@@ -200,13 +180,6 @@ const Home: NextPage = () => {
 							alt=""
 							src={innovation} />
 					</motion.div>
-					{/* <Image
-						className={`absolute -z-10 bottom-[12%] -left-1/2 w-[95%] object-contain
-							${inView ? "animate-moveRight" : ""}
-						`}
-						draggable={false}
-						alt=""
-						src={innovation} /> */}
 					<Image className="absolute -z-20 -bottom-[10%] left-0 h-1/2 w-full object-contain" draggable={false} alt="" src={blueUniverse} />
 				</div>
 				<div className="w-full flex flex-col relative justify-center items-center md:gap-[20px]">
@@ -217,16 +190,11 @@ const Home: NextPage = () => {
 						<div className="embla__container flex h-[170px] md:h-[400px] items-center">
 							{images.map((image, index) => (
 								<div
-									className={`h-[125px] md:h-[300px] md:m-[-10px] aspect-video overflow-hidden relative flex grow-0 shrink-0 items-end border border-white/60 rounded-md bg-black`}
-									key={index}
-									style={{
-										...(tweenValues.length && {
-											transform: `scale(${1 + ((tweenValues[index] ?? 0) * 0.3)})`,
-											zIndex: (tweenValues[index] ?? 0) > 0.2 ? 1 : 0,
-											opacity: (Math.abs(tweenValues.findIndex((value) => value > 0.1) - index) < 2) ? 1 : 0,
-											transition: 'opacity 0.3s ease-in-out'
-										}),
-									}}>
+									className={`h-[125px] md:h-[300px] mx-3 aspect-video overflow-hidden relative flex grow-0 shrink-0 items-end border border-white/60 rounded-md bg-black
+										${selectedIndex === index ? 'animate-scale z-10' : ''}
+									`}
+									// transitions and the previous method doesn't work
+									key={index}>
 									<Image className="h-[150%] w-[150%] absolute -left-1/2 -bottom-1/2 object-contain" draggable={false} alt="" src={universe} />
 									<Image className="h-[175%] w-[150%] absolute -left-1/2 -bottom-3/4 object-contain" draggable={false} alt="" src={image[1]} />
 									<Image className="h-[150%] w-[150%] absolute -right-1/2 -top-1/2 object-contain" draggable={false} alt="" src={universe} />
