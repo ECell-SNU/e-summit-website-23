@@ -39,19 +39,19 @@ import { useCountdown } from "../utils/countdownHook";
 const Home: NextPage = () => {
 	const time = useCountdown(new Date("Jan 20, 2023 00:00:00").getTime());
 	const [video, setVideo] = useState(false);
-	const temp = [
+	const images = [
 		[startupverse, redEllipse2],
 		[paradigm, redEllipse1],
 		[ideathon, blueEllipse],
 		[startupexpo, blueEllipse1]
 	];
 	// glitch at last index, so pad it with 10 repeats
-	const images = [...Array(10)].map(() => temp).flat();
+	const carouselImages = [...Array(10)].map(() => images).flat();
 	const [emblaRef, emblaApi] = useEmblaCarousel({
 		loop: true,
-		startIndex: images.length / 2 + 1,
+		startIndex: carouselImages.length / 2 + 1,
 	});
-	const [selectedIndex, setSelectedIndex] = useState(images.length / 2 + 1);
+	const [selectedIndex, setSelectedIndex] = useState(carouselImages.length / 2 + 1);
 	const controls = useAnimation();
 	const videoRef = useRef<HTMLDivElement>(null);
 	const { scrollYProgress } = useScroll({
@@ -188,9 +188,9 @@ const Home: NextPage = () => {
 					<Image className="absolute -z-10 -top-1/6 h-[125%] w-full object-contain" draggable={false} alt="" src={redEllipse} />
 					<div className="w-full overflow-hidden" ref={emblaRef}>
 						<div className="embla__container flex h-[170px] md:h-[400px] items-center">
-							{images.map((image, index) => (
+							{carouselImages.map((image, index) => (
 								<div
-									className={`h-[125px] md:h-[300px] mx-3 aspect-video overflow-hidden relative flex grow-0 shrink-0 items-end border border-white/60 rounded-md bg-black
+									className={`h-[125px] md:h-[300px] mx-1 aspect-video overflow-hidden relative flex grow-0 shrink-0 items-end border border-white/60 rounded-md bg-black
 										${selectedIndex === index ? 'animate-scale z-10' : ''}
 									`}
 									// transitions and the previous method doesn't work
@@ -209,6 +209,16 @@ const Home: NextPage = () => {
 							))}
 						</div>
 					</div>
+				</div>
+				<div className='flex w-full justify-center my-10 gap-6'>
+					{images.map((_, index) => (
+						<div className={`w-3 h-3 rounded-full transition-all duration-300 ease-in-out cursor-pointer
+								${index === (selectedIndex % images.length) ? 'bg-white scale-150' : 'bg-white/40'}
+							`}
+							key={index}
+							onClick={() => emblaApi?.scrollTo(emblaApi?.selectedScrollSnap() + (index - (selectedIndex % images.length)))}
+						/>
+					))}
 				</div>
 				<div className="hidden sm:block  mx-auto my-8 p-[1px] w-3/4 h-fit relative rounded-3xl bg-gradient-to-r from-white to-white/0">
 					<div className="pt-5 flex flex-col items-center rounded-3xl bg-black">
