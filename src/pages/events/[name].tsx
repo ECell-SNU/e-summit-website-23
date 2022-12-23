@@ -1,74 +1,57 @@
 import { type NextPage } from "next";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import Layout from "../components/layout";
+import Layout from "../../components/layout";
+import { type GetServerSidePropsContext } from "next";
 
-import judgeComingSoon from "../assets/judge-coming-soon.png";
-import paradigm from "../assets/paradigm.png";
-import { useCountdown } from "../utils/countdownHook";
+import judgeComingSoon from "../../assets/judge-coming-soon.png";
+import paradigm from "../../assets/paradigm.png";
+import events from "../../assets/events.json";
+import { useCountdown } from "../../utils/countdownHook";
 
-const Events: NextPage = () => {
+export async function getStaticPaths() {
+	const paths = Object.keys(events).map((event) => ({
+		params: { name: event }
+	}));
+	
+	return {
+		paths,
+		fallback: false
+	};
+}
+
+export const getStaticProps = async (ctx: GetServerSidePropsContext) => {
+	const name = ctx.params?.name;
+	const event = (events as EventList)[name as string ?? ""];
+	
+	const details = event?.details;
+	const prizes = event?.prizes;
+	
+	return {
+		props: {
+			details,
+			prizes
+		}
+	};
+};
+
+interface EventList {
+	[key: string]: Event;
+}
+
+interface Event {
+	details: {
+		title: string;
+		content: string;
+	}[];
+	prizes: {
+		title: string;
+		content: string[];
+	}[];
+}
+
+const Events: NextPage<Event> = ({ details, prizes }: Event) => {
 	const time = useCountdown(new Date("Jan 20, 2023 00:00:00").getTime());
-
-	const details = [
-		{
-			title: "Venue",
-			content: "G 102, G-Block"
-		},
-		{
-			title: "Amount",
-			content: "Free"
-		},
-		{
-			title: "Date",
-			content: "20th Jan 2023"
-		},
-		{
-			title: "Participants/Team",
-			content: "2-4 Participants"
-		},
-		{
-			title: "Registration Open",
-			content: "20th Dec 2023"
-		},
-		{
-			title: "Submission Ends",
-			content: "20th Jan 2023"
-		},
-		{
-			title: "Teams notified via Gmail",
-			content: "20th Jan 2023"
-		},
-	];
-
-	const prizes = [
-		{
-			title: "1st Runner Up",
-			content: `Electric Scooter (bounce infinity) worth 60,000 Rs, provided by bounce infinity along with a test drive on campus
-Monetary prize of 40,000 Rs.
-2nd day access pass to the E-Summit
-Free E-Summit clothing apparel
-Meet with investors
-Pitch to sharks during the startup verse event`,
-		},
-		{
-			title: "2nd Runner Up",
-			content: `Monetary prize of 25,000 Rs.
-Free E-Summit clothing apparel
-Meet with investors
-2nd day access pass to the E-Summit`,
-		},
-		{
-			title: "3rd Runner Up",
-			content: `Monetary prize of 10,000
-2nd day access pass to the E-Summit`,
-		},
-		{
-			title: "Participation",
-			content: `2nd day access pass to the E-Summit`,
-		},
-	];
-
+	
 	return (
 		<Layout>
 			<div className="flex flex-col w-screen items-center p-3 sm:p-6 lg:p-14 mt-[70px] gap-8">
@@ -103,7 +86,7 @@ Meet with investors
 							<div className="w-full flex flex-col bg-[#111111] rounded-2xl p-4 sm:p-6 gap-3 items-start" key={index}>
 								<p className="text-lg font-bold text-[#FBC82E]">{prize.title}</p>
 								<ul className="text-md whitespace-pre-wrap list-disc list-inside">
-									{prize.content.split("\n").map((item, index) => (
+									{prize.content.map((item, index) => (
 										<li key={index}>{item}</li>
 									))}
 								</ul>
