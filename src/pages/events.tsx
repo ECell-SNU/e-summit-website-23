@@ -1,50 +1,14 @@
 import { type NextPage } from "next";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../components/layout";
 
 import judgeComingSoon from "../assets/judge-coming-soon.png";
 import paradigm from "../assets/paradigm.png";
+import { useCountdown } from "../utils/countdownHook";
 
 const Events: NextPage = () => {
-	// countdown timer with days : hours : minutes : seconds
-	const [time, setTime] = useState({
-		days: 0,
-		hours: 0,
-		minutes: 0,
-		seconds: 0
-	});
-	const eventDate = new Date("Jan 20, 2023 00:00:00").getTime();
-
-	const timer = useCallback(() => {
-		const now = new Date().getTime();
-		const distance = eventDate - now;
-
-		const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-		const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-		const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-		setTime({
-			days: days,
-			hours: hours,
-			minutes: minutes,
-			seconds: seconds
-		});
-	}, [eventDate]);
-
-	useEffect(() => {
-		setInterval(timer, 1000);
-	}, [timer]);
-
-	// useEffect to check screen size
-	const [sm, setSm] = useState(false);
-
-	useEffect(() => {
-		if (window.innerWidth > 640) {
-			setSm(true);
-		}
-	}, []);
+	const time = useCountdown(new Date("Jan 20, 2023 00:00:00").getTime());
 
 	const details = [
 		{
@@ -105,34 +69,16 @@ Meet with investors
 		},
 	];
 
-	const DetailGrid: React.FC = () => {
-		return (
-			<div className={`flex flex-wrap lg:grid lg:grid-cols-2 lg:h-fit col-span-1 p-2 sm:p-6 gap-4 items-center
-				${sm ? "bg-[#111111] rounded-2xl" : ""}
-			`}>
-				{details.map((detail, index) => (
-					<div className="flex flex-col gap-1" key={index}>
-						<p className="text-xs sm:text-md text-white/50 whitespace-nowrap">{detail.title}</p>
-						<p className="text-sm sm:text-lg">{detail.content}</p>
-					</div>
-				))}
-			</div>
-		);
-	};
-
 	return (
 		<Layout>
-			<div className="flex flex-col w-screen items-center p-3 sm:p-6 lg:p-14 gap-8">
+			<div className="flex flex-col w-screen items-center p-3 sm:p-6 lg:p-14 mt-[70px] gap-8">
 				<Image className="w-full" alt="" src={paradigm} />
-				<div className="grid lg:grid-cols-[57%_40%] xl:grid-cols-[40%_30%_27%] w-full gap-6">
+				<div className="grid xl:grid-cols-[40%_27%_30%] w-full gap-3 sm:gap-6">
 					<div className="flex flex-col col-span-1 h-fit bg-[#111111] rounded-2xl p-4 sm:p-8 gap-2 items-center">
 						<h1 className="w-full text-md sm:text-2xl font-bold">About the Event</h1>
 						<p className="text-sm sm:text-lg lg:text-xl">
 							The hackathon will be held on the 20th of January, as part of Day 0 of The E-Summit &apos;23 includes free of cost registrations. This event will bring together talented individuals from the business-to-business (B2B) sector as well as IT sector professionals to come and judge your submissions. An amazing opportunity for students to participate and create innovative solutions to real-world challenges in the B2B sector. Participants will go through a selection round and an on-campus round before moving on to the pitching rounds. The winning teams will have the chance to take home a prize pool worth up to 1.6 Lakh rupees.
 						</p>
-						{
-							!sm && <DetailGrid />
-						}
 						<div className="w-full flex flex-col md:flex-row justify-between gap-5 md:gap-10 md:px-4 m-2 sm:m-6">
 							<button
 								className="w-full py-2 rounded-lg text-lg"
@@ -149,13 +95,10 @@ Meet with investors
 						</div>
 						<p className="text-xs sm:text-sm">Registration ends in</p>
 						<h1 className="text-lg sm:text-2xl font-bold">
-							{time.days} : {time.hours} : {time.minutes} : {time.seconds} Days
+							{time} Days
 						</h1>
 					</div>
-					{
-						sm && <DetailGrid />
-					}
-					<div className="flex flex-col gap-4 col-span-1">
+					<div className="flex flex-col gap-4 col-span-1 col-start-1 xl:col-start-2">
 						{prizes.map((prize, index) => (
 							<div className="w-full flex flex-col bg-[#111111] rounded-2xl p-4 sm:p-6 gap-3 items-start" key={index}>
 								<p className="text-lg font-bold text-[#FBC82E]">{prize.title}</p>
@@ -167,7 +110,17 @@ Meet with investors
 							</div>
 						))}
 					</div>
-					<div className="flex flex-col gap-6 col-span-1 xl:col-span-2">
+					<div className=" lg:h-fit col-span-1 p-6 gap-4 items-center bg-[#111111] rounded-2xl self-start
+						sm:sticky sm:top-[80px] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-1 lg:grid-cols-2 row-start-2 md:row-start-1 col-start-1 md:col-start-2 xl:col-start-3
+					">
+						{details.map((detail, index) => (
+							<div className="flex flex-col gap-1" key={index}>
+								<p className="text-xs sm:text-md text-white/50 whitespace-nowrap">{detail.title}</p>
+								<p className="text-sm sm:text-md lg:text-lg">{detail.content}</p>
+							</div>
+						))}
+					</div>
+					<div className="flex flex-col gap-6 col-span-1 xl:col-span-2 row-start-4 xl:row-start-2">
 						<h1 className="text-2xl font-bold">Judges</h1>
 						<div className="flex flex-wrap gap-6 w-full">
 							<Image className="xl:w-1/3" alt="" src={judgeComingSoon} />
