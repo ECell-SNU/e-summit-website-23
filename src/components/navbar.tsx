@@ -124,6 +124,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                 <Link href={dropItem.href} key={dropItem.title}>
                   <MenuItem
                     backgroundColor="black"
+                    _hover={{ backgroundColor: dropItem.hover ?? "" }}
                     py="0"
                     justifyContent="space-between"
                   >

@@ -58,7 +58,6 @@ const Home: NextPage = () => {
     offset: ["center end", "center start"],
   });
   const [md, setMd] = useState(false);
-  // autoplay carousel embla
 
   useEffect(() => {
     if (emblaApi) {
@@ -113,14 +112,6 @@ const Home: NextPage = () => {
     resize();
     window.addEventListener("resize", () => resize());
   }, [controls]);
-
-  // carousal navigation 4 buttons on click function
-  // set active based on the index
-  const handleNavClick = (index: number) => {
-    if (emblaApi) {
-      emblaApi.scrollTo(index);
-    }
-  };
 
   return (
     <Layout title="Home">
