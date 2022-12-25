@@ -53,18 +53,30 @@ AIC deliverables`,
               for their business.
             </p>
             <div className="m-2 flex w-full flex-col justify-between gap-5 sm:m-6 md:flex-row md:gap-10 md:px-4">
-              <button
+              <a
                 className="w-full rounded-lg py-2 text-lg"
                 style={{
+                  textAlign: "center",
                   background:
                     "linear-gradient(90.83deg, #FF1761 0%, #910AB1 98.45%)",
                 }}
+                target="_blank"
+                rel="noreferrer"
               >
                 Register
-              </button>
-              <button className="w-full whitespace-nowrap rounded-lg border border-white py-2 text-lg">
+              </a>
+              <a
+                style={{
+                  textAlign: "center",
+                }}
+                // make external link
+                target="_blank"
+                rel="noreferrer"
+                href="https://drive.google.com/file/d/1Rg9mxMBKnGjEdUQBl11KiNQCLpRqKJz4/view?usp=share_link"
+                className="w-full whitespace-nowrap rounded-lg border border-white py-2 text-lg"
+              >
                 Event Details
-              </button>
+              </a>
             </div>
             <p className="text-xs sm:text-sm">Registration ends in</p>
             <h1 className="text-lg font-bold sm:text-2xl">{time} Days</h1>

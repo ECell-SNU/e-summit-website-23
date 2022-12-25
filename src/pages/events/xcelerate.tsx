@@ -6,7 +6,7 @@ import paradigm from "../../assets/xcelerate.png";
 import { useCountdown } from "../../utils/countdownHook";
 import Layout from "../../components/layout";
 
-const Events: NextPage = () => {
+const Xcelerate: NextPage = () => {
   const time = useCountdown(new Date("Jan 27, 2023 00:00:00").getTime());
 
   const details = [
@@ -83,18 +83,30 @@ Goodies, swags and free subscriptions from a multitude of companies`,
               participate.
             </p>
             <div className="m-2 flex w-full flex-col justify-between gap-5 sm:m-6 md:flex-row md:gap-10 md:px-4">
-              <button
+              <a
                 className="w-full rounded-lg py-2 text-lg"
                 style={{
+                  textAlign: "center",
                   background:
                     "linear-gradient(90.83deg, #FF1761 0%, #910AB1 98.45%)",
                 }}
+                target="_blank"
+                rel="noreferrer"
               >
                 Register
-              </button>
-              <button className="w-full whitespace-nowrap rounded-lg border border-white py-2 text-lg">
+              </a>
+              <a
+                style={{
+                  textAlign: "center",
+                }}
+                // make external link
+                target="_blank"
+                rel="noreferrer"
+                href="https://drive.google.com/file/d/1L7HDVpH55gmMkgmpXzyEbPisKzbuqvyk/view?usp=share_link"
+                className="w-full whitespace-nowrap rounded-lg border border-white py-2 text-lg"
+              >
                 Event Details
-              </button>
+              </a>
             </div>
             <p className="text-xs sm:text-sm">Registration ends in</p>
             <h1 className="text-lg font-bold sm:text-2xl">{time} Days</h1>
@@ -145,4 +157,4 @@ Goodies, swags and free subscriptions from a multitude of companies`,
   );
 };
 
-export default Events;
+export default Xcelerate;

@@ -31,8 +31,6 @@ export { default as getServerSideProps } from "../lib/serverProps";
 
 import Layout from "../components/layout";
 
-import cornerBorder from "../assets/corner-border.svg";
-import spons from "../assets/spons.png";
 import { useCountdown } from "../utils/countdownHook";
 
 const Home: NextPage = () => {
