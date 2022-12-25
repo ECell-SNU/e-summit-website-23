@@ -36,7 +36,6 @@ import { useCountdown } from "../utils/countdownHook";
 const Home: NextPage = () => {
   const time = useCountdown(new Date("Jan 27, 2023 00:00:00").getTime());
   const [video, setVideo] = useState(false);
-
   const temp = [
     [startupverse, redEllipse2],
     [paradigm, redEllipse1],
@@ -50,6 +49,7 @@ const Home: NextPage = () => {
     loop: true,
     startIndex: images.length / 2 + 1,
   });
+  console.log(emblaApi?.selectedScrollSnap());
   const [selectedIndex, setSelectedIndex] = useState(images.length / 2 + 1);
   const controls = useAnimation();
   const videoRef = useRef<HTMLDivElement>(null);
@@ -113,6 +113,14 @@ const Home: NextPage = () => {
     resize();
     window.addEventListener("resize", () => resize());
   }, [controls]);
+
+  // carousal navigation 4 buttons on click function
+  // set active based on the index
+  const handleNavClick = (index: number) => {
+    if (emblaApi) {
+      emblaApi.scrollTo(index);
+    }
+  };
 
   return (
     <Layout title="Home">
@@ -268,7 +276,7 @@ const Home: NextPage = () => {
               {images.map((image, index) => (
                 <div
                   className={`relative mx-3 flex aspect-video h-[125px] shrink-0 grow-0 items-end overflow-hidden rounded-md border border-white/60 bg-black md:h-[300px]
-										${selectedIndex === index ? "z-10 animate-scale" : ""}
+										${selectedIndex === index ? "z-10 animate-scale" : "blur-sm"}
 									`}
                   // transitions and the previous method doesn't work
                   key={index}
@@ -306,6 +314,21 @@ const Home: NextPage = () => {
                 </div>
               ))}
             </div>
+          </div>
+          {/* create navigation 4 buttons select index */}
+          <div
+            className="mt-5 flex w-full items-center justify-center"
+            style={{}}
+          >
+            {[0, 1, 2, 3].map((image, index) => (
+              <button
+                className={`mx-1 h-2 w-2 rounded-full bg-white/60 ${
+                  selectedIndex % 4 === index && "bg-white"
+                }`}
+                onClick={() => emblaApi && emblaApi.scrollTo(index)}
+                key={index}
+              />
+            ))}
           </div>
         </div>
         {/* <div className="relative mx-auto  my-8 hidden h-fit w-3/4 rounded-3xl bg-gradient-to-r from-white to-white/0 p-[1px] sm:block">

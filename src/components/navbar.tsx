@@ -39,6 +39,7 @@ const navItems = [
       {
         title: "Startupverse",
         href: "/events/startupverse",
+        hover: "#FBC82E",
       },
       // {
       //   title: "My Story",
@@ -47,14 +48,17 @@ const navItems = [
       {
         title: "Xcelerate - Ideation",
         href: "/events/xcelerate",
+        hover: "#FF1761",
       },
       {
         title: "Paradigm - Hackathon",
         href: "/events/paradigm",
+        hover: "#A705BA",
       },
       {
         title: "StartupXpo",
         href: "/events/startupxpo",
+        hover: "#4B1485",
       },
     ],
   },
@@ -115,10 +119,14 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                 <ChevronDownIcon color="white" />
               )}
             </MenuButton>
-            <MenuList textColor="#FFF" borderRadius="0">
+            <MenuList textColor="#FFF" borderRadius="0" backgroundColor="black">
               {dropItems.map((dropItem, index) => (
                 <Link href={dropItem.href} key={dropItem.title}>
-                  <MenuItem py="0" justifyContent="space-between">
+                  <MenuItem
+                    backgroundColor="black"
+                    py="0"
+                    justifyContent="space-between"
+                  >
                     {dropItem.title}
                     <ArrowForwardIcon color="white" />
                   </MenuItem>

@@ -99,6 +99,7 @@ Meet with investors
                 }}
                 target="_blank"
                 rel="noreferrer"
+                href="https://forms.gle/jmtuHQvVHcwuzdQNA"
               >
                 Register
               </a>

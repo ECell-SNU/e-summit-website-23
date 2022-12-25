@@ -92,6 +92,7 @@ Goodies, swags and free subscriptions from a multitude of companies`,
                 }}
                 target="_blank"
                 rel="noreferrer"
+                href="https://forms.gle/P6i5WvxRmMhbLge17"
               >
                 Register
               </a>

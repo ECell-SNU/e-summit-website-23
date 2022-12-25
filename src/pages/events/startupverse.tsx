@@ -62,6 +62,7 @@ AIC deliverables`,
                 }}
                 target="_blank"
                 rel="noreferrer"
+                href="https://forms.gle/GGJQRhYfxFSNPXe8A"
               >
                 Register
               </a>
