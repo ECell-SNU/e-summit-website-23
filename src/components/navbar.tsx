@@ -115,14 +115,10 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                 <ChevronDownIcon color="white" />
               )}
             </MenuButton>
-            <MenuList textColor="#FFF" borderRadius="0" bgColor="black">
+            <MenuList textColor="#FFF" borderRadius="0">
               {dropItems.map((dropItem, index) => (
                 <Link href={dropItem.href} key={dropItem.title}>
-                  <MenuItem
-                    bgColor="black"
-                    py="0"
-                    justifyContent="space-between"
-                  >
+                  <MenuItem py="0" justifyContent="space-between">
                     {dropItem.title}
                     <ArrowForwardIcon color="white" />
                   </MenuItem>
@@ -217,6 +213,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 					w-full flex-col items-start justify-center gap-16 pl-12 backdrop-blur-md laptop:hidden
 					${showMobileNav ? "" : "invisible"}
 				`}
+        style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
       >
         {menu()}
         <div
