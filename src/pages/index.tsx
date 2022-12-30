@@ -32,6 +32,7 @@ export { default as getServerSideProps } from "../lib/serverProps";
 import Layout from "../components/layout";
 
 import { useCountdown } from "../utils/countdownHook";
+import HomeModal from "../components/home-modal";
 
 const Home: NextPage = () => {
   const time = useCountdown(new Date("Jan 27, 2023 00:00:00").getTime());
@@ -115,6 +116,7 @@ const Home: NextPage = () => {
 
   return (
     <Layout title="Home">
+      <HomeModal />
       <div className="flex w-screen flex-col items-center">
         <div className="relative flex w-full items-center justify-start pt-[70px]">
           <Image

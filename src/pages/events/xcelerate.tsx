@@ -12,7 +12,7 @@ const Xcelerate: NextPage = () => {
   const details = [
     {
       title: "Venue",
-      content: "G 102, G-Block",
+      content: "G-Block",
     },
     {
       title: "Amount",
@@ -28,11 +28,11 @@ const Xcelerate: NextPage = () => {
     },
     {
       title: "Registration Open",
-      content: "20th Dec 2023",
+      content: "29th Dec 2023",
     },
     {
-      title: "Submission Ends",
-      content: "20th Jan 2023",
+      title: "Registration End",
+      content: "19th Jan 2023",
     },
     {
       title: "Teams notified via Gmail",

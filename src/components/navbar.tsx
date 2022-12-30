@@ -28,10 +28,10 @@ const navItems = [
     title: "Home",
     href: "/",
   },
-  {
-    title: "About",
-    href: "/about",
-  },
+  // {
+  //   title: "About",
+  //   href: "/about",
+  // },
   {
     title: "Events",
     drop: true,

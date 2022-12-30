@@ -5,68 +5,80 @@ import judgeComingSoon from "../../assets/judge-coming-soon.png";
 import paradigm from "../../assets/paradigm.png";
 import { useCountdown } from "../../utils/countdownHook";
 import Layout from "../../components/layout";
+import { useEffect } from "react";
+import { Box, Flex } from "@chakra-ui/react";
+const details = [
+  {
+    title: "Venue",
+    content: "G 102, G-Block",
+  },
+  {
+    title: "Amount",
+    content: "Free",
+  },
+  {
+    title: "Date",
+    content: "27th Jan 2023",
+  },
+  {
+    title: "Participants/Team",
+    content: "2-4 Participants",
+  },
+  {
+    title: "Registration Open",
+    content: "29th Dec 2023",
+  },
+  {
+    title: "Registration End",
+    content: "19th Jan 2023",
+  },
+  {
+    title: "Teams notified via Gmail",
+    content: "20th Jan 2023",
+  },
+];
 
-const Paradigm: NextPage = () => {
-  const time = useCountdown(new Date("Jan 27, 2023 00:00:00").getTime());
-
-  const details = [
-    {
-      title: "Venue",
-      content: "G 102, G-Block",
-    },
-    {
-      title: "Amount",
-      content: "Free",
-    },
-    {
-      title: "Date",
-      content: "27th Jan 2023",
-    },
-    {
-      title: "Participants/Team",
-      content: "2-4 Participants",
-    },
-    {
-      title: "Registration Open",
-      content: "20th Dec 2023",
-    },
-    {
-      title: "Submission Ends",
-      content: "20th Jan 2023",
-    },
-    {
-      title: "Teams notified via Gmail",
-      content: "20th Jan 2023",
-    },
-  ];
-
-  const prizes = [
-    {
-      title: "1st Runner Up",
-      content: `Electric Scooter (bounce infinity) worth 60,000 Rs, provided by bounce infinity along with a test drive on campus
+const prizes = [
+  {
+    title: "1st Runner Up",
+    content: `Electric Scooter (bounce infinity) worth 60,000 Rs, provided by bounce infinity along with a test drive on campus
 Monetary prize of 40,000 Rs.
 2nd day access pass to the E-Summit
 Free E-Summit clothing apparel
 Meet with investors
 Pitch to sharks during the startup verse event`,
-    },
-    {
-      title: "2nd Runner Up",
-      content: `Monetary prize of 25,000 Rs.
+  },
+  {
+    title: "2nd Runner Up",
+    content: `Monetary prize of 25,000 Rs.
 Free E-Summit clothing apparel
 Meet with investors
 2nd day access pass to the E-Summit`,
-    },
-    {
-      title: "3rd Runner Up",
-      content: `Monetary prize of 10,000
+  },
+  {
+    title: "3rd Runner Up",
+    content: `Monetary prize of 10,000
 2nd day access pass to the E-Summit`,
-    },
-    {
-      title: "Participation",
-      content: `2nd day access pass to the E-Summit`,
-    },
-  ];
+  },
+  {
+    title: "Participation",
+    content: `2nd day access pass to the E-Summit`,
+  },
+];
+
+const Paradigm: NextPage = () => {
+  const time = useCountdown(new Date("Jan 27, 2023 00:00:00").getTime());
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://apply.devfolio.co/v2/sdk.js";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <Layout>
@@ -89,8 +101,8 @@ Meet with investors
               moving on to the pitching rounds. The winning teams will have the
               chance to take home a prize pool worth up to 5 Lakh rupees.
             </p>
-            <div className="m-2 flex w-full flex-col justify-between gap-5 sm:m-6 md:flex-row md:gap-10 md:px-4">
-              <a
+            <Flex flexDir="column" align="center" className="m-2 gap-5 sm:m-6 ">
+              {/* <a
                 className="w-full rounded-lg py-2 text-lg"
                 style={{
                   textAlign: "center",
@@ -102,12 +114,17 @@ Meet with investors
                 href="https://forms.gle/jmtuHQvVHcwuzdQNA"
               >
                 Register
-              </a>
+              </a> */}
+              <div
+                className="apply-button"
+                data-hackathon-slug="YOUR-HACKATHON-SLUG"
+                data-button-theme="light"
+                style={{ height: "44px", width: "100px" }}
+              />
               <a
                 style={{
                   textAlign: "center",
                 }}
-                // make external link
                 target="_blank"
                 rel="noreferrer"
                 href="https://drive.google.com/file/d/1_mwH70fsfRTCUFoFFmDR4Qc8cmSROBWz/view?usp=share_link"
@@ -115,7 +132,7 @@ Meet with investors
               >
                 Event Details
               </a>
-            </div>
+            </Flex>
             <p className="text-xs sm:text-sm">Registration ends in</p>
             <h1 className="text-lg font-bold sm:text-2xl">{time} Days</h1>
           </div>
