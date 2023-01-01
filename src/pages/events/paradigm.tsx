@@ -41,8 +41,7 @@ const details = [
 const prizes = [
   {
     title: "1st Runner Up",
-    content: `Electric Scooter (bounce infinity) worth 60,000 Rs, provided by bounce infinity along with a test drive on campus
-Monetary prize of 40,000 Rs.
+    content: `Monetary prize of 40,000 Rs.
 2nd day access pass to the E-Summit
 Free E-Summit clothing apparel
 Meet with investors
@@ -102,7 +101,7 @@ const Paradigm: NextPage = () => {
               chance to take home a prize pool worth up to 5 Lakh rupees.
             </p>
             <Flex flexDir="column" align="center" className="m-2 gap-5 sm:m-6 ">
-              {/* <a
+              <a
                 className="w-full rounded-lg py-2 text-lg"
                 style={{
                   textAlign: "center",
@@ -111,19 +110,20 @@ const Paradigm: NextPage = () => {
                 }}
                 target="_blank"
                 rel="noreferrer"
-                href="https://forms.gle/jmtuHQvVHcwuzdQNA"
+                href="https://unstop.com/hackathon/paradigm-shiv-nadar-university-e-summit-2023-imagination-to-innovation-shiv-nadar-university-snu-greater-noida-572198"
               >
                 Register
-              </a> */}
-              <div
+              </a>
+              {/* <div
                 className="apply-button"
                 data-hackathon-slug="YOUR-HACKATHON-SLUG"
                 data-button-theme="light"
                 style={{ height: "44px", width: "100px" }}
-              />
+              /> */}
               <a
                 style={{
                   textAlign: "center",
+                  padding: "0.5rem 1rem",
                 }}
                 target="_blank"
                 rel="noreferrer"
