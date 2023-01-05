@@ -6,7 +6,7 @@ import { type GetServerSidePropsContext } from "next";
 import judgeComingSoon from "../../assets/judge-coming-soon.png";
 import paradigm from "../../assets/paradigm.png";
 import events from "../../assets/events.json";
-import { useCountdown } from "../../utils/countdownHook";
+import Countdown from "../../components/countdown";
 
 export async function getStaticPaths() {
 	const paths = Object.keys(events).map((event) => ({
@@ -50,7 +50,6 @@ interface Event {
 }
 
 const Events: NextPage<Event> = ({ details, prizes }: Event) => {
-	const time = useCountdown(new Date("Jan 20, 2023 00:00:00").getTime());
 	
 	return (
 		<Layout>
@@ -77,9 +76,7 @@ const Events: NextPage<Event> = ({ details, prizes }: Event) => {
 							</button>
 						</div>
 						<p className="text-xs sm:text-sm">Registration ends in</p>
-						<h1 className="text-lg sm:text-2xl font-bold">
-							{time} Days
-						</h1>
+						<Countdown initialTime={new Date("Jan 20, 2023 00:00:00").getTime()} isLarge={false} />
 					</div>
 					<div className="flex flex-col gap-4 col-span-1 col-start-1 xl:col-start-2">
 						{prizes.map((prize, index) => (

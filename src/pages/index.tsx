@@ -34,10 +34,9 @@ import Layout from "../components/layout";
 
 import cornerBorder from "../assets/corner-border.svg";
 import spons from "../assets/spons.png";
-import { useCountdown } from "../utils/countdownHook";
+import Countdown from '../components/countdown';
 
 const Home: NextPage = () => {
-	const time = useCountdown(new Date("Jan 20, 2023 00:00:00").getTime());
 	const [video, setVideo] = useState(false);
 	const images = [
 		[startupverse, redEllipse2],
@@ -113,7 +112,7 @@ const Home: NextPage = () => {
 						<Image className="w-full md:w-3/4 -ml-[8%] mt-[8%] md:ml-0" draggable={false} alt="" src={splashImg} />
 						<RegBox />
 						<div className="flex flex-col items-center gap-2 mt-6 md:mt-12">
-							<h1 className="text-lg sm:text-6xl font-semibold">{time}</h1>
+							<Countdown initialTime={new Date("Jan 20, 2023 00:00:00").getTime()} isLarge={true} />
 							<h1 className="text-lg sm:text-4xl font-thin">DAYS TO GO</h1>
 						</div>
 					</div>
