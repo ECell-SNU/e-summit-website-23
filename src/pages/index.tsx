@@ -29,8 +29,6 @@ import RegBox from "../components/reg-box";
 // Add this to every page to protect from users who haven't filled the form
 export { default as getServerSideProps } from "../lib/serverProps";
 
-import Layout from "../components/layout";
-
 import cornerBorder from "../assets/corner-border.svg";
 import spons from "../assets/spons.png";
 import Countdown from '../components/countdown';
@@ -111,50 +109,49 @@ const Home: NextPage = () => {
 	}, [controls]);
 
 	return (
-		<Layout title="Home">
-			<div className="flex flex-col w-screen items-center">
-				<div className="flex items-center justify-start w-full relative pt-[70px]">
-					<Image className="absolute left-0 top-[-12%] select-none object-left object-contain h-[125%] -z-10" draggable={false} alt="" src={splashImgLeftUni} />
-					<div className="w-full h-full select-none flex flex-col items-center justify-start">
-						<Image className="w-full md:w-3/4 -ml-[8%] mt-[8%] md:ml-0" draggable={false} alt="" src={splashImg} />
-						<RegBox />
-						<div className="flex flex-col items-center gap-2 mt-6 md:mt-12">
-							<Countdown initialTime={new Date("Jan 20, 2023 00:00:00").getTime()} isLarge={true} />
-							<h1 className="text-lg sm:text-4xl font-thin">DAYS TO GO</h1>
-						</div>
+		<div className="flex flex-col w-screen items-center">
+			<div className="flex items-center justify-start w-full relative pt-[70px]">
+				<Image className="absolute left-0 top-[-12%] select-none object-left object-contain h-[125%] -z-10" draggable={false} alt="" src={splashImgLeftUni} />
+				<div className="w-full h-full select-none flex flex-col items-center justify-start">
+					<Image className="w-full md:w-3/4 -ml-[8%] mt-[8%] md:ml-0" draggable={false} alt="" src={splashImg} />
+					<RegBox />
+					<div className="flex flex-col items-center gap-2 mt-6 md:mt-12">
+						<Countdown initialTime={new Date("Jan 20, 2023 00:00:00").getTime()} isLarge={true} />
+						<h1 className="text-lg sm:text-4xl font-thin">DAYS TO GO</h1>
 					</div>
-					<Image className="absolute right-0 top-[-12%] select-none h-[125%] object-right object-contain -z-10" draggable={false} alt="" src={splashImgRightUni} />
 				</div>
-				<div className="flex flex-col items-center relative h-full w-full aspect-[7/8] sm:aspect-video justify-center overflow-visible overflow-x-clip">
-					<Image className="absolute -z-20 -top-[22%] sm:-top-[25%] left-0 h-1/2 w-full object-contain rotate-180" draggable={false} alt="" src={blueUniverse} />
-					<motion.p
-						className="absolute top-[17%] sm:top-[10%] left-4 sm:left-[10%] w-1/2 sm:w-[30%] z-10 text-left md:text-center text-[8px] md:text-xs lg:text-base"
-						style={{ y: useTransform(scrollYProgress, [0, 1], ['0%', '100%']), }}>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
-					</motion.p>
-					<motion.div
-						className='w-[95%] absolute -z-10 top-[12%] -right-1/2'
-						style={{ x: useTransform(scrollYProgress, [0, 1], ['0%', '-75%']), }}>
-						<Image
-							className="w-full object-contain"
-							draggable={false}
-							alt=""
-							src={imagination} />
-					</motion.div>
-					{video &&
-						<button
-							className="fixed top-0 left-0 h-full w-full z-50 backdrop-blur-lg"
-							onClick={() => {setVideo(false)}}
-						/>
-					}
-					<div
-						className="sm:w-1/2 relative rounded-2xl md:rounded-[50px] overflow-hidden mx-4"
-						ref={videoRef}
-						style={{
-							transform: (video && md) ? 'scale(1.5)' : 'scale(1)',
-							transition: 'transform 0.8s',
-							zIndex: video ? 100 : 0,
-						}}>
+				<Image className="absolute right-0 top-[-12%] select-none h-[125%] object-right object-contain -z-10" draggable={false} alt="" src={splashImgRightUni} />
+			</div>
+			<div className="flex flex-col items-center relative h-full w-full aspect-[7/8] sm:aspect-video justify-center overflow-visible overflow-x-clip">
+				<Image className="absolute -z-20 -top-[22%] sm:-top-[25%] left-0 h-1/2 w-full object-contain rotate-180" draggable={false} alt="" src={blueUniverse} />
+				<motion.p
+					className="absolute top-[17%] sm:top-[10%] left-4 sm:left-[10%] w-1/2 sm:w-[30%] z-10 text-left md:text-center text-[8px] md:text-xs lg:text-base"
+					style={{ y: useTransform(scrollYProgress, [0, 1], ['0%', '100%']), }}>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
+				</motion.p>
+				<motion.div
+					className='w-[95%] absolute -z-10 top-[12%] -right-1/2'
+					style={{ x: useTransform(scrollYProgress, [0, 1], ['0%', '-75%']), }}>
+					<Image
+						className="w-full object-contain"
+						draggable={false}
+						alt=""
+						src={imagination} />
+				</motion.div>
+				{video &&
+					<button
+						className="fixed top-0 left-0 h-full w-full z-50 backdrop-blur-lg"
+						onClick={() => {setVideo(false)}}
+					/>
+				}
+				<div
+					className="sm:w-1/2 relative rounded-2xl md:rounded-[50px] overflow-hidden mx-4"
+					ref={videoRef}
+					style={{
+						transform: (video && md) ? 'scale(1.5)' : 'scale(1)',
+						transition: 'transform 0.8s',
+						zIndex: video ? 100 : 0,
+					}}>
 						<button onClick={() => {
 								setVideo((v: boolean) => !v);
 							}}>
@@ -251,7 +248,6 @@ const Home: NextPage = () => {
           </div>
         </div> */}
       </div>
-    </Layout>
   );
 };
 
