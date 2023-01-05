@@ -37,19 +37,16 @@ import Countdown from '../components/countdown';
 
 const Home: NextPage = () => {
 	const [video, setVideo] = useState(false);
-	const images = [
-		[startupverse, redEllipse2],
-		[paradigm, redEllipse1],
-		[ideathon, blueEllipse],
-		[startupexpo, blueEllipse1]
+	const data = [
+		[startupverse, redEllipse2, '/events/startupverse'],
+		[paradigm, redEllipse1, '/events/paradigm'],
+		[ideathon, blueEllipse, '/events/ideathon'],
+		[startupexpo, blueEllipse1, '/events/startupexpo'],
 	];
-	// glitch at last index, so pad it with 10 repeats
-	const carouselImages = [...Array(10)].map(() => images).flat();
 	const [emblaRef, emblaApi] = useEmblaCarousel({
 		loop: true,
-		startIndex: carouselImages.length / 2 + 1,
 	});
-	const [selectedIndex, setSelectedIndex] = useState(carouselImages.length / 2 + 1);
+	const [selectedIndex, setSelectedIndex] = useState(0);
 	const controls = useAnimation();
 	const videoRef = useRef<HTMLDivElement>(null);
 	const { scrollYProgress } = useScroll({
@@ -62,7 +59,7 @@ const Home: NextPage = () => {
 		if (emblaApi) {
 			console.log(emblaApi?.selectedScrollSnap());
       const interval = setInterval(() => {
-        emblaApi.scrollNext();
+        emblaApi.scrollPrev();
       }, 3000);
       return () => clearInterval(interval);
     }
@@ -159,7 +156,7 @@ const Home: NextPage = () => {
 							zIndex: video ? 100 : 0,
 						}}>
 						<button onClick={() => {
-								setVideo(v => !v);
+								setVideo((v: boolean) => !v);
 							}}>
 							<Image className="w-full object-contain" draggable={false} alt="" src={videoThumbnail} />
 							<div className="absolute bottom-0 left-0 w-full h-1/6 bg-gradient-to-t from-black to-transparent" />
@@ -192,37 +189,47 @@ const Home: NextPage = () => {
 					<Image className="absolute -z-20 -bottom-[10%] left-0 h-1/2 w-full object-contain" draggable={false} alt="" src={blueUniverse} />
 				</div>
 				<div className="w-full flex flex-col relative justify-center items-center md:gap-[20px]">
-					<p className="text-white text-[1.5rem] md:text-[50px] text-center">Become the part of<br /> these amazing <b>Events</b></p>
-					<Image className="absolute -z-10 -top-1/6 h-full w-1/2 object-contain" draggable={false} alt="" src={universe} />
-					<Image className="absolute -z-10 -top-1/6 h-[125%] w-full object-contain" draggable={false} alt="" src={redEllipse} />
+					<p
+						className="text-white text-[1.5rem] md:text-[50px] text-center">
+						Become the part of<br /> these amazing <b>Events</b>
+					</p>
+					<Image
+						className="absolute -z-10 -top-1/6 h-full w-1/2 object-contain"
+						draggable={false}
+						alt=""
+						src={universe} />
+					<Image
+						className="absolute -z-10 -top-1/6 h-[125%] w-full object-contain"
+						draggable={false}
+						alt=""
+						src={redEllipse} />
 					<div className="w-full overflow-hidden" ref={emblaRef}>
 						<div className="embla__container flex h-[170px] md:h-[400px] items-center">
-							{carouselImages.map((image, index) => (
-								<div
-									className={`h-[125px] md:h-[300px] aspect-video overflow-hidden relative flex grow-0 shrink-0 items-end rounded-md bg-black
-										${selectedIndex === index ? 'animate-scale z-10' : ''}
-									`}
-                  // transitions and the previous method doesn't work
-                  key={index}
-                >
-                  <Image
-                    className="absolute bottom-0 h-[100%]"
-                    draggable={false}
-                    alt=""
-                    src={image[0]}
-                  />
-                </div>
+							{data.map((data_item, index) => (
+								<a key={index} href={data_item[2]} rel="noreferrer">
+									<div
+										className={`h-[125px] md:h-[300px] aspect-video overflow-hidden relative flex grow-0 shrink-0 items-end rounded-md bg-black
+											${selectedIndex === index ? 'animate-scale z-10' : ''}
+										`}>
+										<Image
+											className="absolute bottom-0 h-[100%]"
+											draggable={false}
+											alt=""
+											src={data_item[0]}
+										/>
+									</div>
+								</a>
               ))}
             </div>
           </div>
           {/* create navigation 4 buttons select index */}
           <div className='flex w-full justify-center my-10 gap-6'>
-					{images.map((_, index) => (
+					{data.map((_, index) => (
 						<div className={`w-3 h-3 rounded-full transition-all duration-300 ease-in-out cursor-pointer
-								${index === (selectedIndex % images.length) ? 'bg-white scale-150' : 'bg-white/40'}
+								${index === (selectedIndex % data.length) ? 'bg-white scale-150' : 'bg-white/40'}
 							`}
 							key={index}
-							onClick={() => emblaApi?.scrollTo(emblaApi?.selectedScrollSnap() + (index - (selectedIndex % images.length)))}
+							onClick={() => emblaApi?.scrollTo(emblaApi?.selectedScrollSnap() + (index - (selectedIndex % data.length)))}
 						/>
 					))}
 				</div>
