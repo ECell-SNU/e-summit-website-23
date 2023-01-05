@@ -1,9 +1,9 @@
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import useEmblaCarousel from 'embla-carousel-react';
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
+import useEmblaCarousel from "embla-carousel-react";
 import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
 import { type NextPage } from "next";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import blueEllipse from "../assets/blue-ellipse.svg";
 import blueEllipse1 from "../assets/blue-ellipse1.svg";
@@ -29,7 +29,6 @@ import RegBox from "../components/reg-box";
 // Add this to every page to protect from users who haven't filled the form
 export { default as getServerSideProps } from "../lib/serverProps";
 
-import { flushSync } from "react-dom";
 import Layout from "../components/layout";
 
 import cornerBorder from "../assets/corner-border.svg";
@@ -59,24 +58,36 @@ const Home: NextPage = () => {
 	});
 	const [md, setMd] = useState(false);
 
-	useEffect(() => {
-		if (video) {
-			if (videoRef.current) {
-				videoRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-			}
-			setTimeout(() => {
-				if (videoRef.current) {
-					videoRef.current.scrollIntoView({ block: "center" });
-				}
-				disableBodyScroll(videoRef.current);
-			}, 800);
-		} else {
-			enableBodyScroll(videoRef.current);
-		}
-	}, [video]);
+  useEffect(() => {
+		if (emblaApi) {
+			console.log(emblaApi?.selectedScrollSnap());
+      const interval = setInterval(() => {
+        emblaApi.scrollNext();
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [emblaApi]);
+  useEffect(() => {
+    if (video) {
+      if (videoRef.current) {
+        videoRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.scrollIntoView({ block: "center" });
+        }
+        disableBodyScroll(videoRef.current);
+      }, 800);
+    } else {
+      enableBodyScroll(videoRef.current);
+    }
+  }, [video]);
 
-	useEffect(() => {
-		if (!emblaApi) return
+  useEffect(() => {
+    if (!emblaApi) return
 		
 		emblaApi.on('pointerDown', () => {
 			setSelectedIndex(-1);
@@ -101,7 +112,6 @@ const Home: NextPage = () => {
 		resize();
 		window.addEventListener("resize", () => resize());
 	}, [controls]);
-			
 
 	return (
 		<Layout title="Home">
@@ -189,27 +199,24 @@ const Home: NextPage = () => {
 						<div className="embla__container flex h-[170px] md:h-[400px] items-center">
 							{carouselImages.map((image, index) => (
 								<div
-									className={`h-[125px] md:h-[300px] mx-1 aspect-video overflow-hidden relative flex grow-0 shrink-0 items-end border border-white/60 rounded-md bg-black
+									className={`h-[125px] md:h-[300px] aspect-video overflow-hidden relative flex grow-0 shrink-0 items-end rounded-md bg-black
 										${selectedIndex === index ? 'animate-scale z-10' : ''}
 									`}
-									// transitions and the previous method doesn't work
-									key={index}>
-									<Image className="h-[150%] w-[150%] absolute -left-1/2 -bottom-1/2 object-contain" draggable={false} alt="" src={universe} />
-									<Image className="h-[175%] w-[150%] absolute -left-1/2 -bottom-3/4 object-contain" draggable={false} alt="" src={image[1]} />
-									<Image className="h-[150%] w-[150%] absolute -right-1/2 -top-1/2 object-contain" draggable={false} alt="" src={universe} />
-									<Image className="h-[175%] w-[150%] absolute -right-1/2 -top-1/2 object-contain" draggable={false} alt="" src={image[1]} />
-									<Image className="h-[95%] absolute bottom-0" draggable={false} alt="" src={image[0]} />
-									<div className="m-2 px-7 py-1 border border-white/30 rounded-md backdrop-blur-md">
-										<p className="text-[0.25rem] md:text-xs">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula....Learn More
-										</p>
-									</div>
-								</div>
-							))}
-						</div>
-					</div>
-				</div>
-				<div className='flex w-full justify-center my-10 gap-6'>
+                  // transitions and the previous method doesn't work
+                  key={index}
+                >
+                  <Image
+                    className="absolute bottom-0 h-[100%]"
+                    draggable={false}
+                    alt=""
+                    src={image[0]}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* create navigation 4 buttons select index */}
+          <div className='flex w-full justify-center my-10 gap-6'>
 					{images.map((_, index) => (
 						<div className={`w-3 h-3 rounded-full transition-all duration-300 ease-in-out cursor-pointer
 								${index === (selectedIndex % images.length) ? 'bg-white scale-150' : 'bg-white/40'}
@@ -219,15 +226,26 @@ const Home: NextPage = () => {
 						/>
 					))}
 				</div>
-				<div className="hidden sm:block  mx-auto my-8 p-[1px] w-3/4 h-fit relative rounded-3xl bg-gradient-to-r from-white to-white/0">
-					<div className="pt-5 flex flex-col items-center rounded-3xl bg-black">
-						<Image className="absolute top-0 m-5 object-contain w-[95%]" draggable={false} alt="" src={cornerBorder} />
-						<Image className="m-5 object-contain w-[60%]" draggable={false} alt="" src={spons} />
-					</div>
-				</div>
-			</div>
-		</Layout>
-	);
+        </div>
+        {/* <div className="relative mx-auto  my-8 hidden h-fit w-3/4 rounded-3xl bg-gradient-to-r from-white to-white/0 p-[1px] sm:block">
+          <div className="flex flex-col items-center rounded-3xl bg-black pt-5">
+            <Image
+              className="absolute top-0 m-5 w-[95%] object-contain"
+              draggable={false}
+              alt=""
+              src={cornerBorder}
+            />
+            <Image
+              className="m-5 w-[60%] object-contain"
+              draggable={false}
+              alt=""
+              src={spons}
+            />
+          </div>
+        </div> */}
+      </div>
+    </Layout>
+  );
 };
 
 export default Home;
