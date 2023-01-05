@@ -28,9 +28,10 @@ const Footer: React.FC = () => {
             <div className="flex flex-wrap gap-2">
               <a>BLOG</a>
               <a>ABOUT</a>
-              <a>PRIVACY</a>
-              <a>TERMS</a>
+              <a>PRIVACY POLICY</a>
+              <a>TERMS & CONDITIONS </a>
               <a>CONTACT US</a>
+              <a>REFUND POLICY</a>
             </div>
           </div>
         </div>
