@@ -23,8 +23,6 @@ import {
 
 import { trpc } from "../utils/trpc";
 
-import Layout from "../components/layout";
-
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await unstable_getServerSession(
     ctx.req,
@@ -99,90 +97,88 @@ const InitialForm: NextPage = () => {
   };
 
   return sessionData ? (
-    <Layout>
-      <div className="mx-auto flex w-[40vw] flex-col items-start phone:w-[90vw]">
-        <div>
-          <div className="mt-10 text-5xl phone:text-4xl">
-            Welcome, {sessionData.user?.name?.split(" ")[0]}.
-          </div>
-          <div className="text-sm laptop:text-base">
-            Enter your details to continue.
-          </div>
+    <div className="mx-auto flex w-[40vw] flex-col items-start phone:w-[90vw]">
+      <div>
+        <div className="mt-10 text-5xl phone:text-4xl">
+          Welcome, {sessionData.user?.name?.split(" ")[0]}.
         </div>
-
-        <FormControl className="w-full">
-          <Input
-            className="mt-5 w-[80%]"
-            variant="flushed"
-            placeholder="University"
-            {...register("university", { required: true })}
-          />
-          {errors.university && (
-            <FormHelperText color="red.400">
-              This field is required
-            </FormHelperText>
-          )}
-          <Input
-            className="mt-10 w-[80%]"
-            variant="flushed"
-            placeholder="Field of Study"
-            {...register("fieldOfStudy", { required: true })}
-          />
-          {errors.fieldOfStudy && (
-            <FormHelperText color="red.400">
-              This field is required
-            </FormHelperText>
-          )}
-          <Select
-            className="w-[80%]"
-            marginTop="38px"
-            variant="flushed"
-            placeholder="Year of Study"
-            {...register("yearOfStudy", {
-              required: true,
-              pattern: /^[0-9]{4}$/,
-            })}
-          >
-            <option value="2023">2023</option>
-            <option value="2024">2024</option>
-            <option value="2025">2025</option>
-            <option value="2026">2026</option>
-          </Select>
-          {errors.yearOfStudy && (
-            <FormHelperText color="red.400">
-              This field is required
-            </FormHelperText>
-          )}
-          <Input
-            className="mt-10 w-[80%]"
-            variant="flushed"
-            placeholder="Mobile number"
-            {...register("mobileNumber", {
-              required: true,
-              pattern: /^(\+\d{1,3}[- ]?)?\d{10}$/,
-            })}
-          />
-          <FormHelperText>
-            Please enter your number without spaces, beginning with an extension
-            like &#39;+91&#39; for India.
-          </FormHelperText>
-          {errors.mobileNumber && (
-            <FormHelperText color="red.400">
-              This field is required
-            </FormHelperText>
-          )}
-          <Button
-            mt={14}
-            colorScheme="black"
-            type="submit"
-            variant="outline"
-            onClick={() => handleSubmit(onSubmit)()}
-          >
-            Submit
-          </Button>
-        </FormControl>
+        <div className="text-sm laptop:text-base">
+          Enter your details to continue.
+        </div>
       </div>
-    </Layout>
+
+      <FormControl className="w-full">
+        <Input
+          className="mt-5 w-[80%]"
+          variant="flushed"
+          placeholder="University"
+          {...register("university", { required: true })}
+        />
+        {errors.university && (
+          <FormHelperText color="red.400">
+            This field is required
+          </FormHelperText>
+        )}
+        <Input
+          className="mt-10 w-[80%]"
+          variant="flushed"
+          placeholder="Field of Study"
+          {...register("fieldOfStudy", { required: true })}
+        />
+        {errors.fieldOfStudy && (
+          <FormHelperText color="red.400">
+            This field is required
+          </FormHelperText>
+        )}
+        <Select
+          className="w-[80%]"
+          marginTop="38px"
+          variant="flushed"
+          placeholder="Year of Study"
+          {...register("yearOfStudy", {
+            required: true,
+            pattern: /^[0-9]{4}$/,
+          })}
+        >
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+          <option value="2026">2026</option>
+        </Select>
+        {errors.yearOfStudy && (
+          <FormHelperText color="red.400">
+            This field is required
+          </FormHelperText>
+        )}
+        <Input
+          className="mt-10 w-[80%]"
+          variant="flushed"
+          placeholder="Mobile number"
+          {...register("mobileNumber", {
+            required: true,
+            pattern: /^(\+\d{1,3}[- ]?)?\d{10}$/,
+          })}
+        />
+        <FormHelperText>
+          Please enter your number without spaces, beginning with an extension
+          like &#39;+91&#39; for India.
+        </FormHelperText>
+        {errors.mobileNumber && (
+          <FormHelperText color="red.400">
+            This field is required
+          </FormHelperText>
+        )}
+        <Button
+          mt={14}
+          colorScheme="black"
+          type="submit"
+          variant="outline"
+          onClick={() => handleSubmit(onSubmit)()}
+        >
+          Submit
+        </Button>
+      </FormControl>
+    </div>
   ) : (
     <></>
   );

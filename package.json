@@ -22,6 +22,7 @@
     "@trpc/react-query": "^10.0.0",
     "@trpc/server": "^10.0.0",
     "body-scroll-lock": "4.0.0-beta.0",
+    "embla-carousel-autoplay": "^7.0.5",
     "embla-carousel-react": "^7.0.5",
     "framer-motion": "^7.10.2",
     "next": "13.0.2",

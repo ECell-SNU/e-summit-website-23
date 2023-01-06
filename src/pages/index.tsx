@@ -29,41 +29,35 @@ import RegBox from "../components/reg-box";
 // Add this to every page to protect from users who haven't filled the form
 export { default as getServerSideProps } from "../lib/serverProps";
 
-import Layout from "../components/layout";
-
-import { useCountdown } from "../utils/countdownHook";
-import HomeModal from "../components/home-modal";
+import cornerBorder from "../assets/corner-border.svg";
+import spons from "../assets/spons.png";
+import Countdown from '../components/countdown';
 
 const Home: NextPage = () => {
-  const time = useCountdown(new Date("Jan 27, 2023 00:00:00").getTime());
-  const [video, setVideo] = useState(false);
-  const temp = [
-    [startupverse, redEllipse2],
-    [paradigm, redEllipse1],
-    [ideathon, blueEllipse],
-    [startupexpo, blueEllipse1],
-  ];
-  // glitch at last index, so pad it with 10 repeats
-  const images = [...Array(10)].map(() => temp).flat();
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    speed: 10,
-    loop: true,
-    startIndex: images.length / 2 + 1,
-  });
-  const [selectedIndex, setSelectedIndex] = useState(images.length / 2 + 1);
-  const controls = useAnimation();
-  const videoRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: videoRef,
-    offset: ["center end", "center start"],
-  });
-  const [md, setMd] = useState(false);
+	const [video, setVideo] = useState(false);
+	const data = [
+		[startupverse, redEllipse2, '/events/startupverse'],
+		[paradigm, redEllipse1, '/events/paradigm'],
+		[ideathon, blueEllipse, '/events/ideathon'],
+		[startupexpo, blueEllipse1, '/events/startupexpo'],
+	];
+	const [emblaRef, emblaApi] = useEmblaCarousel({
+		loop: true,
+	});
+	const [selectedIndex, setSelectedIndex] = useState(0);
+	const controls = useAnimation();
+	const videoRef = useRef<HTMLDivElement>(null);
+	const { scrollYProgress } = useScroll({
+		target: videoRef,
+		offset: ["center end", "center start"]
+	});
+	const [md, setMd] = useState(false);
 
   useEffect(() => {
 		if (emblaApi) {
 			console.log(emblaApi?.selectedScrollSnap());
       const interval = setInterval(() => {
-        emblaApi.scrollNext();
+        emblaApi.scrollPrev();
       }, 3000);
       return () => clearInterval(interval);
     }
@@ -88,241 +82,154 @@ const Home: NextPage = () => {
   }, [video]);
 
   useEffect(() => {
-    if (!emblaApi) return;
+    if (!emblaApi) return
+		
+		emblaApi.on('pointerDown', () => {
+			setSelectedIndex(-1);
+		});
+		emblaApi.on('pointerUp', () => {
+			setSelectedIndex(emblaApi.selectedScrollSnap());
+		});
+		emblaApi.on('select', () => {
+			setSelectedIndex(emblaApi.selectedScrollSnap());
+		});
+	}, [emblaApi, setSelectedIndex]);
+	
+	useEffect(() => {
+		const resize = () => {
+			if (window.innerWidth >= 768) {
+				setMd(true);
+			} else {
+				setMd(false);
+			}
+		}
+		
+		resize();
+		window.addEventListener("resize", () => resize());
+	}, [controls]);
 
-    emblaApi.on("pointerDown", () => {
-      setSelectedIndex(-1);
-    });
-    emblaApi.on("pointerUp", () => {
-      setSelectedIndex(emblaApi.selectedScrollSnap());
-    });
-    emblaApi.on("select", () => {
-      setSelectedIndex(emblaApi.selectedScrollSnap());
-    });
-  }, [emblaApi, setSelectedIndex]);
-
-  useEffect(() => {
-    const resize = () => {
-      if (window.innerWidth >= 768) {
-        setMd(true);
-      } else {
-        setMd(false);
-      }
-    };
-
-    resize();
-    window.addEventListener("resize", () => resize());
-  }, [controls]);
-
-  return (
-    <Layout title="Home">
-      <HomeModal />
-      <div className="flex w-screen flex-col items-center">
-        <div className="relative flex w-full items-center justify-start pt-[70px]">
-          <Image
-            className="absolute left-0 top-[-12%] -z-10 h-[125%] select-none object-contain object-left"
-            draggable={false}
-            alt=""
-            src={splashImgLeftUni}
-          />
-          <div className="flex h-full w-full select-none flex-col items-center justify-start">
-            <Image
-              className="-ml-[8%] mt-[8%] w-full md:ml-0 md:w-3/4"
-              draggable={false}
-              alt=""
-              src={splashImg}
-            />
-            <RegBox />
-            <div className="mt-6 flex flex-col items-center gap-2 md:mt-12">
-              <h1 className="text-lg font-semibold sm:text-6xl">{time}</h1>
-              <h1 className="text-lg font-thin sm:text-4xl">DAYS TO GO</h1>
-            </div>
-          </div>
-          <Image
-            className="absolute right-0 top-[-12%] -z-10 h-[125%] select-none object-contain object-right"
-            draggable={false}
-            alt=""
-            src={splashImgRightUni}
-          />
-        </div>
-        <div className="relative flex aspect-[7/8] h-full w-full flex-col items-center justify-center overflow-visible overflow-x-clip sm:aspect-video">
-          <Image
-            className="absolute -top-[22%] left-0 -z-20 h-1/2 w-full rotate-180 object-contain sm:-top-[25%]"
-            draggable={false}
-            alt=""
-            src={blueUniverse}
-          />
-          <motion.p
-            className="absolute top-[17%] left-4 z-10 w-1/2 text-left text-[8px] sm:top-[10%] sm:left-[10%] sm:w-[30%] md:text-center md:text-xs lg:text-base"
-            style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]) }}
-          >
-            The E-Summit is the flagship event of E-Cell, which provides a
-            platform to listen to and connect with industry stalwarts, new
-            entrepreneurs, and provides a platform to try, fail, learn and test
-            out your ideas in front of a huge audience.
-          </motion.p>
-          <motion.div
-            className="absolute top-[12%] -right-1/2 -z-10 w-[95%]"
-            style={{ x: useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]) }}
-          >
-            <Image
-              className="w-full object-contain"
-              draggable={false}
-              alt=""
-              src={imagination}
-            />
-          </motion.div>
-          {video && (
-            <button
-              className="fixed top-0 left-0 z-50 h-full w-full backdrop-blur-lg"
-              onClick={() => {
-                setVideo(false);
-              }}
-            />
-          )}
-          <div
-            className="relative mx-4 overflow-hidden rounded-2xl sm:w-1/2 md:rounded-[50px]"
-            ref={videoRef}
-            style={{
-              transform: video && md ? "scale(1.5)" : "scale(1)",
-              transition: "transform 0.8s",
-              zIndex: video ? 100 : 0,
-            }}
-          >
-            <button
-              onClick={() => {
-                setVideo((v) => !v);
-              }}
-            >
-              <Image
-                className="w-full object-contain"
-                draggable={false}
-                alt=""
-                src={videoThumbnail}
-              />
-              <div className="absolute bottom-0 left-0 h-1/6 w-full bg-gradient-to-t from-black to-transparent" />
-              <Image
-                className="absolute bottom-0 left-0 w-1/5"
-                draggable={false}
-                alt=""
-                src={playButton}
-              />
-              {video && (
-                <iframe
-                  className="absolute top-0 left-0 h-full w-full"
-                  src="https://www.youtube.com/embed/pR0sQaWS5oc?autoplay=1"
-                  title="YouTube video player"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media;"
-                  allowFullScreen
-                />
-              )}
-            </button>
-          </div>
-          <motion.p
-            className="absolute bottom-[17%] right-4 z-10 w-1/2 text-right text-[8px] sm:bottom-[10%] sm:right-[10%] sm:w-[30%] md:text-center md:text-xs lg:text-base"
-            style={{
-              y: useTransform(scrollYProgress, [0, 1], ["0%", "-100%"]),
-            }}
-          >
-            The E-Summit covers four broad verticals, namely, Med-Tech, Meta,
-            Social Media and Electric Mobility. We strongly believe that these
-            four are the pillars for the growth of entrepreneurship in the near
-            future.
-          </motion.p>
-          <motion.div
-            className="absolute bottom-[12%] -left-1/2 -z-10 w-[95%]"
-            style={{ x: useTransform(scrollYProgress, [0, 1], ["0%", "75%"]) }}
-          >
-            <Image
-              className="w-full object-contain"
-              draggable={false}
-              alt=""
-              src={innovation}
-            />
-          </motion.div>
-          <Image
-            className="absolute -bottom-[10%] left-0 -z-20 h-1/2 w-full object-contain"
-            draggable={false}
-            alt=""
-            src={blueUniverse}
-          />
-        </div>
-        <div className="relative flex w-full flex-col items-center justify-center md:gap-[20px]">
-          <p className="text-center text-[1.5rem] text-white md:text-[50px]">
-            Become the part of
-            <br /> these amazing <b>Events</b>
-          </p>
-          <Image
-            className="-top-1/6 absolute -z-10 h-full w-1/2 object-contain"
-            draggable={false}
-            alt=""
-            src={universe}
-          />
-          <Image
-            className="-top-1/6 absolute -z-10 h-[125%] w-full object-contain"
-            draggable={false}
-            alt=""
-            src={redEllipse}
-          />
-          <div className="w-full overflow-hidden" ref={emblaRef}>
-            <div className="embla__container flex h-[170px] items-center md:h-[400px]">
-              {images.map((image, index) => (
-                <div
-                  className={`relative mx-3 flex aspect-video h-[125px] shrink-0 grow-0 items-end overflow-hidden rounded-md border border-white/60 bg-black md:h-[300px]
-										${selectedIndex === index ? "z-10 animate-scale" : "blur-sm"}
-									`}
-                  // transitions and the previous method doesn't work
-                  key={index}
-                >
-                  <Image
-                    className="absolute -left-1/2 -bottom-1/2 h-[150%] w-[150%] object-contain"
-                    draggable={false}
-                    alt=""
-                    src={universe}
-                  />
-                  <Image
-                    className="absolute -left-1/2 -bottom-3/4 h-[175%] w-[150%] object-contain"
-                    draggable={false}
-                    alt=""
-                    src={image[1]}
-                  />
-                  <Image
-                    className="absolute -right-1/2 -top-1/2 h-[150%] w-[150%] object-contain"
-                    draggable={false}
-                    alt=""
-                    src={universe}
-                  />
-                  <Image
-                    className="absolute -right-1/2 -top-1/2 h-[175%] w-[150%] object-contain"
-                    draggable={false}
-                    alt=""
-                    src={image[1]}
-                  />
-                  <Image
-                    className="absolute bottom-0 h-[95%]"
-                    draggable={false}
-                    alt=""
-                    src={image[0]}
-                  />
-                </div>
+	return (
+		<div className="flex flex-col w-screen items-center">
+			<div className="flex items-center justify-start w-full relative pt-[70px]">
+				<Image className="absolute left-0 top-[-12%] select-none object-left object-contain h-[125%] -z-10" draggable={false} alt="" src={splashImgLeftUni} />
+				<div className="w-full h-full select-none flex flex-col items-center justify-start">
+					<Image className="w-full md:w-3/4 -ml-[8%] mt-[8%] md:ml-0" draggable={false} alt="" src={splashImg} />
+					<RegBox />
+					<div className="flex flex-col items-center gap-2 mt-6 md:mt-12">
+						<Countdown initialTime={new Date("Jan 20, 2023 00:00:00").getTime()} isLarge={true} />
+						<h1 className="text-lg sm:text-4xl font-thin">DAYS TO GO</h1>
+					</div>
+				</div>
+				<Image className="absolute right-0 top-[-12%] select-none h-[125%] object-right object-contain -z-10" draggable={false} alt="" src={splashImgRightUni} />
+			</div>
+			<div className="flex flex-col items-center relative h-full w-full aspect-[7/8] sm:aspect-video justify-center overflow-visible overflow-x-clip">
+				<Image className="absolute -z-20 -top-[22%] sm:-top-[25%] left-0 h-1/2 w-full object-contain rotate-180" draggable={false} alt="" src={blueUniverse} />
+				<motion.p
+					className="absolute top-[17%] sm:top-[10%] left-4 sm:left-[10%] w-1/2 sm:w-[30%] z-10 text-left md:text-center text-[8px] md:text-xs lg:text-base"
+					style={{ y: useTransform(scrollYProgress, [0, 1], ['0%', '100%']), }}>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
+				</motion.p>
+				<motion.div
+					className='w-[95%] absolute -z-10 top-[12%] -right-1/2'
+					style={{ x: useTransform(scrollYProgress, [0, 1], ['0%', '-75%']), }}>
+					<Image
+						className="w-full object-contain"
+						draggable={false}
+						alt=""
+						src={imagination} />
+				</motion.div>
+				{video &&
+					<button
+						className="fixed top-0 left-0 h-full w-full z-50 backdrop-blur-lg"
+						onClick={() => {setVideo(false)}}
+					/>
+				}
+				<div
+					className="sm:w-1/2 relative rounded-2xl md:rounded-[50px] overflow-hidden mx-4"
+					ref={videoRef}
+					style={{
+						transform: (video && md) ? 'scale(1.5)' : 'scale(1)',
+						transition: 'transform 0.8s',
+						zIndex: video ? 100 : 0,
+					}}>
+						<button onClick={() => {
+								setVideo((v: boolean) => !v);
+							}}>
+							<Image className="w-full object-contain" draggable={false} alt="" src={videoThumbnail} />
+							<div className="absolute bottom-0 left-0 w-full h-1/6 bg-gradient-to-t from-black to-transparent" />
+							<Image className="absolute bottom-0 left-0 w-1/5" draggable={false} alt="" src={playButton} />
+							{video &&
+								<iframe
+									className="absolute top-0 left-0 w-full h-full"
+									src="https://www.youtube.com/embed/pR0sQaWS5oc?autoplay=1"
+									title="YouTube video player"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media;"
+									allowFullScreen
+								/>
+							}
+						</button>
+					</div>
+					<motion.p
+						className="absolute bottom-[17%] sm:bottom-[10%] right-4 sm:right-[10%] w-1/2 sm:w-[30%] z-10 text-right md:text-center text-[8px] md:text-xs lg:text-base"
+						style={{ y: useTransform(scrollYProgress, [0, 1], ['0%', '-100%']), }}>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
+					</motion.p>
+					<motion.div
+						className="absolute -z-10 bottom-[12%] -left-1/2 w-[95%]"
+						style={{ x: useTransform(scrollYProgress, [0, 1], ['0%', '75%']), }}>
+						<Image
+							className="w-full object-contain"
+							draggable={false}
+							alt=""
+							src={innovation} />
+					</motion.div>
+					<Image className="absolute -z-20 -bottom-[10%] left-0 h-1/2 w-full object-contain" draggable={false} alt="" src={blueUniverse} />
+				</div>
+				<div className="w-full flex flex-col relative justify-center items-center md:gap-[20px]">
+					<p
+						className="text-white text-[1.5rem] md:text-[50px] text-center">
+						Become the part of<br /> these amazing <b>Events</b>
+					</p>
+					<Image
+						className="absolute -z-10 -top-1/6 h-full w-1/2 object-contain"
+						draggable={false}
+						alt=""
+						src={universe} />
+					<Image
+						className="absolute -z-10 -top-1/6 h-[125%] w-full object-contain"
+						draggable={false}
+						alt=""
+						src={redEllipse} />
+					<div className="w-full overflow-hidden" ref={emblaRef}>
+						<div className="embla__container flex h-[170px] md:h-[400px] items-center">
+							{data.map((data_item, index) => (
+								<a key={index} href={data_item[2]} rel="noreferrer">
+									<div
+										className={`h-[125px] md:h-[300px] aspect-video overflow-hidden relative flex grow-0 shrink-0 items-end rounded-md bg-black
+											${selectedIndex === index ? 'animate-scale z-10' : ''}
+										`}>
+										<Image
+											className="absolute bottom-0 h-[100%]"
+											draggable={false}
+											alt=""
+											src={data_item[0]}
+										/>
+									</div>
+								</a>
               ))}
             </div>
           </div>
           {/* create navigation 4 buttons select index */}
-          <div
-            className="mt-5 flex w-full items-center justify-center"
-            style={{}}
-          >
-            {[0, 1, 2, 3].map((image, index) => (
-              <button
-                className={`mx-1 h-2 w-2 rounded-full bg-white/60 ${
-                  selectedIndex % 4 === index && "bg-white"
-                }`}
-                onClick={() => emblaApi && emblaApi.scrollTo(index)}
-                key={index}
-              />
-            ))}
-          </div>
+          <div className='flex w-full justify-center my-10 gap-6'>
+					{data.map((_, index) => (
+						<div className={`w-3 h-3 rounded-full transition-all duration-300 ease-in-out cursor-pointer
+								${index === (selectedIndex % data.length) ? 'bg-white scale-150' : 'bg-white/40'}
+							`}
+							key={index}
+							onClick={() => emblaApi?.scrollTo(emblaApi?.selectedScrollSnap() + (index - (selectedIndex % data.length)))}
+						/>
+					))}
+				</div>
         </div>
         {/* <div className="relative mx-auto  my-8 hidden h-fit w-3/4 rounded-3xl bg-gradient-to-r from-white to-white/0 p-[1px] sm:block">
           <div className="flex flex-col items-center rounded-3xl bg-black pt-5">
@@ -341,7 +248,6 @@ const Home: NextPage = () => {
           </div>
         </div> */}
       </div>
-    </Layout>
   );
 };
 

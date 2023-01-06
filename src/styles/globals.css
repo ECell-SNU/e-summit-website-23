@@ -6,3 +6,7 @@ body {
   @apply text-neutral-100;
   background-color: #000000;
 }
+
+#next {
+	overflow-x: hidden;
+}
