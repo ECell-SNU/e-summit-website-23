@@ -28,20 +28,20 @@ const navItems = [
     title: "Home",
     href: "/",
   },
-  {
-    title: "About Us",
-    href: "/about",
-  },
-  {
-    title: "Contact Us",
-    href: "/contact",
-  },
+  // {
+  //   title: "About Us",
+  //   href: "/about",
+  // },
+  // {
+  //   title: "Contact Us",
+  //   href: "/contact",
+  // },
   {
     title: "Events",
     drop: true,
     dropItems: [
       {
-        title: "Startupverse",
+        title: "Startupverse - Shark Tank",
         href: "/events/startupverse",
         hover: "#FBC82E",
       },
@@ -50,7 +50,7 @@ const navItems = [
       //   href: "/events/my-story",
       // },
       {
-        title: "Xcelerate - Ideation",
+        title: "Xcelerate - Ideathon",
         href: "/events/xcelerate",
         hover: "#FF1761",
       },
