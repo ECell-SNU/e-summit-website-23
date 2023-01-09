@@ -59,11 +59,11 @@ const navItems = [
         href: "/events/paradigm",
         hover: "#A705BA",
       },
-      {
-        title: "StartupXpo",
-        href: "/events/startupxpo",
-        hover: "#4B1485",
-      },
+      // {
+      //   title: "StartupXpo",
+      //   href: "/events/startupxpo",
+      //   hover: "#4B1485",
+      // },
     ],
   },
   // {

@@ -10,7 +10,7 @@ import { Box, Flex } from "@chakra-ui/react";
 const details = [
   {
     title: "Venue",
-    content: "G 102, G-Block",
+    content: "Shiv Nadar University",
   },
   {
     title: "Amount",
@@ -18,7 +18,7 @@ const details = [
   },
   {
     title: "Date",
-    content: "27th Jan 2023",
+    content: "27th - 28th Jan 2023",
   },
   {
     title: "Participants/Team",
@@ -26,11 +26,11 @@ const details = [
   },
   {
     title: "Registration Open",
-    content: "29th Dec 2023",
+    content: "29th Dec 2022",
   },
   {
     title: "Registration End",
-    content: "19th Jan 2023",
+    content: "17th Jan 2023",
   },
   {
     title: "Teams notified via Gmail",
@@ -41,7 +41,7 @@ const details = [
 const prizes = [
   {
     title: "1st Runner Up",
-    content: `Monetary prize of 40,000 Rs.
+    content: `TBA
 2nd day access pass to the E-Summit
 Free E-Summit clothing apparel
 Meet with investors
@@ -49,14 +49,14 @@ Pitch to sharks during the startup verse event`,
   },
   {
     title: "2nd Runner Up",
-    content: `Monetary prize of 25,000 Rs.
+    content: `TBA
 Free E-Summit clothing apparel
 Meet with investors
 2nd day access pass to the E-Summit`,
   },
   {
     title: "3rd Runner Up",
-    content: `Monetary prize of 10,000
+    content: `TBA
 2nd day access pass to the E-Summit`,
   },
   {
@@ -89,16 +89,12 @@ const Paradigm: NextPage = () => {
               About the Event
             </h1>
             <p className="text-sm sm:text-lg lg:text-xl">
-              The hackathon will be held on the 20th of January, as part of Day
-              0 of The E-Summit &apos;23 includes free of cost registrations.
-              This event will bring together talented individuals from the
-              business-to-business (B2B) sector as well as IT sector
-              professionals to come and judge your submissions. An amazing
-              opportunity for students to participate and create innovative
-              solutions to real-world challenges in the B2B sector. Participants
-              will go through a selection round and an on-campus round before
-              moving on to the pitching rounds. The winning teams will have the
-              chance to take home a prize pool worth up to 5 Lakh rupees.
+              24 hours. Real Problems. The best minds. 300 acres. Big prizes.
+              Think you can you make it? E-Summit 2023 at Shiv Nadar University
+              brings to you an opportunity to take part in a hackathon that
+              gives you a chance to work on real world problems and win from a
+              prize pool of 3 lakhs. Beginner? No problem, we&apos;re welcome to
+              all. It&apos;s time to hack. It&apos;s time to build.
             </p>
             <Flex flexDir="column" align="center" className="m-2 gap-5 sm:m-6 ">
               <a
@@ -127,7 +123,7 @@ const Paradigm: NextPage = () => {
                 }}
                 target="_blank"
                 rel="noreferrer"
-                href="https://drive.google.com/file/d/1_mwH70fsfRTCUFoFFmDR4Qc8cmSROBWz/view?usp=share_link"
+                href="https://unstop.com/api/competition/get-attachment/63ab891e640e7_paradigm_brochure.pdf"
                 className="w-full whitespace-nowrap rounded-lg border border-white py-2 text-lg"
               >
                 Event Details

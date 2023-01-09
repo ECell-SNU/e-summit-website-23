@@ -55,13 +55,11 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (emblaApi) {
-      console.log(emblaApi?.selectedScrollSnap());
-      const interval = setInterval(() => {
-        emblaApi.scrollPrev();
-      }, 3000);
+      const interval = setInterval(() => emblaApi.scrollNext(), 3000);
       return () => clearInterval(interval);
     }
   }, [emblaApi]);
+
   useEffect(() => {
     if (video) {
       if (videoRef.current) {
@@ -82,31 +80,31 @@ const Home: NextPage = () => {
   }, [video]);
 
   useEffect(() => {
-    if (!emblaApi) return
-		
-		emblaApi.on('pointerDown', () => {
-			setSelectedIndex(-1);
-		});
-		emblaApi.on('pointerUp', () => {
-			setSelectedIndex(emblaApi.selectedScrollSnap());
-		});
-		emblaApi.on('select', () => {
-			setSelectedIndex(emblaApi.selectedScrollSnap());
-		});
-	}, [emblaApi, setSelectedIndex]);
-	
-	useEffect(() => {
-		const resize = () => {
-			if (window.innerWidth >= 768) {
-				setMd(true);
-			} else {
-				setMd(false);
-			}
-		}
-		
-		resize();
-		window.addEventListener("resize", () => resize());
-	}, [controls]);
+    if (!emblaApi) return;
+
+    emblaApi.on("pointerDown", () => {
+      setSelectedIndex(-1);
+    });
+    emblaApi.on("pointerUp", () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    });
+    emblaApi.on("select", () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    });
+  }, [emblaApi, setSelectedIndex]);
+
+  useEffect(() => {
+    const resize = () => {
+      if (window.innerWidth >= 768) {
+        setMd(true);
+      } else {
+        setMd(false);
+      }
+    };
+
+    resize();
+    window.addEventListener("resize", () => resize());
+  }, [controls]);
 
   return (
     <div className="flex w-screen flex-col items-center">
@@ -152,9 +150,9 @@ const Home: NextPage = () => {
           style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]) }}
         >
           The E-Summit is the flagship event of E-Cell, which provides a
-					platform to listen to and connect with industry stalwarts, new
-					entrepreneurs, and provides a platform to try, fail, learn and test
-					out your ideas in front of a huge audience.
+          platform to listen to and connect with industry stalwarts, new
+          entrepreneurs, and provides a platform to try, fail, learn and test
+          out your ideas in front of a huge audience.
         </motion.p>
         <motion.div
           className="absolute top-[12%] -right-1/2 -z-10 w-[95%]"
@@ -218,9 +216,9 @@ const Home: NextPage = () => {
           style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "-100%"]) }}
         >
           The E-Summit covers four broad verticals, namely, Med-Tech, Meta,
-					Social Media and Electric Mobility. We strongly believe that these
-					four are the pillars for the growth of entrepreneurship in the near
-					future.
+          Social Media and Electric Mobility. We strongly believe that these
+          four are the pillars for the growth of entrepreneurship in the near
+          future.
         </motion.p>
         <motion.div
           className="absolute bottom-[12%] -left-1/2 -z-10 w-[95%]"
