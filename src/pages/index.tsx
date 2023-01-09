@@ -29,8 +29,6 @@ import RegBox from "../components/reg-box";
 // Add this to every page to protect from users who haven't filled the form
 export { default as getServerSideProps } from "../lib/serverProps";
 
-import cornerBorder from "../assets/corner-border.svg";
-import spons from "../assets/spons.png";
 import Countdown from "../components/countdown";
 
 const Home: NextPage = () => {
@@ -125,7 +123,7 @@ const Home: NextPage = () => {
           <RegBox />
           <div className="mt-6 flex flex-col items-center gap-2 md:mt-12">
             <Countdown
-              initialTime={new Date("Jan 20, 2023 00:00:00").getTime()}
+              initialTime={new Date("Jan 27, 2023 00:00:00").getTime()}
               isLarge={true}
             />
             <h1 className="text-lg font-thin sm:text-4xl">DAYS TO GO</h1>
