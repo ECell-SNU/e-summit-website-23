@@ -1,12 +1,12 @@
 import { type NextPage } from "next";
 import Image from "next/image";
 
+import { Flex } from "@chakra-ui/react";
+import { useEffect } from "react";
 import judgeComingSoon from "../../assets/judge-coming-soon.png";
 import paradigm from "../../assets/paradigm.png";
-import { useCountdown } from "../../utils/countdownHook";
 import Layout from "../../components/layout";
-import { useEffect } from "react";
-import { Box, Flex } from "@chakra-ui/react";
+import { useCountdown } from "../../utils/countdownHook";
 const details = [
   {
     title: "Venue",
