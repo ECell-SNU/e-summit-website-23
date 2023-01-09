@@ -82,31 +82,31 @@ const Home: NextPage = () => {
   }, [video]);
 
   useEffect(() => {
-    if (!emblaApi) return;
-
-    emblaApi.on("pointerDown", () => {
-      setSelectedIndex(-1);
-    });
-    emblaApi.on("pointerUp", () => {
-      setSelectedIndex(emblaApi.selectedScrollSnap());
-    });
-    emblaApi.on("select", () => {
-      setSelectedIndex(emblaApi.selectedScrollSnap());
-    });
-  }, [emblaApi, setSelectedIndex]);
-
-  useEffect(() => {
-    const resize = () => {
-      if (window.innerWidth >= 768) {
-        setMd(true);
-      } else {
-        setMd(false);
-      }
-    };
-
-    resize();
-    window.addEventListener("resize", () => resize());
-  }, [controls]);
+    if (!emblaApi) return
+		
+		emblaApi.on('pointerDown', () => {
+			setSelectedIndex(-1);
+		});
+		emblaApi.on('pointerUp', () => {
+			setSelectedIndex(emblaApi.selectedScrollSnap());
+		});
+		emblaApi.on('select', () => {
+			setSelectedIndex(emblaApi.selectedScrollSnap());
+		});
+	}, [emblaApi, setSelectedIndex]);
+	
+	useEffect(() => {
+		const resize = () => {
+			if (window.innerWidth >= 768) {
+				setMd(true);
+			} else {
+				setMd(false);
+			}
+		}
+		
+		resize();
+		window.addEventListener("resize", () => resize());
+	}, [controls]);
 
   return (
     <div className="flex w-screen flex-col items-center">
@@ -151,9 +151,10 @@ const Home: NextPage = () => {
           className="absolute top-[17%] left-4 z-10 w-1/2 text-left text-[8px] sm:top-[10%] sm:left-[10%] sm:w-[30%] md:text-center md:text-xs lg:text-base"
           style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]) }}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa
-          mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-          mattis ligula consectetur, ultrices mauris.
+          The E-Summit is the flagship event of E-Cell, which provides a
+					platform to listen to and connect with industry stalwarts, new
+					entrepreneurs, and provides a platform to try, fail, learn and test
+					out your ideas in front of a huge audience.
         </motion.p>
         <motion.div
           className="absolute top-[12%] -right-1/2 -z-10 w-[95%]"
@@ -216,9 +217,10 @@ const Home: NextPage = () => {
           className="absolute bottom-[17%] right-4 z-10 w-1/2 text-right text-[8px] sm:bottom-[10%] sm:right-[10%] sm:w-[30%] md:text-center md:text-xs lg:text-base"
           style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "-100%"]) }}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa
-          mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-          mattis ligula consectetur, ultrices mauris.
+          The E-Summit covers four broad verticals, namely, Med-Tech, Meta,
+					Social Media and Electric Mobility. We strongly believe that these
+					four are the pillars for the growth of entrepreneurship in the near
+					future.
         </motion.p>
         <motion.div
           className="absolute bottom-[12%] -left-1/2 -z-10 w-[95%]"
