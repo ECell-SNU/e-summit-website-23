@@ -54,18 +54,30 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  role          Role      @default(USER)
-  accounts      Account[]
-  sessions      Session[]
+
+  role Role @default(USER)
+
+  accounts Account[]
+  sessions Session[]
 
   // if this is false, pester the user to fill the form
   hasFilledInfo Boolean @default(false)
+
+  // make this true after scanning QR code at gate
+  arrivedOnsite Boolean @default(false)
 
   university   String?
   fieldOfStudy String?
   yearOfStudy  String?
   mobileNumber String?
-  Payment      Payment[]
+
+  Payment Payment[]
+
+  Team       Team[]
+  teamLeader Boolean @default(false)
+
+  Travel       Travel[]
+  Accomodation Accomodation[]
 }
 
 model VerificationToken {
@@ -102,6 +114,37 @@ model Payment {
   createdAt DateTime @default(now())
   txnId     String
   orderId   String
+}
+
+model Team {
+  id String @id @default(cuid())
+
+  members User[]
+}
+
+model Travel {
+  id String @id @default(cuid())
+
+  fromPlace String
+  toPlace   String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model Accomodation {
+  id String @id @default(cuid())
+
+  room String
+
+  checkInDate  DateTime
+  checkOutDate DateTime
+
+  checkedIn  Boolean @default(false)
+  checkedOut Boolean @default(false)
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 }
 
 // Role user or admin
