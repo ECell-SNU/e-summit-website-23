@@ -125,17 +125,23 @@ model Team {
 }
 
 model Travel {
-  id        String   @id @default(cuid())
-  fromPlace String
-  toPlace   String
-  amount    Int
-  date      DateTime
+  id         String       @id @default(cuid())
+  fromPlace  String
+  toPlace    String
+  amount     Int
+  date       DateTime
+  TravelItem TravelItem[]
 }
 
 model TravelItem {
-  id     String @id @default(cuid())
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
+  id       String @id @default(cuid())
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  Travel   Travel @relation(fields: [travelId], references: [id], onDelete: Cascade)
+  travelId String
+
+  @@index([userId])
+  @@index([travelId])
 }
 
 model Cluster {
