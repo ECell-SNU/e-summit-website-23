@@ -125,7 +125,12 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
             </MenuButton>
             <MenuList textColor="#FFF" borderRadius="0" backgroundColor="black">
               {dropItems.map((dropItem, index) => (
-                <Link href={dropItem.href} key={dropItem.title}>
+								<Link
+									href={dropItem.href}
+									key={dropItem.title}
+									onClick={() => {
+										setShowMobileNav(false);
+									}}>
                   <MenuItem
                     backgroundColor="black"
                     _hover={{ backgroundColor: dropItem.hover ?? "" }}
@@ -142,7 +147,12 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
           </Menu>
         </div>
       ) : (
-        <Link href={href ? href : ""} key={title}>
+        <Link 
+					href={href ? href : ""} 
+					key={title}
+					onClick={() => {
+						setShowMobileNav(false);
+					}}>
           <div
             className={` 
 							cursor-pointer transition-all duration-300 ease-in-out hover:text-white
