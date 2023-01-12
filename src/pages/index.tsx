@@ -143,6 +143,46 @@ const Home: NextPage = () => {
 					</div>
 				</div>
 			)}
+			{showAcommodation && (
+				<div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-md z-50 flex items-center justify-center">
+					<div className="relative flex-col w-[750px] h-[500px] rounded-xl border border-white/50 bg-black items-center py-4">
+						<button
+							className="absolute top-4 right-4 border border-white/50 rounded-md px-2"
+							onClick={() => {
+								setShowAcommodation(false);
+							}}>
+							x
+						</button>
+						<h1 className="text-2xl font-[600] text-center">ACOMMODATION</h1>
+						<div className="flex w-full justify-center items-center text-sm p-4">
+							<p className="text-white/50">BASIC DETAILS</p>
+							<div className="w-1/3 h-[1px] bg-white/20 mx-3" />
+							<p className="text-white/50">MEMBERS DETAILS</p>
+						</div>
+						<div className="flex flex-col flex-wrap w-full h-[70%] border-y-[1px] border-white/20 p-4">
+							{[...Array(9).keys()].map((i) => (
+								<div className="flex flex-col w-1/3" key={i}>
+									<p className="text-sm text-white">{i}</p>
+									<Input
+										className="mt-1"
+										variant="outline"
+										placeholder=""
+									/>
+								</div>
+							))}
+						</div>
+						<div className="flex py-4 px-5 justify-end">
+							<button className="rounded-md border border-white/50 px-6 py-2">
+								<p className="text-sm">Cancel</p>
+							</button>
+							<button className="flex rounded-md bg-[#0085FF] px-6 py-2 ml-2 items-center gap-1">
+								<p className="text-sm">Next</p>
+								<ArrowForwardIcon color={"white"} />
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 			<div className="relative flex w-full items-center justify-start pt-[70px]">
 				<Image
 					className="absolute left-0 top-[-12%] -z-10 h-[125%] select-none object-contain object-left"
