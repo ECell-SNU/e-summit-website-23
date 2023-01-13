@@ -38,6 +38,7 @@ model Account {
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -46,6 +47,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
@@ -54,18 +57,30 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  role          Role      @default(USER)
-  accounts      Account[]
-  sessions      Session[]
+
+  role Role @default(USER)
+
+  accounts Account[]
+  sessions Session[]
 
   // if this is false, pester the user to fill the form
   hasFilledInfo Boolean @default(false)
+
+  // make this true after scanning QR code at gate
+  arrivedOnsite Boolean @default(false)
 
   university   String?
   fieldOfStudy String?
   yearOfStudy  String?
   mobileNumber String?
-  Payment      Payment[]
+
+  Payment Payment[]
+
+  Team         Team[]
+  teamLeader   Boolean        @default(false)
+  Accomodation Accomodation[]
+  TravelItem   TravelItem[]
+  PaymentItem  PaymentItem[]
 }
 
 model VerificationToken {
@@ -83,13 +98,23 @@ model EmailReg {
 model Event {
   id      String    @id @default(cuid())
   // event type either 2 day or 3 day enum
-  type    EventType
   amount  Int
   name    String
   Payment Payment[]
+  Team    Team[]
 }
 
 // create a payment model for paytm gateway
+model PaymentItem {
+  id String @id @default(cuid())
+
+  userId String
+  amount Int
+
+  User         User           @relation(fields: [userId], references: [id])
+  Accomodation Accomodation[]
+  TravelItem   TravelItem[]
+}
 
 model Payment {
   id        String   @id @default(cuid())
@@ -100,8 +125,72 @@ model Payment {
   amount    Int
   status    String
   createdAt DateTime @default(now())
-  txnId     String
-  orderId   String
+
+  @@index([userId])
+  @@index([eventId])
+}
+
+model Team {
+  id      String @id @default(cuid())
+  name    String
+  event   Event  @relation(fields: [eventId], references: [id])
+  members User[]
+  eventId String
+
+  @@index([eventId])
+}
+
+model Travel {
+  id         String       @id @default(cuid())
+  fromPlace  String
+  toPlace    String
+  amount     Int
+  date       DateTime
+  TravelItem TravelItem[]
+}
+
+model TravelItem {
+  id       String @id @default(cuid())
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  Travel   Travel @relation(fields: [travelId], references: [id], onDelete: Cascade)
+  travelId String
+
+  payment       PaymentItem @relation(fields: [paymentItemId], references: [id])
+  paymentItemId String
+
+  @@index([userId])
+  @@index([travelId])
+}
+
+model Cluster {
+  id           String         @id @default(cuid())
+  name         String
+  beds         Int
+  Accomodation Accomodation[]
+  gender       Gender
+}
+
+model Accomodation {
+  id String @id @default(cuid())
+
+  cluster   Cluster @relation(fields: [clusterId], references: [id])
+  clusterId String
+
+  checkInDate  DateTime
+  checkOutDate DateTime
+
+  checkedIn  Boolean @default(false)
+  checkedOut Boolean @default(false)
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  payment       PaymentItem @relation(fields: [paymentItemId], references: [id])
+  paymentItemId String
+
+  @@index([clusterId])
+  @@index([userId])
 }
 
 // Role user or admin
@@ -110,10 +199,7 @@ enum Role {
   ADMIN
 }
 
-// Event type
-enum EventType {
-  TWO_DAY
-  THREE_DAY
+enum Gender {
+  MALE
+  FEMALE
 }
-
-// 
