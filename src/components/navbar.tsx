@@ -474,7 +474,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 							${files.length === 0 ? "bg-gray-500" : "bg-[#0085FF]"}
 						`}
 						onClick={() => {
-							console.log();
+							handleInitialCheckout.mutate();
 						}}>
 						<p className="font-semibold">Confirm Payment</p>
 					</button>
