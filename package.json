@@ -24,6 +24,7 @@
     "body-scroll-lock": "4.0.0-beta.0",
     "embla-carousel-react": "^7.0.5",
     "framer-motion": "^7.10.2",
+    "jotai": "^1.13.0",
     "next": "13.0.2",
     "next-auth": "^4.18.3",
     "node-tesseract-ocr": "^2.2.1",
