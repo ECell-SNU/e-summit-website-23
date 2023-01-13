@@ -106,6 +106,7 @@ model Event {
 }
 
 // create a payment model for paytm gateway
+// This is for the ticket ONLY
 model PaymentItem {
   id String @id @default(cuid())
 
@@ -119,6 +120,7 @@ model PaymentItem {
   TravelItem   TravelItem[]
 }
 
+// This is for the event payments ONLY 
 model Payment {
   id        String   @id @default(cuid())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
