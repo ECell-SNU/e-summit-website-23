@@ -3,7 +3,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
 import { type NextPage } from "next";
 import Image from "next/image";
-import { Input, Menu, MenuButton, MenuItem, MenuList, Button } from "@chakra-ui/react";
+import { Menu, MenuButton, MenuItem, MenuList, Button } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 
 import { ArrowForwardIcon, ChevronDownIcon } from "@chakra-ui/icons";
@@ -52,48 +52,6 @@ const Home: NextPage = () => {
 		offset: ["center end", "center start"],
 	});
 	const [md, setMd] = useState(false);
-	
-	// dialog variables
-	const [showTicket, setShowTicket] = useState(false);
-	const [showAcommodation, setShowAcommodation] = useState(false);
-	const fields = [
-		{
-			label: "Name",
-			placeholder: "Enter your name",
-		},
-		{
-			label: "Email",
-			placeholder: "Enter your email",
-		},
-		{
-			label: "Contact",
-			placeholder: "Enter your contact number",
-		},
-		{
-			label: "Gender",
-			options: ["Select gender", "Male", "Female", "Other"],
-		},
-		{
-			label: "Aadhar Card Number",
-			placeholder: "12 digits without space",
-		},
-		{
-			label: "City",
-			placeholder: "Enter your city",
-		},
-		{
-			label: "Date of Birth",
-			placeholder: "DD/MM/YYYY",
-		},
-		{
-			label: "Check In",
-			options: ["28th January", "29th January", "30th January"],
-		},
-		{
-			label: "Check Out",
-			options: ["28th January", "29th January", "30th January"],
-		},
-	]
 
 	useEffect(() => {
 		if (emblaApi) {
@@ -152,129 +110,6 @@ const Home: NextPage = () => {
 
 	return (
 		<div className="flex w-screen flex-col items-center">
-			
-			{showTicket && (
-				<div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-md z-50 flex items-center justify-center">
-					<div className="relative flex flex-col w-[375px] h-[430px] rounded-xl border border-white/50 bg-black z-60">
-						<button
-							className="absolute top-4 right-4 border border-white/50 rounded-md px-2"
-							onClick={() => {
-								setShowTicket(false);
-							}}>
-							x
-						</button>
-						<div className="flex flex-col w-full p-6 gap-1">
-							<p className="text-white font-[600] text-xl">E-Summit&apos; 23 Ticket</p>
-							<p className="text-sm text-white/60 w-4/5 mt-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.</p>
-						</div>
-						<div className="h-full flex-col my-1 p-6 border-y-[1px] border-white/50">
-							<p className="text-xs w-4/5">University</p>
-							<Menu>
-								<MenuButton
-									as={Button}
-									backgroundColor={"transparent"}
-									fontWeight={"normal"}
-									borderRadius={"12px"}
-									_hover={{}}
-									_active={{}}
-									fontSize={"0.75rem"}
-									color={"white"}
-									rightIcon={<ChevronDownIcon />}
-									className="w-full border border-white/50 px-2 py-1 mt-1">
-									Outside Shiv Nadar Institute of Eminence
-								</MenuButton>
-								<MenuList backgroundColor={"#000000"}>
-									<MenuItem
-										backgroundColor={"#000000"}>
-										Shiv Nadar Institute of Eminence
-									</MenuItem>
-									<MenuItem
-										backgroundColor={"#000000"}>
-										Outside Shiv Nadar Institute of Eminence
-									</MenuItem>
-								</MenuList>									
-							</Menu>
-						</div>
-						<div className="flex py-4 px-5 justify-end">
-							<button className="rounded-md border border-white/50 px-6 py-2">
-								<p className="text-sm">Cancel</p>
-							</button>
-							<button className="flex rounded-md bg-[#0085FF] px-6 py-2 ml-2 items-center gap-1">
-								<p className="text-sm">Next</p>
-								<ArrowForwardIcon color={"white"} />
-							</button>
-						</div>
-					</div>
-				</div>
-			)}
-			{showAcommodation && (
-				<div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-md z-50 flex items-center justify-center">
-					<div className="relative flex flex-col w-[800px] h-[550px] rounded-xl border border-white/50 bg-black items-center py-4">
-						<button
-							className="absolute top-4 right-4 border border-white/50 rounded-md px-2"
-							onClick={() => {
-								setShowAcommodation(false);
-							}}>
-							x
-						</button>
-						<h1 className="text-2xl font-[600] text-center">ACOMMODATION</h1>
-						<div className="flex w-full justify-center items-center text-sm p-4">
-							<p className="text-white/50">BASIC DETAILS</p>
-							<div className="w-1/3 h-[1px] bg-white/20 mx-3" />
-							<p className="text-white/50">MEMBERS DETAILS</p>
-						</div>
-						<div className="grid grid-flow-col grid-cols-2 grid-rows-6 w-full h-[80%] border-t-[1px] border-white/20 p-4 gap-y-12">
-							{fields.map((field, i) => (
-								<div className="flex flex-col w-5/6 h-min" key={i}>
-									<p className="text-xs text-white">{field.label}</p>
-									{field.options ? (
-										<Menu>
-											<MenuButton
-												as={Button}
-												rightIcon={<ChevronDownIcon className="w-full" />}
-												backgroundColor={"transparent"}
-												fontWeight={"normal"}
-												borderRadius={"12px"}
-												_hover={{}}
-												_active={{}}
-												className="mt-1 border border-white/50 text-white text-left pl-4">
-												{field.options[0]}
-											</MenuButton>
-											<MenuList
-												backgroundColor={"#000000"}>
-												{field.options.map((option, i) => (
-													<MenuItem
-														backgroundColor={"#000000"}
-														key={i}>{option}</MenuItem>
-												))}
-											</MenuList>
-										</Menu>
-									) : (
-										<Input
-											style={{
-												borderRadius: "12px",
-												borderColor: "rgba(255, 255, 255, 0.5)",
-											}}
-											className="mt-1"
-											variant="outline"
-											placeholder={field.placeholder}
-										/>
-									)}
-								</div>
-							))}
-						</div>
-						<div className="absolute bottom-0 right-0 flex w-1/2 py-4 px-5 justify-center">
-							<button className="rounded-md border border-white/50 px-6 py-2">
-								<p className="text-sm">Cancel</p>
-							</button>
-							<button className="flex rounded-md bg-[#0085FF] px-6 py-2 ml-2 items-center gap-1">
-								<p className="text-sm">Next</p>
-								<ArrowForwardIcon color={"white"} />
-							</button>
-						</div>
-					</div>
-				</div>
-			)}
 			<div className="relative flex w-full items-center justify-start pt-[70px]">
 				<Image
 					className="absolute left-0 top-[-12%] -z-10 h-[125%] select-none object-contain object-left"

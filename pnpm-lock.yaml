@@ -22,6 +22,9 @@ specifiers:
   embla-carousel-react: ^7.0.5
   eslint: ^8.26.0
   eslint-config-next: 13.0.2
+  filepond: ^4.30.4
+  filepond-plugin-image-exif-orientation: ^1.0.11
+  filepond-plugin-image-preview: ^4.6.11
   framer-motion: ^7.10.2
   next: 13.0.2
   next-auth: ^4.18.3
@@ -32,6 +35,7 @@ specifiers:
   prisma: ^4.5.0
   react: 18.2.0
   react-dom: 18.2.0
+  react-filepond: ^7.1.2
   react-hook-form: ^7.41.0
   superjson: 1.9.1
   tailwindcss: ^3.2.0
@@ -52,12 +56,16 @@ dependencies:
   '@trpc/server': 10.5.0
   body-scroll-lock: 4.0.0-beta.0
   embla-carousel-react: 7.0.5_react@18.2.0
+  filepond: 4.30.4
+  filepond-plugin-image-exif-orientation: 1.0.11_filepond@4.30.4
+  filepond-plugin-image-preview: 4.6.11_filepond@4.30.4
   framer-motion: 7.10.2_biqbaboplfbrettd7655fr4n2y
   next: 13.0.2_biqbaboplfbrettd7655fr4n2y
   next-auth: 4.18.6_pknogjuzx4bv7zxtatcb2ahtsq
   phosphor-react: 1.4.1_react@18.2.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-filepond: 7.1.2_mnl76jm3ryge2poziybvdyye2a
   react-hook-form: 7.41.0_react@18.2.0
   superjson: 1.9.1
   zod: 3.20.2
@@ -2751,6 +2759,26 @@ packages:
       flat-cache: 3.0.4
     dev: true
 
+  /filepond-plugin-image-exif-orientation/1.0.11_filepond@4.30.4:
+    resolution: {integrity: sha512-hLBc12Fk6Zkj3L8mSAn+elugHOqT5rLUbgVXQQIQjMe0FsGjtpoxqeVR6jt4IWHGat2L9sFAgU2TGmd1mqosCg==}
+    peerDependencies:
+      filepond: '>=3.x <5.x'
+    dependencies:
+      filepond: 4.30.4
+    dev: false
+
+  /filepond-plugin-image-preview/4.6.11_filepond@4.30.4:
+    resolution: {integrity: sha512-0EmQ9HnOb/X0xc5rLcNRhhmdUbp7oiicRwQrcr90ZfVmPJOOZoX3ZGUEsEPj7luMI55huguhcVozdESxtqnuRw==}
+    peerDependencies:
+      filepond: '>=4.x <5.x'
+    dependencies:
+      filepond: 4.30.4
+    dev: false
+
+  /filepond/4.30.4:
+    resolution: {integrity: sha512-FCwsMvG9iiEs6uobdDrTaKsCgsqys0NuLgPPD8n37AYVYBiiDkrPkk9MSIU5rT2FahYcL1bScYI9huIPtlzqyA==}
+    dev: false
+
   /fill-range/7.0.1:
     resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}
     engines: {node: '>=8'}
@@ -3714,6 +3742,18 @@ packages:
 
   /react-fast-compare/3.2.0:
     resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==}
+    dev: false
+
+  /react-filepond/7.1.2_mnl76jm3ryge2poziybvdyye2a:
+    resolution: {integrity: sha512-vrlx9o/n+jGikh6jLey+PpUGYtEZn8MdeB6JFeX/5/N/Mu75IHG+MFQbv8R27bNXvS41mDtV9Fo5DG+s6siVIA==}
+    peerDependencies:
+      filepond: '>=3.7.x < 5.x'
+      react: 16 - 18
+      react-dom: 16 - 18
+    dependencies:
+      filepond: 4.30.4
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-focus-lock/2.9.2_kzbn2opkn2327fwg5yzwzya5o4:
