@@ -19,6 +19,8 @@ import {
   HamburgerIcon,
   CloseIcon,
   ArrowForwardIcon,
+	ArrowBackIcon,
+	AddIcon,
 } from "@chakra-ui/icons";
 
 import eSummitLogo from "../assets/e-summit-logo.png";
@@ -84,7 +86,8 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ page }) => {
   const { data: sessionData } = useSession();
   const ref = useRef<HTMLDivElement>(null);
-  const [showMobileNav, setShowMobileNav] = useState(false);
+	const [showMobileNav, setShowMobileNav] = useState(false);
+	const [showCart, setShowCart] = useState(false);
 
   useEffect(() => {
     if (showMobileNav) {
@@ -245,7 +248,56 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
         >
           <CloseIcon />
         </div>
-      </div>
+			</div>
+			
+			{/* Cart */}
+			<div
+        className={`
+					absolute top-0 bottom-0 left-0 right-0 z-40 h-screen
+					w-full backdrop-blur-md flex justify-end
+					${showCart ? "" : "invisible"}
+				`}
+        style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}>
+        <div
+          className="fixed top-[20px] right-[30px] cursor-pointer text-3xl"
+					onClick={() => setShowCart(false)}>
+          <CloseIcon boxSize={5} />
+				</div>
+				<div className="h-screen w-[450px] bg-black flex flex-col justify-start pt-28 px-8 gap-6 border-l-[1px] border-white/50">
+					<h1 className="text-white text-4xl mb-4">Checkout</h1>
+					<div className="relative flex flex-col w-full h-fit rounded-xl border-2 border-white/50 bg-[#0E0D0D] px-6 pt-4 pb-8 gap-8">
+						<div className="flex flex-col w-full">
+							<p className="text-white font-[600] text-lg">E-Summit&apos; 23 Ticket</p>
+							<p className="text-xs text-white/60 w-5/6 mt-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.</p>
+						</div>
+						<div className="grid grid-cols-[80%_20%] w-full gap-4 text-sm">
+							<p>E-Summit&apos; 23 Ticket</p>
+							<p>600 Rs</p>
+							<div className="col-span-2 bg-white/50 h-[1px] mt-4"></div>
+							<p>Total amount</p>
+							<p>600 Rs</p>
+						</div>
+					</div>
+					<div className="flex justify-evenly gap-4">
+						<div className="flex justify-evenly bg-[#0E0D0D] px-4 py-2 rounded-md gap-4">
+							<p>Acommodation</p>
+							<div className="bg-[#0085FF] rounded-md w-[25px] h-[25px] flex justify-center items-center">
+								<AddIcon boxSize={2} />
+							</div>
+						</div>
+						<div className="flex justify-evenly bg-[#0E0D0D] px-4 py-2 rounded-md gap-4">
+							<p>Travel</p>
+							<div className="bg-[#0085FF] rounded-md w-[25px] h-[25px] flex justify-center items-center">
+								<AddIcon boxSize={2} />
+							</div>
+						</div>
+					</div>
+					<div className="flex justify-center items-center gap-2 w-full py-2 bg-[#0085FF] rounded-md">
+						<p className="font-semibold">Pay</p>
+						<ArrowForwardIcon boxSize={4} />
+					</div>
+				</div>
+			</div>
     </nav>
   );
 };

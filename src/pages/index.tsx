@@ -54,8 +54,8 @@ const Home: NextPage = () => {
 	const [md, setMd] = useState(false);
 	
 	// dialog variables
-	const [showTicket, setShowTicket] = useState(true);
-	const [showAcommodation, setShowAcommodation] = useState(true);
+	const [showTicket, setShowTicket] = useState(false);
+	const [showAcommodation, setShowAcommodation] = useState(false);
 	const fields = [
 		{
 			label: "Name",
