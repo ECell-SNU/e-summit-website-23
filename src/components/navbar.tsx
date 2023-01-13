@@ -451,16 +451,32 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 					</p>
 					<h1 className="text-white text-2xl text-center">Amount</h1>
 					<h1 className="text-white text-5xl -mt-4 mb-4 text-center">{isSNU ? "600 Rs" : "800 Rs"}</h1>
+					<div className="bg-white">
+						<input
+							type="file"
+							accept="image/*"
+							name="screenshot"
+							onChange={(e) => {
+								// THIS CODE IS WORKING, files are getting to server
+								console.log(e.target.files);
+								const data = new FormData()
+								data.append('file', e.target.files[0])
+								fetch("/api/checkout/ss-upload", {
+									method: "POST",
+									body: data
+								});
+							}}
+						/>
+					</div>
 					<FilePond
 						files={files}
-						onupdatefiles={(files) => {
-							setFiles(files);
-							if (!files[0]?.file) return;
+						onaddfile={(error, file) => { 
+							console.log("done");
+							const data = new FormData()
+							data.append('file', file.file)
 							fetch("/api/checkout/ss-upload", {
 								method: "POST",
-								body: {
-									file: files[0].file,
-								}
+								body: data
 							});
 						}}
 						allowMultiple={false}
@@ -469,12 +485,13 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 						labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
 					/>
 					<button
-						disabled={files.length === 0}
+						// disabled={files.length === 0}
 						className={`flex justify-center items-center gap-2 w-full py-2 rounded-md
 							${files.length === 0 ? "bg-gray-500" : "bg-[#0085FF]"}
 						`}
 						onClick={() => {
-							handleInitialCheckout.mutate();
+							// handleInitialCheckout.mutate();
+							
 						}}>
 						<p className="font-semibold">Confirm Payment</p>
 					</button>

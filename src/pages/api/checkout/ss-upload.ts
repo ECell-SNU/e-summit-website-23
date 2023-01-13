@@ -17,14 +17,22 @@ type Res = {
 
 function handler(req: NextApiRequest, res: NextApiResponse<Res>) {
   try {
-    // const storage = new Storage();
-		console.log(req.body);
-    console.log("NOTICE: hit ss upload route");
-    const form = formidable({ multiples: false });
+		const form = formidable({
+			multiples: false,
+			uploadDir: "./uploads",
+		});
 		
-    form.parse(req, (err, fields, files) => {
-      console.log({ files });
-
+		form.parse(req, async (err, fields, files) => {
+			if (err) {
+				res.status(500).json({ status: "error", message: err.message });
+				return;
+			}
+			console.log("files");
+			// upload to google cloud storage
+			// const storage = new Storage(gcloudStorageOptions);
+			// const bucket = storage.bucket("bucket-name");
+			
+					
       res.status(200).json({
         status: "success",
         message: "Woohoo! It worked :)",
@@ -39,3 +47,8 @@ function handler(req: NextApiRequest, res: NextApiResponse<Res>) {
 }
 
 export default handler;
+export const config = {
+	api: {
+		bodyParser: false,
+	},
+};
