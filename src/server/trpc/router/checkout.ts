@@ -29,17 +29,17 @@ export const checkoutRouter = router({
     }
   }),
   handleInitialCheckout: protectedProcedure
-    .input(
-      z.object({
-        isAccomodation: z.boolean(),
-        checkinDate: z.date(),
-        checkoutDate: z.date(),
-        travel: z.object({
-          destination: z.string(),
-          departureDateAndTime: z.date(),
-        }),
-      })
-    )
+    // .input(
+    //   z.object({
+    //     isAccomodation: z.boolean().optional(),
+    //     checkinDate: z.date().optional(),
+    //     checkoutDate: z.date().optional(),
+    //     travel: z.object({
+    //       destination: z.string(),
+    //       departureDateAndTime: z.date(),
+    //     }).optional(),
+    //   })
+    // )
     .mutation(async ({ ctx, input }) => {
       const isSNU = ctx.session.user.email?.endsWith("snu.edu.in");
 
