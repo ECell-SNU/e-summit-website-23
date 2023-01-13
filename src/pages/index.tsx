@@ -29,7 +29,7 @@ import videoThumbnail from "../assets/video-thumbnail.png";
 import RegBox from "../components/reg-box";
 
 // Add this to every page to protect from users who haven't filled the form
-export { default as getServerSideProps } from "../lib/serverProps";
+// export { default as getServerSideProps } from "../lib/serverProps";
 
 import Countdown from "../components/countdown";
 
@@ -109,7 +109,7 @@ const Home: NextPage = () => {
 	}, [controls]);
 
 	return (
-		<div className="flex w-screen flex-col items-center">
+		<div className="flex w-full flex-col items-center">
 			<div className="relative flex w-full items-center justify-start pt-[70px]">
 				<Image
 					className="absolute left-0 top-[-12%] -z-10 h-[125%] select-none object-contain object-left"

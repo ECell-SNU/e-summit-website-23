@@ -18,10 +18,10 @@ type Res = {
 function handler(req: NextApiRequest, res: NextApiResponse<Res>) {
   try {
     // const storage = new Storage();
-
+		console.log(req.body);
     console.log("NOTICE: hit ss upload route");
     const form = formidable({ multiples: false });
-
+		
     form.parse(req, (err, fields, files) => {
       console.log({ files });
 

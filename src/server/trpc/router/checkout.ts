@@ -1,13 +1,13 @@
 import { z } from "zod";
 
-import { router, protectedProcedure } from "../trpc";
+import { router, protectedProcedure, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 
 import { CheckoutObject } from "../../../types/index";
 
 export const checkoutRouter = router({
-  isSNU: protectedProcedure.query(({ ctx }) => {
-    return ctx.session.user.email?.endsWith("snu.edu.in");
+  isSNU: publicProcedure.query(({ ctx }) => {
+    return ctx?.session?.user?.email?.endsWith("snu.edu.in") ?? false;
   }),
   currentStatus: protectedProcedure.query(async ({ ctx }) => {
     const { id: userId } = ctx.session.user;
