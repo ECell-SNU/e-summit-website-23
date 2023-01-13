@@ -20,7 +20,7 @@ const Xcelerate: NextPage = () => {
     },
     {
       title: "Date",
-      content: "27th Jan 2023",
+      content: "27th - 28th Jan 2023",
     },
     {
       title: "Participants/Team",
@@ -28,11 +28,11 @@ const Xcelerate: NextPage = () => {
     },
     {
       title: "Registration Open",
-      content: "29th Dec 2023",
+      content: "29th Dec 2022",
     },
     {
       title: "Registration End",
-      content: "19th Jan 2023",
+      content: "17th Jan 2023",
     },
     {
       title: "Teams notified via Gmail",
@@ -43,21 +43,21 @@ const Xcelerate: NextPage = () => {
   const prizes = [
     {
       title: "1st Runner Up",
-      content: `Monetary prize of 26,000 Rupees
+      content: `TBA
 2nd day access pass to the E-Summit
 Free E-Summit clothing apparel
 Goodies, swags and free subscriptions from a multitude of companies`,
     },
     {
       title: "2nd Runner Up",
-      content: `Monetary prize of 26,000 Rupees
+      content: `TBA
 2nd day access pass to the E-Summit
 Free E-Summit clothing apparel
 Goodies, swags and free subscriptions from a multitude of companies`,
     },
     {
       title: "3rd Runner Up",
-      content: `Monetary prize of 10,000
+      content: `TBA
 2nd day access pass to the E-Summit`,
     },
     {
@@ -76,11 +76,11 @@ Goodies, swags and free subscriptions from a multitude of companies`,
               About the Event
             </h1>
             <p className="text-sm sm:text-lg lg:text-xl">
-              The ideathon event, held on the first day of the Summit, is a
-              chance for aspiring student entrepreneurs to showcase their
-              innovative startup ideas and potentially win prizes worth up to
-              INR 4.5 lakh. This event is open to all and there is no fee to
-              participate.
+              Xcelerate is E-Summit, Shiv Nadar University&apos;s first ever
+              ideathon. Four amazing themes to choose from, form a group of upto
+              4 people and make the best B-Plan you can. Head over to Unstop to
+              learn more about this event. 24 hours. Only the best minds. 3
+              lakhs at stake. Grab your piece of the pie.
             </p>
             <div className="m-2 flex w-full flex-col justify-between gap-5 sm:m-6 md:flex-row md:gap-10 md:px-4">
               <a
@@ -92,7 +92,7 @@ Goodies, swags and free subscriptions from a multitude of companies`,
                 }}
                 target="_blank"
                 rel="noreferrer"
-                href="https://forms.gle/P6i5WvxRmMhbLge17"
+                href="https://unstop.com/competition/xcelerate-ideathon-e-summit-2023-imagination-to-innovation-shiv-nadar-university-snu-greater-noida-573352"
               >
                 Register
               </a>
@@ -103,7 +103,7 @@ Goodies, swags and free subscriptions from a multitude of companies`,
                 // make external link
                 target="_blank"
                 rel="noreferrer"
-                href="https://drive.google.com/file/d/1L7HDVpH55gmMkgmpXzyEbPisKzbuqvyk/view?usp=share_link"
+                href="https://docs.google.com/document/d/1MWEqS8EQmp4_VbvyOsi1Dd1CD1YozH9LnZK9Yc2Xa60/edit#heading=h.kojhve4sod2q"
                 className="w-full whitespace-nowrap rounded-lg border border-white py-2 text-lg"
               >
                 Event Details

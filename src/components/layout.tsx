@@ -13,7 +13,11 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
   return (
     <>
       <Head>
-        <title>{title ? `${title} | E-Summit 2023` : "E-Summit 2023"}</title>
+        <title>
+          {title
+            ? `${title} | E-Summit Shiv Nadar University 2023`
+            : "E-Summit Nadar University 2023"}
+        </title>
         <meta
           name="description"
           content="Official website for E-Cell's annual event, E-Summit 2023"
@@ -21,8 +25,8 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar page={title} />
-			<main>{children}</main>
-			<Footer />
+      <main>{children}</main>
+      <Footer />
     </>
   );
 };

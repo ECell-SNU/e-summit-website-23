@@ -16,23 +16,25 @@ const Startupverse: NextPage = () => {
     },
     {
       title: "Date",
-      content: "27th Jan 2023",
+      content: "28th Jan 2023",
     },
   ];
 
   const prizes = [
     {
       title: "1st Runner Up",
-      content: `Monetary Prize of 1 Lakh Rupees
+      content: `TBA
 2nd day access pass to the E-Summit
 Free E-Summit clothing apparel
+Free premium office space
 AIC deliverables`,
     },
     {
       title: "2nd Runner Up",
-      content: `Monetary Prize of 50000 Rupees
+      content: `TBA
 2nd day access pass to the E-Summit
 Free E-Summit clothing apparel
+Free premium office space
 AIC deliverables`,
     },
   ];
