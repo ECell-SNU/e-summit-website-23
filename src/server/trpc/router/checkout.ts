@@ -1,25 +1,37 @@
 import { z } from "zod";
 
 import { router, protectedProcedure } from "../trpc";
+import { TRPCError } from "@trpc/server";
 
 import { CheckoutObject } from "../../../types/index";
 
 export const checkoutRouter = router({
   isSNU: protectedProcedure.query(({ ctx }) => {
-    if (ctx.session.user.email?.endsWith("snu.edu.in")) {
-      return true
-    }
-
-    return false
+    return ctx.session.user.email?.endsWith("snu.edu.in");
   }),
   currentStatus: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.
+    const { id: userId } = ctx.session.user;
+
+    try {
+      const paymentItems = await ctx.prisma.paymentItem.findMany({
+        where: { userId },
+      });
+
+      if (paymentItems.length !== 0) {
+        return paymentItems[paymentItems.length - 1]?.state;
+      }
+    } catch (e) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "You have not initiated any payments yet.",
+        cause: e,
+      });
+    }
   }),
   handleInitialCheckout: protectedProcedure
     .input(
       z.object({
         isAccomodation: z.boolean(),
-        gender: z.enum(["MALE", "FEMALE"]),
         checkinDate: z.date(),
         checkoutDate: z.date(),
         travel: z.object({
@@ -29,8 +41,18 @@ export const checkoutRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { user } = ctx.session;
+      const isSNU = ctx.session.user.email?.endsWith("snu.edu.in");
 
-      // await ctx.prisma.paymentItem.create({ data: {} })
+      const { id: userId } = ctx.session.user;
+
+      // rewrite this to handle actual checkout (take in accomodation and travel info)
+      // also, make separate route for event checkout
+      const paymentItem = await ctx.prisma.paymentItem.create({
+        data: { state: "NOT_REG", amount: isSNU ? 600 : 800, userId },
+      });
+
+      return {
+        paymentItemId: paymentItem.id,
+      };
     }),
 });
