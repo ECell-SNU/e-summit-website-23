@@ -255,7 +255,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 			</Link>
 			<div className="flex gap-8 phone:hidden">{menu()}</div>
 			<div
-				className="flex gap-6 item-center flex px-8 phone:hidden"
+				className="flex gap-6 item-center px-8 phone:hidden"
 				// style={{ visibility: "hidden" }}
 			>
 				{sessionData &&
