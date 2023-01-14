@@ -434,6 +434,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 							cursor={"pointer"}	
 							onClick={() => {
 								setShowConfirm(false);
+								setFiles([]);
 							}} />
 					</div>
 					<h1 className="text-white text-4xl my-4">Make Payment</h1>
