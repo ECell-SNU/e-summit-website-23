@@ -27,3 +27,13 @@ body {
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
+.filepond--drop-label {
+	color: #ffffff;
+}
+
+.filepond--panel-root {
+	background-color: #000000;
+	color: #ffffff;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+}

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import { getServerAuthSession } from "../../../server/common/get-server-auth-session";
 import formidable from "formidable";
 
 // import { Storage, type StorageOptions } from "@google-cloud/storage";
@@ -15,11 +16,24 @@ type Res = {
   random?: any;
 };
 
-function handler(req: NextApiRequest, res: NextApiResponse<Res>) {
+async function handler(req: NextApiRequest, res: NextApiResponse<Res>) {
+	const session = await getServerAuthSession({ req, res });
+	if (!session) {
+		res.status(401).json({
+			status: "error",
+			message: "You must be signed in to view the protected content on this page.",
+		});
+		return;
+	}
+	
   try {
 		const form = formidable({
 			multiples: false,
-			uploadDir: "./uploads",
+			uploadDir: "./screenshots",
+			keepExtensions: true,
+			filename: (name, ext) => {
+				return `${session.user?.id ?? name}-${Date.now()}${ext}`;
+			}
 		});
 		
 		form.parse(req, async (err, fields, files) => {
@@ -27,12 +41,10 @@ function handler(req: NextApiRequest, res: NextApiResponse<Res>) {
 				res.status(500).json({ status: "error", message: err.message });
 				return;
 			}
-			console.log("files");
 			// upload to google cloud storage
 			// const storage = new Storage(gcloudStorageOptions);
 			// const bucket = storage.bucket("bucket-name");
 			
-					
       res.status(200).json({
         status: "success",
         message: "Woohoo! It worked :)",
