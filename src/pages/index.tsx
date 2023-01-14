@@ -110,9 +110,9 @@ const Home: NextPage = () => {
 
 	return (
 		<div className="flex w-full flex-col items-center">
-			<div className="relative flex w-full items-center justify-start pt-[70px]">
+			<div className="relative flex w-full items-center justify-start pt-[30vh] lg:pt-[20vh]">
 				<Image
-					className="absolute left-0 top-[-12%] -z-10 h-[125%] select-none object-contain object-left"
+					className="absolute left-[-5%] md:left-0 top-[10%] md:top-[-12%] -z-10 h-full md:h-[125%] select-none object-contain object-left"
 					draggable={false}
 					alt=""
 					src={splashImgLeftUni}
@@ -130,11 +130,11 @@ const Home: NextPage = () => {
 							initialTime={new Date("Jan 20, 2023 00:00:00").getTime()}
 							isLarge={true}
 						/>
-						<h1 className="text-lg font-thin sm:text-4xl">DAYS TO GO</h1>
+						<h1 className="text-lg font-thin sm:text-3xl md:text-4xl">DAYS TO GO</h1>
 					</div>
 				</div>
 				<Image
-					className="absolute right-0 top-[-12%] -z-10 h-[125%] select-none object-contain object-right"
+					className="absolute right-[-5%] md:right-0 top-[10%] md:top-[-12%] -z-10 h-full md:h-[125%] select-none object-contain object-right"
 					draggable={false}
 					alt=""
 					src={splashImgRightUni}
