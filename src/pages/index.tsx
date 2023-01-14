@@ -266,7 +266,7 @@ const Home: NextPage = () => {
 							<a key={index} href={data_item[2]} rel="noreferrer">
 								<div
 									className={`relative flex aspect-video h-[125px] shrink-0 grow-0 items-end overflow-hidden rounded-md bg-black md:h-[300px]
-											${selectedIndex === index ? "z-10 animate-scale" : "backdrop-blur-sm"}
+											${selectedIndex === index ? "z-10 animate-scale" : "blur-sm"}
 										`}
 								>
 									<Image
