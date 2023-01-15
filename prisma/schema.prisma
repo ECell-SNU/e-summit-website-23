@@ -73,6 +73,7 @@ model User {
   fieldOfStudy String?
   yearOfStudy  String?
   mobileNumber String?
+  gender       Gender
 
   Payment Payment[]
 
@@ -105,17 +106,21 @@ model Event {
 }
 
 // create a payment model for paytm gateway
+// This is for the ticket ONLY
 model PaymentItem {
   id String @id @default(cuid())
 
   userId String
   amount Int
 
+  state PaymentItemState
+
   User         User           @relation(fields: [userId], references: [id])
   Accomodation Accomodation[]
   TravelItem   TravelItem[]
 }
 
+// This is for the event payments ONLY 
 model Payment {
   id        String   @id @default(cuid())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -146,14 +151,14 @@ model Travel {
   toPlace    String
   amount     Int
   date       DateTime
-  TravelItem TravelItem[]
+  travelItem TravelItem[]
 }
 
 model TravelItem {
   id       String @id @default(cuid())
   user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   String
-  Travel   Travel @relation(fields: [travelId], references: [id], onDelete: Cascade)
+  travel   Travel @relation(fields: [travelId], references: [id], onDelete: Cascade)
   travelId String
 
   payment       PaymentItem @relation(fields: [paymentItemId], references: [id])
@@ -167,7 +172,7 @@ model Cluster {
   id           String         @id @default(cuid())
   name         String
   beds         Int
-  Accomodation Accomodation[]
+  accomodation Accomodation[]
   gender       Gender
 }
 
@@ -202,4 +207,11 @@ enum Role {
 enum Gender {
   MALE
   FEMALE
+}
+
+enum PaymentItemState {
+  NOT_REG
+  PROCESSING
+  FAILED
+  APPROVED
 }
