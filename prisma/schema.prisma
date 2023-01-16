@@ -81,7 +81,6 @@ model User {
   teamLeader   Boolean        @default(false)
   Accomodation Accomodation[]
   TravelItem   TravelItem[]
-  PaymentItem  PaymentItem[]
 }
 
 model VerificationToken {
@@ -113,9 +112,7 @@ model PaymentItem {
   userId String
   amount Int
 
-  state PaymentItemState
-
-  User         User           @relation(fields: [userId], references: [id])
+  state        PaymentItemState
   Accomodation Accomodation[]
   TravelItem   TravelItem[]
 }
@@ -173,6 +170,7 @@ model Cluster {
   beds         Int
   accomodation Accomodation[]
   gender       Gender
+  amount       Int
 }
 
 model Accomodation {

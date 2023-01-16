@@ -56,6 +56,13 @@ export const checkoutRouter = router({
 
       const { isAccomodation, travel, checkinDate, checkoutDate } = input;
 
+			// event for sure
+
+			// if travel 
+
+			// if accomodation
+
+			
       if (isAccomodation && travel) {
         paymentItem = await ctx.prisma.paymentItem.create({
           data: {
@@ -64,6 +71,18 @@ export const checkoutRouter = router({
             userId,
           },
         });
+
+				// fetch itemID and amount
+        const cluster = await ctx.prisma.cluster.findFirst({
+          where: {
+            gender: user?.gender,
+          },
+        });
+
+				const createAccomodationPaymentItem = await ctx.prisma.paymentItem.create({
+					data: {
+						state: "NOT_REG",
+						amount: cluster
 
         const tra = await ctx.prisma.travel.create({
           data: {
