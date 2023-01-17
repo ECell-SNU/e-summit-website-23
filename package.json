@@ -35,6 +35,7 @@
     "next": "13.0.2",
     "next-auth": "^4.18.3",
     "node-tesseract-ocr": "^2.2.1",
+    "optics-ts": "^2.4.0",
     "phosphor-react": "^1.4.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",

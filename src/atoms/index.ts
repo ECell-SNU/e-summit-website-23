@@ -11,6 +11,6 @@ const initialCheckoutState: CheckoutState = {
   travel: [],
 };
 
-export const checkoutAtom = atom<CheckoutObject>(initialCheckoutState);
+export const checkoutAtom = atom<CheckoutState>(initialCheckoutState);
 
 export const showTicketAtom = atom<boolean>(false);

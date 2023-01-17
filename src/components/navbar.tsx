@@ -130,26 +130,23 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 
   // jotai bs for aadhar
   const aadharAtom = focusAtom(checkoutAtom, (optic) =>
-    // @ts-ignore
     optic.prop("aadharCardNumber")
   );
   const [aadhar, setAadhar] = useAtom(aadharAtom);
 
   // jotai bs for accomodation checkout handling
   const isAccomAtom = focusAtom(checkoutAtom, (optic) =>
-    // @ts-ignore
     optic.prop("isAccommodation")
   );
   const [isAccom, setIsAccom] = useAtom(isAccomAtom);
 
   const checkinDateAtom = focusAtom(checkoutAtom, (optic) =>
-    // @ts-ignore
     optic.prop("checkinDate")
   );
-  const [checkoutDate, setCheckoutDate] = useAtom(checkinDateAtom);
+  const [checkinDate, setCheckinDate] = useAtom(checkinDateAtom);
+
   const checkoutDateAtom = focusAtom(checkoutAtom, (optic) =>
-    // @ts-ignore
-    optic.prop("checkinDate")
+    optic.prop("checkoutDate")
   );
   const [checkoutDate, setCheckoutDate] = useAtom(checkoutDateAtom);
 
@@ -696,13 +693,25 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                     _hover={{}}
                     _active={{}}
                     className="mt-1 border border-white/50 pl-4 text-left text-white"
-                  ></MenuButton>
+                  >
+                    {checkinDate?.toDateString()}
+                  </MenuButton>
                   <MenuList backgroundColor={"#000000"}>
-                    <MenuItem backgroundColor={"#000000"}>
-                      28th January
+                    <MenuItem
+                      backgroundColor={"#000000"}
+                      onClick={() =>
+                        setCheckinDate(new Date("Jan 28, 2023 00:00:00"))
+                      }
+                    >
+                      {new Date("Jan 28, 2023 00:00:00").toDateString()}
                     </MenuItem>
-                    <MenuItem backgroundColor={"#000000"}>
-                      29th January
+                    <MenuItem
+                      backgroundColor={"#000000"}
+                      onClick={() =>
+                        setCheckinDate(new Date("Jan 29, 2023 00:00:00"))
+                      }
+                    >
+                      {new Date("Jan 29, 2023 00:00:00").toDateString()}
                     </MenuItem>
                   </MenuList>
                 </Menu>
@@ -718,23 +727,41 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                     _hover={{}}
                     _active={{}}
                     className="mt-1 border border-white/50 pl-4 text-left text-white"
-                  ></MenuButton>
+                  >
+                    {checkoutDate?.toDateString()}
+                  </MenuButton>
                   <MenuList backgroundColor={"#000000"}>
-                    <MenuItem backgroundColor={"#000000"}>
-                      29th January
+                    <MenuItem
+                      backgroundColor={"#000000"}
+                      onClick={() =>
+                        setCheckoutDate(new Date("Jan 29, 2023 00:00:00"))
+                      }
+                    >
+                      {new Date("Jan 29, 2023 00:00:00").toDateString()}
                     </MenuItem>
-                    <MenuItem backgroundColor={"#000000"}>
-                      30th January
+                    <MenuItem
+                      backgroundColor={"#000000"}
+                      onClick={() =>
+                        setCheckoutDate(new Date("Jan 30, 2023 00:00:00"))
+                      }
+                    >
+                      {new Date("Jan 30, 2023 00:00:00").toDateString()}
                     </MenuItem>
                   </MenuList>
                 </Menu>
               </div>
             </div>
             <div className="absolute bottom-0 right-0 flex w-1/2 justify-center py-4 px-5">
-              <button className="rounded-md border border-white/50 px-6 py-2">
+              {/* <button className="rounded-md border border-white/50 px-6 py-2">
                 <p className="text-sm">Cancel</p>
-              </button>
-              <button className="ml-2 flex items-center gap-1 rounded-md bg-[#0085FF] px-6 py-2">
+              </button> */}
+              <button
+                onClick={() => {
+                  setShowCart(true);
+                  setShowAccommodation(false);
+                }}
+                className="ml-2 flex items-center gap-1 rounded-md bg-[#0085FF] px-6 py-2"
+              >
                 <p className="text-sm">Next</p>
                 <ArrowForwardIcon color={"white"} />
               </button>
