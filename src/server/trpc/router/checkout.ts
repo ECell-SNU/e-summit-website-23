@@ -75,12 +75,33 @@ export const checkoutRouter = router({
         },
       });
 
-      if (!cluster || !event) return;
+      if (
+        !cluster ||
+        !event ||
+        (isAccomodation && (!checkinDate || !checkoutDate))
+      )
+        return;
+
+      const days = isAccomodation
+        ? checkoutDate!.getDate() - checkinDate!.getDate()
+        : 0;
+      const accomodationAmount = isAccomodation
+        ? 300 * days - (days - 1) * 50 - 1
+        : 0;
 
       ctx.prisma.$transaction(async (tx) => {
+        const userPayment = await tx.userPayment.create({
+          data: {
+            userId,
+            upi: UPI ?? "",
+            url: ssFilename ?? "",
+          },
+        });
+
         const eventPaymentItem = await tx.paymentItem.create({
           data: {
             userId,
+            userPaymentId: userPayment.id,
             amount: event.amount,
             state: "PROCESSING",
           },
@@ -95,12 +116,11 @@ export const checkoutRouter = router({
         });
 
         if (isAccomodation && checkinDate && checkoutDate) {
-          const days = checkoutDate.getDate() - checkinDate.getDate();
-
           const accomodationPaymentItem = await tx.paymentItem.create({
             data: {
               userId,
-              amount: 300 * days - (days - 1) * 50,
+              userPaymentId: userPayment.id,
+              amount: accomodationAmount,
               state: "PROCESSING",
             },
           });
