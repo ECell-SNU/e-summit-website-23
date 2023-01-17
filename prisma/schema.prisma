@@ -86,7 +86,7 @@ model User {
   fieldOfStudy String?
   yearOfStudy  String?
   mobileNumber String?
-  gender       Gender
+  gender       Gender?
 
   Team         Team[]
   teamLeader   Boolean        @default(false)
@@ -102,6 +102,11 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model EmailReg {
+  id    Int    @id @default(autoincrement())
+  email String
 }
 
 model Event {
