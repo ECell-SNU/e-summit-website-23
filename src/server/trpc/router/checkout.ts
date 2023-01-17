@@ -75,7 +75,17 @@ export const checkoutRouter = router({
         },
       });
 
-      if (!cluster || !event) return;
+      if (
+        !cluster ||
+        !event ||
+        (isAccomodation && (!checkinDate || !checkoutDate))
+      )
+        return;
+
+      const days = checkoutDate!.getDate() - checkinDate!.getDate();
+      const accomodationAmount = isAccomodation
+        ? 300 * days - (days - 1) * 50 - 1
+        : 0;
 
       ctx.prisma.$transaction(async (tx) => {
         const eventPaymentItem = await tx.paymentItem.create({
