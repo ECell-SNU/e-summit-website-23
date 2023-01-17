@@ -522,7 +522,11 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 							${files.length === 0 ? "bg-gray-500" : "bg-[#0085FF]"}
 						`}
             onClick={() => {
-              handleInitialCheckout.mutate();
+              handleInitialCheckout.mutate({
+                checkinDate,
+                checkoutDate,
+                isAccomodation: isAccom,
+              });
               if (handleInitialCheckout.isSuccess) {
                 setShowConfirm(false);
                 setFiles([]);
