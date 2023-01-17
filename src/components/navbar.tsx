@@ -552,7 +552,20 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                 <p key={i}>Lorem ipsum dolor sit amet, consectetur</p>
               ))} */}
               <p>
-                Chance to meet and interact with founder startups,
+                <strong>
+                  A free EV test drive by{" "}
+                  <a
+                    className="text-blue-400"
+                    target="_blank"
+                    href="https://bounceinfinity.com/"
+                  >
+                    Bounce Infinity
+                  </a>{" "}
+                  (with a valid driving license, of course :P)
+                </strong>
+              </p>
+              <p>
+                Chance to meet and interact with startup founders,
                 entrepreneurs, and venture capitalists.
               </p>
               <p>
@@ -561,8 +574,8 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
               </p>
               <p>Exclusive AR/VR exhibition</p>
               <p>
-                StartupVerse- A mini Shark Tank simulation. Real investors, Real
-                Startups, Real experience.
+                StartupVerse - A mini Shark Tank simulation. Real investors,
+                Real Startups, Real experience.
               </p>
               <p>Exciting workshops with great takeaways</p>
               <p>A mega seminar by Unacademy</p>

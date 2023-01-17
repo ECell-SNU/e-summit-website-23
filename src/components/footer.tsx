@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
             </div>
           </div>
           <div className="flex shrink-0 flex-col gap-5 whitespace-nowrap">
-            <p className="text-white/50">Learn More About E-Summit &#39;23</p>
+            <p className="text-white/50">Learn more about E-Summit &#39;23</p>
             <div className="flex flex-wrap gap-6">
               <a>CONTACT US</a>
               <a
