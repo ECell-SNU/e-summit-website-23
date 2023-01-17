@@ -7,7 +7,9 @@ import paymentQr from "../assets/payment_qr.jpg";
 import { trpc } from "../utils/trpc";
 
 import { useAtom } from "jotai";
+import { focusAtom } from "jotai-optics";
 import { showTicketAtom } from "../atoms/index";
+import { checkoutAtom } from "../atoms/index";
 
 import {
   ArrowBackIcon,
@@ -39,8 +41,6 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import "filepond/dist/filepond.min.css";
 import { FilePond, registerPlugin } from "react-filepond";
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
-
-export let showCheckoutSetter: any;
 
 const navItems = [
   {
@@ -118,17 +118,48 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ page }) => {
   const { data: sessionData } = useSession();
   const ref = useRef<HTMLDivElement>(null);
+
   const [showMobileNav, setShowMobileNav] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showAccommodation, setShowAccommodation] = useState(false);
-  const [showTicket, setShowTicket] = useAtom(showTicketAtom);
   const [files, setFiles] = useState([]);
+
+  const [showTicket, setShowTicket] = useAtom(showTicketAtom);
+  const [checkout, setCheckout] = useAtom(checkoutAtom);
+
+  // jotai bs for aadhar
+  const aadharAtom = focusAtom(checkoutAtom, (optic) =>
+    // @ts-ignore
+    optic.prop("aadharCardNumber")
+  );
+  const [aadhar, setAadhar] = useAtom(aadharAtom);
+
+  // jotai bs for accomodation checkout handling
+  const isAccomAtom = focusAtom(checkoutAtom, (optic) =>
+    // @ts-ignore
+    optic.prop("isAccommodation")
+  );
+  const [isAccom, setIsAccom] = useAtom(isAccomAtom);
+
+  const checkinDateAtom = focusAtom(checkoutAtom, (optic) =>
+    // @ts-ignore
+    optic.prop("checkinDate")
+  );
+  const [checkoutDate, setCheckoutDate] = useAtom(checkinDateAtom);
+  const checkoutDateAtom = focusAtom(checkoutAtom, (optic) =>
+    // @ts-ignore
+    optic.prop("checkinDate")
+  );
+  const [checkoutDate, setCheckoutDate] = useAtom(checkoutDateAtom);
+
+  // jotai bs for travel checkout handling
+  const travelAtom = focusAtom(checkoutAtom, (optic) => optic.prop("travel"));
+  const [travel, setTravel] = useAtom(travelAtom);
+
   const { data: isSNU } = trpc.checkout.isSNU.useQuery();
   const handleInitialCheckout =
     trpc.checkout.handleInitialCheckout.useMutation();
-
-  showCheckoutSetter = showTicket;
 
   useEffect(() => {
     if (showMobileNav) {
@@ -397,6 +428,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
               onClick={() => {
                 setShowCart(false);
                 setShowAccommodation(true);
+                setIsAccom(true);
               }}
             >
               <p>Acommodation</p>
@@ -617,12 +649,14 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
             >
               x
             </button>
-            <h1 className="text-center text-2xl font-[600]">ACOMMODATION</h1>
-            <div className="flex w-full items-center justify-center p-4 text-sm">
+            <h1 className="pb-3 text-center text-2xl font-[600]">
+              ACOMMODATION
+            </h1>
+            {/* <div className="flex w-full items-center justify-center p-4 text-sm">
               <p className="text-white/50">BASIC DETAILS</p>
               <div className="mx-3 h-[1px] w-1/3 bg-white/20" />
               <p className="text-white/50">MEMBERS DETAILS</p>
-            </div>
+            </div> */}
             {/* const fields = [
   {
     label: "Aadhar Card Number",
@@ -637,14 +671,15 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
     options: ["29th January", "30th January"],
   },
 ]; */}
-            <div className="grid h-[80%] w-full grid-flow-col grid-cols-2 grid-rows-6 gap-y-12 border-t-[1px] border-white/20 p-4">
-              <div className="flex h-min w-5/6 flex-col">
+            <div className="grid h-[80%] w-full grid-flow-col grid-cols-1 grid-rows-6 gap-y-12 border-t-[1px] border-white/20 p-4">
+              <div className="mx-auto mt-3 flex h-min w-5/6 flex-col gap-2">
                 <p className="text-xs text-white">Aadhar Card Number</p>
                 <Input
                   style={{
                     borderRadius: "12px",
                     borderColor: "rgba(255, 255, 255, 0.5)",
                   }}
+                  onChange={(e) => setAadhar(e.target.value)}
                   className="mt-1"
                   variant="outline"
                   placeholder="12 digits without space"
