@@ -112,10 +112,8 @@ const InitialForm: NextPage = () => {
           className="mt-5 w-[80%]"
           variant="flushed"
           placeholder="University"
-          defaultValue={isSNU ? "Shiv Nadar University" : ""}
           {...register("university", {
             required: true,
-            disabled: isSNU,
           })}
         />
         {errors.university && (

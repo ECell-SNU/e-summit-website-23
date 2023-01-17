@@ -6,7 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import paymentQr from "../assets/payment_qr.jpg";
 import { trpc } from "../utils/trpc";
 
-import { checkoutAtom } from "../atoms/index";
+import { useAtom } from "jotai";
+import { showTicketAtom } from "../atoms/index";
 
 import {
   ArrowBackIcon,
@@ -38,6 +39,8 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import "filepond/dist/filepond.min.css";
 import { FilePond, registerPlugin } from "react-filepond";
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+
+export let showCheckoutSetter: any;
 
 const navItems = [
   {
@@ -119,11 +122,13 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
   const [showCart, setShowCart] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showAccommodation, setShowAccommodation] = useState(false);
-  const [showTicket, setShowTicket] = useState(false);
+  const [showTicket, setShowTicket] = useAtom(showTicketAtom);
   const [files, setFiles] = useState([]);
   const { data: isSNU } = trpc.checkout.isSNU.useQuery();
   const handleInitialCheckout =
     trpc.checkout.handleInitialCheckout.useMutation();
+
+  showCheckoutSetter = showTicket;
 
   useEffect(() => {
     if (showMobileNav) {

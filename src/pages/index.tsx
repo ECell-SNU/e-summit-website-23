@@ -33,9 +33,15 @@ import { signIn, signOut, useSession } from "next-auth/react";
 export { default as getServerSideProps } from "../lib/serverProps";
 
 import Countdown from "../components/countdown";
+// import { showCheckoutSetter } from "../components/navbar";
+
+import { useAtom } from "jotai";
+import { showTicketAtom } from "../atoms/index";
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession();
+
+  const [showTicket, setShowTicket] = useAtom(showTicketAtom);
 
   const [video, setVideo] = useState(false);
   const data = [
@@ -131,7 +137,7 @@ const Home: NextPage = () => {
           <button
             className="z-10 min-h-[70px] min-w-[400px] rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 py-1 text-[12px] font-bold sm:text-sm md:text-xl"
             onClick={() =>
-              sessionData?.user ? console.log("buy") : signIn("google")
+              sessionData?.user ? setShowTicket(true) : signIn("google")
             }
           >
             Buy Ticket
