@@ -618,45 +618,77 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
               <div className="mx-3 h-[1px] w-1/3 bg-white/20" />
               <p className="text-white/50">MEMBERS DETAILS</p>
             </div>
+            {/* const fields = [
+  {
+    label: "Aadhar Card Number",
+    placeholder: "12 digits without space",
+  },
+  {
+    label: "Check In Date",
+    options: ["28th January", "29th January"],
+  },
+  {
+    label: "Check Out Date",
+    options: ["29th January", "30th January"],
+  },
+]; */}
             <div className="grid h-[80%] w-full grid-flow-col grid-cols-2 grid-rows-6 gap-y-12 border-t-[1px] border-white/20 p-4">
-              {fields.map((field, i) => (
-                <div className="flex h-min w-5/6 flex-col" key={i}>
-                  <p className="text-xs text-white">{field.label}</p>
-                  {field.options ? (
-                    <Menu>
-                      <MenuButton
-                        as={Button}
-                        rightIcon={<ChevronDownIcon className="w-full" />}
-                        backgroundColor={"transparent"}
-                        fontWeight={"normal"}
-                        borderRadius={"12px"}
-                        _hover={{}}
-                        _active={{}}
-                        className="mt-1 border border-white/50 pl-4 text-left text-white"
-                      >
-                        {field.options[0]}
-                      </MenuButton>
-                      <MenuList backgroundColor={"#000000"}>
-                        {field.options.map((option, i) => (
-                          <MenuItem backgroundColor={"#000000"} key={i}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </MenuList>
-                    </Menu>
-                  ) : (
-                    <Input
-                      style={{
-                        borderRadius: "12px",
-                        borderColor: "rgba(255, 255, 255, 0.5)",
-                      }}
-                      className="mt-1"
-                      variant="outline"
-                      placeholder={field.placeholder}
-                    />
-                  )}
-                </div>
-              ))}
+              <div className="flex h-min w-5/6 flex-col">
+                <p className="text-xs text-white">Aadhar Card Number</p>
+                <Input
+                  style={{
+                    borderRadius: "12px",
+                    borderColor: "rgba(255, 255, 255, 0.5)",
+                  }}
+                  className="mt-1"
+                  variant="outline"
+                  placeholder="12 digits without space"
+                />
+
+                <p className="text-xs text-white">Check In Date</p>
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    rightIcon={<ChevronDownIcon className="w-full" />}
+                    backgroundColor={"transparent"}
+                    fontWeight={"normal"}
+                    borderRadius={"12px"}
+                    _hover={{}}
+                    _active={{}}
+                    className="mt-1 border border-white/50 pl-4 text-left text-white"
+                  ></MenuButton>
+                  <MenuList backgroundColor={"#000000"}>
+                    <MenuItem backgroundColor={"#000000"}>
+                      28th January
+                    </MenuItem>
+                    <MenuItem backgroundColor={"#000000"}>
+                      29th January
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+
+                <p className="text-xs text-white">Check Out Date</p>
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    rightIcon={<ChevronDownIcon className="w-full" />}
+                    backgroundColor={"transparent"}
+                    fontWeight={"normal"}
+                    borderRadius={"12px"}
+                    _hover={{}}
+                    _active={{}}
+                    className="mt-1 border border-white/50 pl-4 text-left text-white"
+                  ></MenuButton>
+                  <MenuList backgroundColor={"#000000"}>
+                    <MenuItem backgroundColor={"#000000"}>
+                      29th January
+                    </MenuItem>
+                    <MenuItem backgroundColor={"#000000"}>
+                      30th January
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              </div>
             </div>
             <div className="absolute bottom-0 right-0 flex w-1/2 justify-center py-4 px-5">
               <button className="rounded-md border border-white/50 px-6 py-2">
