@@ -6,6 +6,7 @@ import { protectedProcedure, publicProcedure, router } from "../trpc";
 import os from "os";
 import path from "path";
 import * as fs from "node:fs/promises";
+import OCR from "../../../lib/ocr";
 
 export const checkoutRouter = router({
   isSNU: publicProcedure.query(({ ctx }) => {
@@ -49,10 +50,6 @@ export const checkoutRouter = router({
 
       const { id: userId } = ctx.session.user;
       const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
-
-      // rewrite this to handle actual checkout (take in accomodation and travel info)
-      // also, make separate route for event checkout
-
       if (!user) return;
 
       const { isAccomodation, travel, checkinDate, checkoutDate } = input;
@@ -64,61 +61,61 @@ export const checkoutRouter = router({
         .sort()
         .reverse()[0];
 
-      console.log({ ssFilename });
+      const UPI = (await OCR(ssDir + "/" + ssFilename))[0];
 
       // event for sure
-      const event = isSNU
-        ? await ctx.prisma.event.findFirst({ where: { name: "SNU-ESUMMIT" } })
-        : await ctx.prisma.event.findFirst({
-            where: { name: "NONSNU-ESUMMIT" },
-          });
+      // const event = isSNU
+      //   ? await ctx.prisma.event.findFirst({ where: { name: "SNU-ESUMMIT" } })
+      //   : await ctx.prisma.event.findFirst({
+      //       where: { name: "NONSNU-ESUMMIT" },
+      //     });
 
-      const cluster = await ctx.prisma.cluster.findFirst({
-        where: {
-          gender: user.gender,
-        },
-      });
+      // const cluster = await ctx.prisma.cluster.findFirst({
+      //   where: {
+      //     gender: user.gender,
+      //   },
+      // });
 
-      if (!cluster || !event) return;
+      // if (!cluster || !event) return;
 
-      ctx.prisma.$transaction(async (tx) => {
-        const eventPaymentItem = await tx.paymentItem.create({
-          data: {
-            userId,
-            amount: event.amount,
-            state: "PROCESSING",
-          },
-        });
+      // ctx.prisma.$transaction(async (tx) => {
+      //   const eventPaymentItem = await tx.paymentItem.create({
+      //     data: {
+      //       userId,
+      //       amount: event.amount,
+      //       state: "PROCESSING",
+      //     },
+      //   });
 
-        const eventReg = await tx.eventReg.create({
-          data: {
-            userId,
-            eventId: event.id,
-            paymentId: eventPaymentItem.id,
-          },
-        });
+      //   const eventReg = await tx.eventReg.create({
+      //     data: {
+      //       userId,
+      //       eventId: event.id,
+      //       paymentId: eventPaymentItem.id,
+      //     },
+      //   });
 
-        if (isAccomodation && checkinDate && checkoutDate) {
-          const days = checkoutDate.getDate() - checkinDate.getDate();
+      //   if (isAccomodation && checkinDate && checkoutDate) {
+      //     const days = checkoutDate.getDate() - checkinDate.getDate();
 
-          const accomodationPaymentItem = await tx.paymentItem.create({
-            data: {
-              userId,
-              amount: 300 * days - (days - 1) * 50,
-              state: "PROCESSING",
-            },
-          });
+      //     const accomodationPaymentItem = await tx.paymentItem.create({
+      //       data: {
+      //         userId,
+      //         amount: 300 * days - (days - 1) * 50,
+      //         state: "PROCESSING",
+      //       },
+      //     });
 
-          const accomodation = tx.accomodation.create({
-            data: {
-              checkInDate: checkinDate,
-              checkOutDate: checkoutDate,
-              clusterId: cluster.id,
-              paymentId: accomodationPaymentItem.id,
-              userId,
-            },
-          });
-        }
-      });
+      //     const accomodation = tx.accomodation.create({
+      //       data: {
+      //         checkInDate: checkinDate,
+      //         checkOutDate: checkoutDate,
+      //         clusterId: cluster.id,
+      //         paymentId: accomodationPaymentItem.id,
+      //         userId,
+      //       },
+      //     });
+      // }
+      // });
     }),
 });
