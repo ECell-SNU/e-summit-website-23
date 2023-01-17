@@ -27,6 +27,7 @@ import universe from "../assets/universe.svg";
 import videoThumbnail from "../assets/video-thumbnail.png";
 
 import RegBox from "../components/reg-box";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 // Add this to every page to protect from users who haven't filled the form
 // export { default as getServerSideProps } from "../lib/serverProps";
@@ -34,6 +35,8 @@ import RegBox from "../components/reg-box";
 import Countdown from "../components/countdown";
 
 const Home: NextPage = () => {
+  const { data: sessionData } = useSession();
+
   const [video, setVideo] = useState(false);
   const data = [
     [startupverse, redEllipse2, "/events/startupverse"],
@@ -125,6 +128,14 @@ const Home: NextPage = () => {
             src={splashImg}
           />
           {/* <RegBox /> */}
+          <button
+            className="z-10 min-h-[70px] min-w-[400px] rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 py-1 text-[12px] font-bold sm:text-sm md:text-xl"
+            onClick={() =>
+              sessionData?.user ? console.log("buy") : signIn("google")
+            }
+          >
+            Buy Ticket
+          </button>
           <div className="mt-6 flex flex-col items-center gap-2 md:mt-12">
             <Countdown
               initialTime={new Date("Jan 28, 2023 00:00:00").getTime()}
