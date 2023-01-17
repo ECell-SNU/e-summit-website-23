@@ -86,7 +86,7 @@ model User {
   fieldOfStudy String?
   yearOfStudy  String?
   mobileNumber String?
-  gender       Gender
+  gender       Gender?
 
   Team         Team[]
   teamLeader   Boolean        @default(false)
