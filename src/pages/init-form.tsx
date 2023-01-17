@@ -57,8 +57,8 @@ interface InitFormInputs {
   university: string;
   fieldOfStudy: string;
   yearOfStudy: string;
-	mobileNumber: string;
-	gender: "MALE" | "FEMALE";
+  mobileNumber: string;
+  gender: "MALE" | "FEMALE";
 }
 
 const InitialForm: NextPage = () => {
@@ -168,8 +168,8 @@ const InitialForm: NextPage = () => {
           <FormHelperText color="red.400">
             This field is required
           </FormHelperText>
-				)}
-				<Select
+        )}
+        <Select
           className="w-[80%]"
           marginTop="38px"
           variant="flushed"
@@ -181,6 +181,11 @@ const InitialForm: NextPage = () => {
           <option value="MALE">MALE</option>
           <option value="FEMALE">FEMALE</option>
         </Select>
+        {errors.gender && (
+          <FormHelperText color="red.400">
+            This field is required
+          </FormHelperText>
+        )}
         <Button
           mt={14}
           colorScheme="black"

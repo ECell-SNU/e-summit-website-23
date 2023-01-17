@@ -1,4 +1,4 @@
 import { atom } from "jotai";
-import { checkoutObject } from "../types";
+import { CheckoutObject } from "../types";
 
-export const checkoutAtom = atom<checkoutObject | null>(null);
+export const checkoutAtom = atom<CheckoutObject | null>(null);

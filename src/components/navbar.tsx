@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import paymentQr from "../assets/payment_qr.jpg";
 import { trpc } from "../utils/trpc";
 
+import { checkoutAtom } from "../atoms/index";
+
 import {
   ArrowBackIcon,
   ArrowForwardIcon,
@@ -13,7 +15,9 @@ import {
   ChevronRightIcon,
   CloseIcon,
   HamburgerIcon,
+  AddIcon,
 } from "@chakra-ui/icons";
+
 import {
   Avatar,
   Button,
@@ -406,25 +410,26 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
             </div>
           </div>
           {/* TODO: Add this later */}
-          {/* <div className="flex justify-evenly gap-4">
-						<button
-							className="flex justify-evenly bg-[#0E0D0D] px-4 py-2 rounded-md gap-4"
-							onClick={() => {
-								setShowCart(false);
-								setShowAccommodation(true);
-							}}>
-							<p>Acommodation</p>
-							<div className="bg-[#0085FF] rounded-md w-[25px] h-[25px] flex justify-center items-center">
-								<AddIcon boxSize={2} />
-							</div>
-						</button>
-						<div className="flex justify-evenly bg-[#0E0D0D] px-4 py-2 rounded-md gap-4">
-							<p>Travel</p>
-							<div className="bg-[#0085FF] rounded-md w-[25px] h-[25px] flex justify-center items-center">
-								<AddIcon boxSize={2} />
-							</div>
-						</div>
-					</div> */}
+          <div className="flex justify-evenly gap-4">
+            <button
+              className="flex justify-evenly gap-4 rounded-md bg-[#0E0D0D] px-4 py-2"
+              onClick={() => {
+                setShowCart(false);
+                setShowAccommodation(true);
+              }}
+            >
+              <p>Acommodation</p>
+              <div className="flex h-[25px] w-[25px] items-center justify-center rounded-md bg-[#0085FF]">
+                <AddIcon boxSize={2} />
+              </div>
+            </button>
+            <div className="flex justify-evenly gap-4 rounded-md bg-[#0E0D0D] px-4 py-2">
+              <p>Travel</p>
+              <div className="flex h-[25px] w-[25px] items-center justify-center rounded-md bg-[#0085FF]">
+                <AddIcon boxSize={2} />
+              </div>
+            </div>
+          </div>
           <button
             className="flex w-full items-center justify-center gap-2 rounded-md bg-[#0085FF] py-2"
             onClick={() => {
@@ -575,7 +580,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
               <p>Exclusive AR/VR exhibition</p>
               <p>
                 StartupVerse - A mini Shark Tank simulation. Real investors,
-                Real Startups, Real experience.
+                real startups, real experience.
               </p>
               <p>Exciting workshops with great takeaways</p>
               <p>A mega seminar by Unacademy</p>
