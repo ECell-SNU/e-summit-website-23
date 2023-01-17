@@ -95,40 +95,16 @@ const navItems = [
 
 const fields = [
   {
-    label: "Name",
-    placeholder: "Enter your name",
-  },
-  {
-    label: "Email",
-    placeholder: "Enter your email",
-  },
-  {
-    label: "Contact",
-    placeholder: "Enter your contact number",
-  },
-  {
-    label: "Gender",
-    options: ["Select gender", "Male", "Female", "Other"],
-  },
-  {
     label: "Aadhar Card Number",
     placeholder: "12 digits without space",
   },
   {
-    label: "City",
-    placeholder: "Enter your city",
+    label: "Check In Date",
+    options: ["28th January", "29th January"],
   },
   {
-    label: "Date of Birth",
-    placeholder: "DD/MM/YYYY",
-  },
-  {
-    label: "Check In",
-    options: ["28th January", "29th January", "30th January"],
-  },
-  {
-    label: "Check Out",
-    options: ["28th January", "29th January", "30th January"],
+    label: "Check Out Date",
+    options: ["29th January", "30th January"],
   },
 ];
 

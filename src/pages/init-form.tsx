@@ -62,6 +62,7 @@ interface InitFormInputs {
 
 const InitialForm: NextPage = () => {
   const { data: sessionData } = useSession();
+  const isSNU = sessionData?.user?.email?.endsWith("snu.edu.in");
 
   const toast = useToast();
   const nav = useRouter();
@@ -102,7 +103,7 @@ const InitialForm: NextPage = () => {
   return sessionData ? (
     <div className="mx-auto flex w-[40vw] flex-col items-start phone:w-[90vw]">
       <div>
-        <div className="mt-10 text-5xl phone:text-4xl">
+        <div className="mt-24 text-5xl phone:text-4xl">
           Welcome, {sessionData.user?.name?.split(" ")[0]}.
         </div>
         <div className="text-sm laptop:text-base">
@@ -115,6 +116,8 @@ const InitialForm: NextPage = () => {
           className="mt-5 w-[80%]"
           variant="flushed"
           placeholder="University"
+          value={isSNU ? "Shiv Nadar University" : ""}
+          isDisabled={isSNU}
           {...register("university", { required: true })}
         />
         {errors.university && (
