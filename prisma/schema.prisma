@@ -15,10 +15,23 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum Role {
+  USER
+  ADMIN
+  HACKATHON
+  IDEATHON
+  STARTUPVERSE
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum PaymentItemState {
+  PROCESSING
+  FAILED
+  APPROVED
 }
 
 // Necessary for Next auth
@@ -75,12 +88,12 @@ model User {
   mobileNumber String?
   gender       Gender
 
-  Payment Payment[]
-
   Team         Team[]
   teamLeader   Boolean        @default(false)
   Accomodation Accomodation[]
   TravelItem   TravelItem[]
+  EventReg     EventReg[]
+  PaymentItem  PaymentItem[]
 }
 
 model VerificationToken {
@@ -91,17 +104,30 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model EmailReg {
-  email String @unique
+model Event {
+  id       String     @id @default(cuid())
+  // event type either 2 day or 3 day enum
+  amount   Int
+  name     String
+  Team     Team[]
+  EventReg EventReg[]
 }
 
-model Event {
-  id      String    @id @default(cuid())
-  // event type either 2 day or 3 day enum
-  amount  Int
-  name    String
-  Payment Payment[]
-  Team    Team[]
+model EventReg {
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String
+
+  paymentId String
+  payment   PaymentItem @relation(fields: [paymentId], references: [id])
+
+  @@index([userId])
+  @@index([eventId])
+  @@index([paymentId])
 }
 
 // create a payment model for paytm gateway
@@ -110,27 +136,19 @@ model PaymentItem {
   id String @id @default(cuid())
 
   userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   amount Int
 
   state        PaymentItemState
   Accomodation Accomodation[]
   TravelItem   TravelItem[]
+  EventReg     EventReg[]
+
+  @@index([userId])
 }
 
 // This is for the event payments ONLY 
-model Payment {
-  id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  eventId   String
-  amount    Int
-  status    String
-  createdAt DateTime @default(now())
-
-  @@index([userId])
-  @@index([eventId])
-}
 
 model Team {
   id      String @id @default(cuid())
@@ -151,9 +169,11 @@ model Travel {
 }
 
 model TravelItem {
-  id       String @id @default(cuid())
-  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   String
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
   travel   Travel @relation(fields: [travelId], references: [id], onDelete: Cascade)
   travelId String
 
@@ -162,6 +182,7 @@ model TravelItem {
 
   @@index([userId])
   @@index([travelId])
+  @@index([paymentItemId])
 }
 
 model Cluster {
@@ -170,7 +191,6 @@ model Cluster {
   beds         Int
   accomodation Accomodation[]
   gender       Gender
-  amount       Int
 }
 
 model Accomodation {
@@ -185,30 +205,15 @@ model Accomodation {
   checkedIn  Boolean @default(false)
   checkedOut Boolean @default(false)
 
-  user   User   @relation(fields: [userId], references: [id])
+  payment   PaymentItem @relation(fields: [paymentId], references: [id])
+  paymentId String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  payment       PaymentItem @relation(fields: [paymentItemId], references: [id])
-  paymentItemId String
-
   @@index([clusterId])
+  @@index([paymentId])
   @@index([userId])
 }
 
 // Role user or admin
-enum Role {
-  USER
-  ADMIN
-}
-
-enum Gender {
-  MALE
-  FEMALE
-}
-
-enum PaymentItemState {
-  NOT_REG
-  PROCESSING
-  FAILED
-  APPROVED
-}

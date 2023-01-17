@@ -1,10 +1,7 @@
 import { z } from "zod";
 
-import { router, protectedProcedure, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
-
-import { CheckoutObject } from "../../../types/index";
-import { transformValue } from "superjson/dist/transformer";
+import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 export const checkoutRouter = router({
   isSNU: publicProcedure.query(({ ctx }) => {
@@ -53,7 +50,6 @@ export const checkoutRouter = router({
       // also, make separate route for event checkout
 
       if (!user) return;
-      let success = false;
 
       const { isAccomodation, travel, checkinDate, checkoutDate } = input;
 
@@ -81,9 +77,35 @@ export const checkoutRouter = router({
           },
         });
 
-        // add cluster and travel into the payment transaction
-      });
+        const eventReg = await tx.eventReg.create({
+          data: {
+            userId,
+            eventId: event.id,
+            paymentId: eventPaymentItem.id,
+          },
+        });
 
-      return success;
+        if (isAccomodation && checkinDate && checkoutDate) {
+          const days = checkoutDate.getDate() - checkinDate.getDate();
+
+          const accomodationPaymentItem = await tx.paymentItem.create({
+            data: {
+              userId,
+              amount: 300 * days - (days - 1) * 50,
+              state: "PROCESSING",
+            },
+          });
+
+          const accomodation = tx.accomodation.create({
+            data: {
+              checkInDate: checkinDate,
+              checkOutDate: checkoutDate,
+              clusterId: cluster.id,
+              paymentId: accomodationPaymentItem.id,
+              userId,
+            },
+          });
+        }
+      });
     }),
 });
