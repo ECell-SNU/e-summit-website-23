@@ -1,27 +1,26 @@
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 
-import { useForm, SubmitHandler } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 import { type GetServerSidePropsContext } from "next";
 
 import { prisma } from "../server/db/client";
 
-import { authOptions } from "../pages/api/auth/[...nextauth]";
 import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "../pages/api/auth/[...nextauth]";
 
 import {
+  Button,
   FormControl,
-  FormLabel,
-  FormErrorMessage,
   FormHelperText,
   Input,
   Select,
-  Button,
   useToast,
 } from "@chakra-ui/react";
 
 import { trpc } from "../utils/trpc";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await unstable_getServerSession(
@@ -57,15 +56,15 @@ interface InitFormInputs {
   university: string;
   fieldOfStudy: string;
   yearOfStudy: string;
-	mobileNumber: string;
-	gender: "MALE" | "FEMALE";
+  mobileNumber: string;
+  gender: "MALE" | "FEMALE";
 }
 
 const InitialForm: NextPage = () => {
   const { data: sessionData } = useSession();
 
   const toast = useToast();
-
+  const nav = useRouter();
   const mutation = trpc.reg.fillUserInfo.useMutation();
 
   const {
@@ -94,6 +93,9 @@ const InitialForm: NextPage = () => {
         duration: 5000,
         isClosable: true,
       });
+      // redirect to index page
+      window.location.href = "/";
+      // nav.push("/");
     }
   };
 
@@ -168,8 +170,8 @@ const InitialForm: NextPage = () => {
           <FormHelperText color="red.400">
             This field is required
           </FormHelperText>
-				)}
-				<Select
+        )}
+        <Select
           className="w-[80%]"
           marginTop="38px"
           variant="flushed"
