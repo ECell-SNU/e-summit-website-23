@@ -92,7 +92,7 @@ const InitialForm: NextPage = () => {
         duration: 5000,
         isClosable: true,
       });
-      window.location.href = "/";
+      setTimeout(() => (window.location.href = "/"), 1000);
     }
   };
 
@@ -112,8 +112,6 @@ const InitialForm: NextPage = () => {
           className="mt-5 w-[80%]"
           variant="flushed"
           placeholder="University"
-          value={isSNU ? "Shiv Nadar University" : ""}
-          isDisabled={isSNU}
           {...register("university", { required: true })}
         />
         {errors.university && (
