@@ -26,7 +26,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Res>) {
       multiples: false,
       uploadDir: os.homedir() + "/screenshots",
       keepExtensions: true,
-      filename: () => {
+      filename: (_, ext) => {
         const files = fs.readdirSync(os.homedir() + "/screenshots");
         // count the number of files that includes the user id
         if (!session.user) return "asd";
@@ -35,7 +35,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Res>) {
           return file.includes(id);
         }).length;
 
-        return `${id}-${count + 1}`;
+        return `${id}-${count + 1}${ext}`;
       },
     });
 

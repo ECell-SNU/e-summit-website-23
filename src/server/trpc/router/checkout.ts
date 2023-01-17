@@ -6,6 +6,7 @@ import { protectedProcedure, publicProcedure, router } from "../trpc";
 import os from "os";
 import path from "path";
 import * as fs from "node:fs/promises";
+import OCR from "../../../lib/ocr";
 
 export const checkoutRouter = router({
   isSNU: publicProcedure.query(({ ctx }) => {
@@ -31,19 +32,19 @@ export const checkoutRouter = router({
     }
   }),
   handleInitialCheckout: protectedProcedure
-    .input(
-      z.object({
-        isAccomodation: z.boolean().optional(),
-        checkinDate: z.date().optional(),
-        checkoutDate: z.date().optional(),
-        travel: z
-          .object({
-            destination: z.string(),
-            departureDateAndTime: z.date(),
-          })
-          .optional(),
-      })
-    )
+    // .input(
+    //   z.object({
+    //     isAccomodation: z.boolean().optional(),
+    //     checkinDate: z.date().optional(),
+    //     checkoutDate: z.date().optional(),
+    //     travel: z
+    //       .object({
+    //         destination: z.string(),
+    //         departureDateAndTime: z.date(),
+    //       })
+    //       .optional(),
+    //   })
+    // )
     .mutation(async ({ ctx, input }) => {
       const isSNU = ctx.session.user.email?.endsWith("snu.edu.in");
 
@@ -55,7 +56,7 @@ export const checkoutRouter = router({
 
       if (!user) return;
 
-      const { isAccomodation, travel, checkinDate, checkoutDate } = input;
+      // const { isAccomodation, travel, checkinDate, checkoutDate } = input;
 
       const ssDir = path.join(os.homedir(), "screenshots");
 
@@ -64,61 +65,62 @@ export const checkoutRouter = router({
         .sort()
         .reverse()[0];
 
-      console.log({ ssFilename });
+      console.log(ssDir + ssFilename);
+      console.log(await OCR(ssDir + "/" + ssFilename));
 
       // event for sure
-      const event = isSNU
-        ? await ctx.prisma.event.findFirst({ where: { name: "SNU-ESUMMIT" } })
-        : await ctx.prisma.event.findFirst({
-            where: { name: "NONSNU-ESUMMIT" },
-          });
+      // const event = isSNU
+      //   ? await ctx.prisma.event.findFirst({ where: { name: "SNU-ESUMMIT" } })
+      //   : await ctx.prisma.event.findFirst({
+      //       where: { name: "NONSNU-ESUMMIT" },
+      //     });
 
-      const cluster = await ctx.prisma.cluster.findFirst({
-        where: {
-          gender: user.gender,
-        },
-      });
+      // const cluster = await ctx.prisma.cluster.findFirst({
+      //   where: {
+      //     gender: user.gender,
+      //   },
+      // });
 
-      if (!cluster || !event) return;
+      // if (!cluster || !event) return;
 
-      ctx.prisma.$transaction(async (tx) => {
-        const eventPaymentItem = await tx.paymentItem.create({
-          data: {
-            userId,
-            amount: event.amount,
-            state: "PROCESSING",
-          },
-        });
+      // ctx.prisma.$transaction(async (tx) => {
+      //   const eventPaymentItem = await tx.paymentItem.create({
+      //     data: {
+      //       userId,
+      //       amount: event.amount,
+      //       state: "PROCESSING",
+      //     },
+      //   });
 
-        const eventReg = await tx.eventReg.create({
-          data: {
-            userId,
-            eventId: event.id,
-            paymentId: eventPaymentItem.id,
-          },
-        });
+      //   const eventReg = await tx.eventReg.create({
+      //     data: {
+      //       userId,
+      //       eventId: event.id,
+      //       paymentId: eventPaymentItem.id,
+      //     },
+      //   });
 
-        if (isAccomodation && checkinDate && checkoutDate) {
-          const days = checkoutDate.getDate() - checkinDate.getDate();
+      //   if (isAccomodation && checkinDate && checkoutDate) {
+      //     const days = checkoutDate.getDate() - checkinDate.getDate();
 
-          const accomodationPaymentItem = await tx.paymentItem.create({
-            data: {
-              userId,
-              amount: 300 * days - (days - 1) * 50,
-              state: "PROCESSING",
-            },
-          });
+      //     const accomodationPaymentItem = await tx.paymentItem.create({
+      //       data: {
+      //         userId,
+      //         amount: 300 * days - (days - 1) * 50,
+      //         state: "PROCESSING",
+      //       },
+      //     });
 
-          const accomodation = tx.accomodation.create({
-            data: {
-              checkInDate: checkinDate,
-              checkOutDate: checkoutDate,
-              clusterId: cluster.id,
-              paymentId: accomodationPaymentItem.id,
-              userId,
-            },
-          });
-        }
-      });
+      //     const accomodation = tx.accomodation.create({
+      //       data: {
+      //         checkInDate: checkinDate,
+      //         checkOutDate: checkoutDate,
+      //         clusterId: cluster.id,
+      //         paymentId: accomodationPaymentItem.id,
+      //         userId,
+      //       },
+      //     });
+      // }
+      // });
     }),
 });
