@@ -24,18 +24,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Res>) {
   try {
     const form = formidable({
       multiples: false,
-      uploadDir: os.homedir() + "/screenshots",
+      uploadDir: "./screenshots",
       keepExtensions: true,
-      filename: () => {
-        const files = fs.readdirSync(os.homedir() + "/screenshots");
-        // count the number of files that includes the user id
-        if (!session.user) return "asd";
-        const id = session.user.id;
-        const count = files.filter((file) => {
-          return file.includes(id);
-        }).length;
-
-        return `${id}-${count + 1}`;
+      filename: (name, ext) => {
+        return `${session.user?.id ?? name}-${Date.now()}${ext}`;
       },
     });
 
@@ -44,6 +36,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Res>) {
         res.status(500).json({ status: "error", message: err.message });
         return;
       }
+      // upload to google cloud storage
+      // const storage = new Storage(gcloudStorageOptions);
+      // const bucket = storage.bucket("bucket-name");
 
       res.status(200).json({
         status: "success",

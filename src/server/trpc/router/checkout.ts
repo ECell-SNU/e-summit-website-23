@@ -3,6 +3,10 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 
+import os from "os";
+import path from "path";
+import * as fs from "node:fs/promises";
+
 export const checkoutRouter = router({
   isSNU: publicProcedure.query(({ ctx }) => {
     return ctx?.session?.user?.email?.endsWith("snu.edu.in") ?? false;
@@ -52,6 +56,15 @@ export const checkoutRouter = router({
       if (!user) return;
 
       const { isAccomodation, travel, checkinDate, checkoutDate } = input;
+
+      const ssDir = path.join(os.homedir(), "screenshots");
+
+      const ssFilename = (await fs.readdir(ssDir))
+        .filter((ss) => ss.includes(userId))
+        .sort()
+        .reverse()[0];
+
+      console.log({ ssFilename });
 
       // event for sure
       const event = isSNU
