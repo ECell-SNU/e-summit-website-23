@@ -20,7 +20,6 @@ import {
 } from "@chakra-ui/react";
 
 import { trpc } from "../utils/trpc";
-import { useRouter } from "next/router";
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await unstable_getServerSession(
@@ -40,7 +39,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     if (user?.hasFilledInfo) {
       return {
         redirect: {
-          destination: "/dashboard",
+          destination: "/",
           permanent: false,
         },
       };
@@ -65,7 +64,6 @@ const InitialForm: NextPage = () => {
   const isSNU = sessionData?.user?.email?.endsWith("snu.edu.in");
 
   const toast = useToast();
-  const nav = useRouter();
   const mutation = trpc.reg.fillUserInfo.useMutation();
 
   const {
@@ -94,9 +92,7 @@ const InitialForm: NextPage = () => {
         duration: 5000,
         isClosable: true,
       });
-      // redirect to index page
       window.location.href = "/";
-      // nav.push("/");
     }
   };
 
