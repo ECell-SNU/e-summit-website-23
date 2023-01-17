@@ -32,31 +32,27 @@ export const checkoutRouter = router({
     }
   }),
   handleInitialCheckout: protectedProcedure
-    // .input(
-    //   z.object({
-    //     isAccomodation: z.boolean().optional(),
-    //     checkinDate: z.date().optional(),
-    //     checkoutDate: z.date().optional(),
-    //     travel: z
-    //       .object({
-    //         destination: z.string(),
-    //         departureDateAndTime: z.date(),
-    //       })
-    //       .optional(),
-    //   })
-    // )
+    .input(
+      z.object({
+        isAccomodation: z.boolean().optional(),
+        checkinDate: z.date().optional(),
+        checkoutDate: z.date().optional(),
+        travel: z
+          .object({
+            destination: z.string(),
+            departureDateAndTime: z.date(),
+          })
+          .optional(),
+      })
+    )
     .mutation(async ({ ctx, input }) => {
       const isSNU = ctx.session.user.email?.endsWith("snu.edu.in");
 
       const { id: userId } = ctx.session.user;
       const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
-
-      // rewrite this to handle actual checkout (take in accomodation and travel info)
-      // also, make separate route for event checkout
-
       if (!user) return;
 
-      // const { isAccomodation, travel, checkinDate, checkoutDate } = input;
+      const { isAccomodation, travel, checkinDate, checkoutDate } = input;
 
       const ssDir = path.join(os.homedir(), "screenshots");
 
@@ -65,8 +61,7 @@ export const checkoutRouter = router({
         .sort()
         .reverse()[0];
 
-      console.log(ssDir + ssFilename);
-      console.log(await OCR(ssDir + "/" + ssFilename));
+      const UPI = (await OCR(ssDir + "/" + ssFilename))[0];
 
       // event for sure
       // const event = isSNU

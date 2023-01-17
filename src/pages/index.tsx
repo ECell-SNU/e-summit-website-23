@@ -30,7 +30,7 @@ import RegBox from "../components/reg-box";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 // Add this to every page to protect from users who haven't filled the form
-// export { default as getServerSideProps } from "../lib/serverProps";
+export { default as getServerSideProps } from "../lib/serverProps";
 
 import Countdown from "../components/countdown";
 

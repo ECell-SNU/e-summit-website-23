@@ -9,7 +9,7 @@ const config = {
 // receive filename and return UPI ID and amount from the image
 const OCR = async (name: string) => {
   const result = (await tess.recognize(name, config)).match(/[0-9\(\)]+/g);
-  if (!result) return null;
+  if (!result) return [null];
   return result.filter((s) => s.length === 12);
 };
 
