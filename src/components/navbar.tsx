@@ -96,25 +96,22 @@ const navItems = [
   // },
 ];
 
-const fields = [
-  {
-    label: "Aadhar Card Number",
-    placeholder: "12 digits without space",
-  },
-  {
-    label: "Check In Date",
-    options: ["28th January", "29th January"],
-  },
-  {
-    label: "Check Out Date",
-    options: ["29th January", "30th January"],
-  },
-];
-
 interface NavbarProps {
   page?: string;
 }
-
+const aadharAtom = focusAtom(checkoutAtom, (optic) =>
+  optic.prop("aadharCardNumber")
+);
+const isAccomAtom = focusAtom(checkoutAtom, (optic) =>
+  optic.prop("isAccommodation")
+);
+const checkinDateAtom = focusAtom(checkoutAtom, (optic) =>
+  optic.prop("checkinDate")
+);
+const checkoutDateAtom = focusAtom(checkoutAtom, (optic) =>
+  optic.prop("checkoutDate")
+);
+const travelAtom = focusAtom(checkoutAtom, (optic) => optic.prop("travel"));
 const Navbar: React.FC<NavbarProps> = ({ page }) => {
   const { data: sessionData } = useSession();
   const ref = useRef<HTMLDivElement>(null);
@@ -129,30 +126,18 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
   const [checkout, setCheckout] = useAtom(checkoutAtom);
 
   // jotai bs for aadhar
-  const aadharAtom = focusAtom(checkoutAtom, (optic) =>
-    optic.prop("aadharCardNumber")
-  );
+
   const [aadhar, setAadhar] = useAtom(aadharAtom);
 
   // jotai bs for accomodation checkout handling
-  const isAccomAtom = focusAtom(checkoutAtom, (optic) =>
-    optic.prop("isAccommodation")
-  );
+
   const [isAccom, setIsAccom] = useAtom(isAccomAtom);
 
-  const checkinDateAtom = focusAtom(checkoutAtom, (optic) =>
-    optic.prop("checkinDate")
-  );
   const [checkinDate, setCheckinDate] = useAtom(checkinDateAtom);
 
-  const checkoutDateAtom = focusAtom(checkoutAtom, (optic) =>
-    optic.prop("checkoutDate")
-  );
   const [checkoutDate, setCheckoutDate] = useAtom(checkoutDateAtom);
 
   // jotai bs for travel checkout handling
-  const travelAtom = focusAtom(checkoutAtom, (optic) => optic.prop("travel"));
-  const [travel, setTravel] = useAtom(travelAtom);
 
   const { data: isSNU } = trpc.checkout.isSNU.useQuery();
   const handleInitialCheckout =
