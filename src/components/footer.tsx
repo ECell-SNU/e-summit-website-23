@@ -17,20 +17,33 @@ const Footer: React.FC = () => {
               <Link href="https://www.linkedin.com/company/esummit-snu/">
                 <LinkedinLogo size={50} />
               </Link>
-              <Link href="esummit@snu.edu.in">
+              <Link href="mailto:esummit@snu.edu.in">
                 <Envelope size={50} />
               </Link>
             </div>
           </div>
           <div className="flex shrink-0 flex-col gap-5 whitespace-nowrap">
-            <p className="text-white/50">Learn More About E-SUMMIT&#39;23</p>
+            <p className="text-white/50">Learn More About E-Summit &#39;23</p>
             <div className="flex flex-wrap gap-6">
-              <a>BLOG</a>
-              <a>ABOUT</a>
-              <a>PRIVACY POLICY</a>
-              <a>TERMS & CONDITIONS </a>
               <a>CONTACT US</a>
-              <a>REFUND POLICY</a>
+              <a
+                target="_blank"
+                href="https://docs.google.com/document/d/e/2PACX-1vQ_zpZ7CN8gf0peRO2g7XfP54RXtpoHiJPPddtT3JGQ5wBcgrZKpIhjT-NjdWRwlIfE8_E77nUHe_63/pub"
+              >
+                TERMS & CONDITIONS
+              </a>
+              <a
+                target="_blank"
+                href="https://docs.google.com/document/d/e/2PACX-1vQsCKc5p4oi6Eh59L8J1BXQsiNisZ9BfuYV-VN7ts8AgzqnzyiDQGLrAny0QXI34FHhtloZKfzubL4n/pub"
+              >
+                PRIVACY POLICY
+              </a>
+              <a
+                target="_blank"
+                href="https://docs.google.com/document/d/e/2PACX-1vSGtBGlRVMRPAVsDuqD1IjMDmRRhifk5GwAdIhNmXw7GIs7QhbOIsbFMmoT9iNeabxs4IR5gXYXPL85/pub"
+              >
+                REFUND POLICY
+              </a>
             </div>
           </div>
         </div>

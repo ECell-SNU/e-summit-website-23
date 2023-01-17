@@ -124,7 +124,7 @@ const Home: NextPage = () => {
             alt=""
             src={splashImg}
           />
-          <RegBox />
+          {/* <RegBox /> */}
           <div className="mt-6 flex flex-col items-center gap-2 md:mt-12">
             <Countdown
               initialTime={new Date("Jan 28, 2023 00:00:00").getTime()}
