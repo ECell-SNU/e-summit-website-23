@@ -94,6 +94,7 @@ model User {
   TravelItem   TravelItem[]
   EventReg     EventReg[]
   PaymentItem  PaymentItem[]
+  UserPayment  UserPayment[]
 }
 
 model VerificationToken {
@@ -145,15 +146,31 @@ model PaymentItem {
 
   amount Int
 
+  userPaymentId String
+  userPayment   UserPayment @relation(fields: [userPaymentId], references: [id])
+
   state        PaymentItemState
   Accomodation Accomodation[]
   TravelItem   TravelItem[]
   EventReg     EventReg[]
 
   @@index([userId])
+  @@index([userPaymentId])
 }
 
 // This is for the event payments ONLY 
+
+model UserPayment {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  upi         String
+  PaymentItem PaymentItem[]
+
+  @@index([userId])
+}
 
 model Team {
   id      String @id @default(cuid())
