@@ -15,10 +15,23 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum Role {
+  USER
+  ADMIN
+  HACKATHON
+  IDEATHON
+  STARTUPVERSE
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum PaymentItemState {
+  PROCESSING
+  FAILED
+  APPROVED
 }
 
 // Necessary for Next auth
@@ -73,15 +86,15 @@ model User {
   fieldOfStudy String?
   yearOfStudy  String?
   mobileNumber String?
-  gender       Gender
-
-  Payment Payment[]
+  gender       Gender?
 
   Team         Team[]
   teamLeader   Boolean        @default(false)
   Accomodation Accomodation[]
   TravelItem   TravelItem[]
+  EventReg     EventReg[]
   PaymentItem  PaymentItem[]
+  UserPayment  UserPayment[]
 }
 
 model VerificationToken {
@@ -93,16 +106,34 @@ model VerificationToken {
 }
 
 model EmailReg {
-  email String @unique
+  id    Int    @id @default(autoincrement())
+  email String
 }
 
 model Event {
-  id      String    @id @default(cuid())
+  id       String     @id @default(cuid())
   // event type either 2 day or 3 day enum
-  amount  Int
-  name    String
-  Payment Payment[]
-  Team    Team[]
+  amount   Int
+  name     String
+  Team     Team[]
+  EventReg EventReg[]
+}
+
+model EventReg {
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String
+
+  paymentId String
+  payment   PaymentItem @relation(fields: [paymentId], references: [id])
+
+  @@index([userId])
+  @@index([eventId])
+  @@index([paymentId])
 }
 
 // create a payment model for paytm gateway
@@ -111,28 +142,35 @@ model PaymentItem {
   id String @id @default(cuid())
 
   userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   amount Int
 
-  state PaymentItemState
+  userPaymentId String
+  userPayment   UserPayment @relation(fields: [userPaymentId], references: [id])
 
-  User         User           @relation(fields: [userId], references: [id])
+  state        PaymentItemState
   Accomodation Accomodation[]
   TravelItem   TravelItem[]
+  EventReg     EventReg[]
+
+  @@index([userId])
+  @@index([userPaymentId])
 }
 
 // This is for the event payments ONLY 
-model Payment {
-  id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  eventId   String
-  amount    Int
-  status    String
-  createdAt DateTime @default(now())
+
+model UserPayment {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  upi         String
+  url         String
+  PaymentItem PaymentItem[]
 
   @@index([userId])
-  @@index([eventId])
 }
 
 model Team {
@@ -146,18 +184,19 @@ model Team {
 }
 
 model Travel {
-  id         String       @id @default(cuid())
-  fromPlace  String
-  toPlace    String
-  amount     Int
-  date       DateTime
-  travelItem TravelItem[]
+  id                   String       @id @default(cuid())
+  destination          String
+  amount               Int
+  departureDateAndTime DateTime
+  travelItem           TravelItem[]
 }
 
 model TravelItem {
-  id       String @id @default(cuid())
-  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   String
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
   travel   Travel @relation(fields: [travelId], references: [id], onDelete: Cascade)
   travelId String
 
@@ -166,6 +205,7 @@ model TravelItem {
 
   @@index([userId])
   @@index([travelId])
+  @@index([paymentItemId])
 }
 
 model Cluster {
@@ -188,30 +228,15 @@ model Accomodation {
   checkedIn  Boolean @default(false)
   checkedOut Boolean @default(false)
 
-  user   User   @relation(fields: [userId], references: [id])
+  payment   PaymentItem @relation(fields: [paymentId], references: [id])
+  paymentId String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  payment       PaymentItem @relation(fields: [paymentItemId], references: [id])
-  paymentItemId String
-
   @@index([clusterId])
+  @@index([paymentId])
   @@index([userId])
 }
 
 // Role user or admin
-enum Role {
-  USER
-  ADMIN
-}
-
-enum Gender {
-  MALE
-  FEMALE
-}
-
-enum PaymentItemState {
-  NOT_REG
-  PROCESSING
-  FAILED
-  APPROVED
-}
