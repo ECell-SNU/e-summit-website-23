@@ -1,4 +1,5 @@
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
+import { Fragment } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -100,6 +101,10 @@ const navItems = [
   //   drop: true,
   //   dropItems: [],
   // },
+	{
+		title: "Sign Out",
+		href: "/",
+	}
 ];
 
 interface NavbarProps {
@@ -119,7 +124,7 @@ const checkoutDateAtom = focusAtom(checkoutAtom, (optic) =>
 );
 const travelAtom = focusAtom(checkoutAtom, (optic) => optic.prop("travel"));
 const Navbar: React.FC<NavbarProps> = ({ page }) => {
-  const { data: sessionData } = useSession();
+	const { data: sessionData } = useSession();
   const ref = useRef<HTMLDivElement>(null);
   const toast = useToast();
   const [showMobileNav, setShowMobileNav] = useState(false);
@@ -217,32 +222,36 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
               </MenuButton>
             )}
             <MenuList textColor="#FFF" borderRadius="0" backgroundColor="black">
-              {dropItems.map((dropItem, index) => (
-                <Link
-                  href={dropItem.href}
-                  key={dropItem.title}
-                  onClick={() => {
-                    setShowMobileNav(false);
-                  }}
-                >
-                  <MenuItem
-                    backgroundColor="black"
-                    _hover={{ backgroundColor: dropItem.hover ?? "" }}
-                    py="0"
-                    justifyContent="space-between"
-                  >
-                    {dropItem.title}
-                    <ArrowForwardIcon color="white" />
-                  </MenuItem>
-                  {index !== dropItems.length - 1 && <MenuDivider />}
-                </Link>
-              ))}
-            </MenuList>
+							{dropItems.map((dropItem, index) => (
+								<Link
+									href={dropItem.href}
+									key={dropItem.title}
+									onClick={() => {
+										setShowMobileNav(false);
+										if (dropItem.title === "Sign Out") {
+											signOut({ callbackUrl: "/" });
+										}
+									}}
+								>
+								<MenuItem
+									backgroundColor="black"
+									_hover={{ backgroundColor: dropItem.hover ?? "" }}
+									py="0"
+									justifyContent="space-between"
+									>
+									{dropItem.title}
+									<ArrowForwardIcon color="white" />
+								</MenuItem>
+								{index !== dropItems.length - 1 && <MenuDivider />}
+							</Link>
+						))}
+						</MenuList>
           </Menu>
         </div>
       ) : (
         <Link
-          href={href ? href : ""}
+					href={href ? href : ""}
+					className={`${title === "Sign Out" && sessionData == null ? "laptop:hidden" : ""}`}
           key={title}
           onClick={() => {
             setShowMobileNav(false);
@@ -339,7 +348,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       {/* mobile nav */}
       <div
         className={`
-					absolute top-0 bottom-0 left-0 right-0 z-40 flex h-screen
+					absolute top-0 bottom-0 left-0 right-0 z-40 flex h-[110vh]
 					w-full flex-col items-start justify-center gap-16 px-12 pb-8 backdrop-blur-md laptop:hidden
 					${showMobileNav ? "" : "invisible"}
 				`}
