@@ -118,7 +118,7 @@ const Home: NextPage = () => {
   }, [controls]);
 
   return (
-    <div className="mt-[70px] flex w-full flex-col items-center">
+    <div className=" flex w-full flex-col items-center">
       <div className="relative flex h-screen w-full items-center justify-center">
         <Image
           className="absolute left-[-5%] -z-30 my-auto w-1/2 select-none object-contain object-left md:left-0 md:h-[125%] md:w-auto"
@@ -135,7 +135,7 @@ const Home: NextPage = () => {
           />
           {/* <RegBox /> */}
           <button
-            className="z-10 min-h-[70px] min-w-[400px] rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 py-1 text-[12px] font-bold sm:text-sm md:text-xl"
+            className="z-10 rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 py-[20px] px-[50px] py-1 text-[12px] font-bold sm:text-sm md:text-xl"
             onClick={() =>
               sessionData?.user ? setShowTicket(true) : signIn("google")
             }

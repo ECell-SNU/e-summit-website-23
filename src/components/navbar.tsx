@@ -336,7 +336,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 					w-full flex-col items-start justify-center gap-16 px-12 pb-8 backdrop-blur-md laptop:hidden
 					${showMobileNav ? "" : "invisible"}
 				`}
-        style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
+        style={{ backgroundColor: "rgba(0, 0, 0, 1)" }}
       >
         <div className="flex flex-grow flex-col justify-center gap-16">
           {menu()}
