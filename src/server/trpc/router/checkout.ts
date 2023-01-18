@@ -90,8 +90,8 @@ export const checkoutRouter = router({
         : 0;
 
       console.group("transaction start");
-      console.log("UPI", UPI);
-      console.log("ssFilename", ssFilename);
+      console.log({ UPI });
+      console.log(ssFilename);
       console.log("eventName", event.name);
       console.log("Days", days);
       console.log("Accomodation Amount", accomodationAmount);
@@ -134,7 +134,7 @@ export const checkoutRouter = router({
             },
           });
 
-          const accomodation = tx.accomodation.create({
+          const accomodation = await tx.accomodation.create({
             data: {
               checkInDate: checkinDate,
               checkOutDate: checkoutDate,
