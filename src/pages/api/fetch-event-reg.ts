@@ -8,5 +8,7 @@ const fetchEventReg = async (req: NextApiRequest, res: NextApiResponse) => {
       userId: userId as string,
     },
   });
-  if (eventReg) return;
+  return res.status(200).json(eventReg);
 };
+
+export default fetchEventReg;

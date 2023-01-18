@@ -89,7 +89,6 @@ export const checkoutRouter = router({
         ? 300 * days - (days - 1) * 50 - 1
         : 0;
 
-      console.groupCollapsed("transaction start");
       console.log({ UPI });
       console.log(ssFilename);
       console.log("eventName", event.name);
@@ -97,8 +96,8 @@ export const checkoutRouter = router({
       console.log("Accomodation Amount", accomodationAmount);
       console.log("checkinDate", checkinDate);
       console.log("checkoutDate", checkoutDate);
-      console.groupEnd();
-      ctx.prisma.$transaction(async (tx) => {
+
+      await ctx.prisma.$transaction(async (tx) => {
         const userPayment = await tx.userPayment.create({
           data: {
             userId,

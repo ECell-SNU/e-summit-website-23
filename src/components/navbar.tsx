@@ -42,6 +42,7 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import "filepond/dist/filepond.min.css";
 import { FilePond, registerPlugin } from "react-filepond";
+import { FilePondFile } from "filepond";
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const navItems = [
@@ -126,10 +127,10 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
   const [showCart, setShowCart] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showAccommodation, setShowAccommodation] = useState(false);
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<any>([]);
 
   const [showTicket, setShowTicket] = useAtom(showTicketAtom);
-  const [checkout, setCheckout] = useAtom(checkoutAtom);
+  // const [checkout, setCheckout] = useAtom(checkoutAtom);
 
   // jotai bs for aadhar
 
@@ -621,6 +622,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                     className="text-blue-400"
                     target="_blank"
                     href="https://bounceinfinity.com/"
+                    rel="noreferrer"
                   >
                     Bounce Infinity
                   </a>{" "}
