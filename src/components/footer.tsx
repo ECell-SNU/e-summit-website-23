@@ -28,18 +28,21 @@ const Footer: React.FC = () => {
               <a>CONTACT US</a>
               <a
                 target="_blank"
+                rel="noreferrer"
                 href="https://docs.google.com/document/d/e/2PACX-1vQ_zpZ7CN8gf0peRO2g7XfP54RXtpoHiJPPddtT3JGQ5wBcgrZKpIhjT-NjdWRwlIfE8_E77nUHe_63/pub"
               >
                 TERMS & CONDITIONS
               </a>
               <a
                 target="_blank"
+                rel="noreferrer"
                 href="https://docs.google.com/document/d/e/2PACX-1vQsCKc5p4oi6Eh59L8J1BXQsiNisZ9BfuYV-VN7ts8AgzqnzyiDQGLrAny0QXI34FHhtloZKfzubL4n/pub"
               >
                 PRIVACY POLICY
               </a>
               <a
                 target="_blank"
+                rel="noreferrer"
                 href="https://docs.google.com/document/d/e/2PACX-1vSGtBGlRVMRPAVsDuqD1IjMDmRRhifk5GwAdIhNmXw7GIs7QhbOIsbFMmoT9iNeabxs4IR5gXYXPL85/pub"
               >
                 REFUND POLICY

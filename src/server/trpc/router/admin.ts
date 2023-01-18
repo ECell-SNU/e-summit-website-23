@@ -28,6 +28,6 @@ export const adminRouter = router({
   harnamViewPayments: protectedProcedure.query(async ({ ctx }) => {
     if (ctx.session.user.email !== specialAdmins.harnam) return;
 
-    return await ctx.prisma.payment.findMany();
+    return await [];
   }),
 });
