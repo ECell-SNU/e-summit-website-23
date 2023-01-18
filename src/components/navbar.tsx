@@ -46,6 +46,10 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const navItems = [
   {
+    title: "Sign Out",
+    href: "/",
+  },
+  {
     title: "Home",
     href: "/",
   },
@@ -202,14 +206,16 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
         >
           {/* blasphemy */}
           <Menu>
-            <MenuButton _hover={{ textColor: "white" }}>
-              {title}
-              {showMobileNav ? (
-                <ChevronRightIcon color="white" />
-              ) : (
-                <ChevronDownIcon color="white" />
-              )}
-            </MenuButton>
+            {showMobileNav && title === "Sign Out" ? null : (
+              <MenuButton _hover={{ textColor: "white" }}>
+                {title}
+                {showMobileNav ? (
+                  <ChevronRightIcon color="white" />
+                ) : (
+                  <ChevronDownIcon color="white" />
+                )}
+              </MenuButton>
+            )}
             <MenuList textColor="#FFF" borderRadius="0" backgroundColor="black">
               {dropItems.map((dropItem, index) => (
                 <Link
@@ -399,10 +405,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                 <p className="text-lg font-[600] text-white">
                   E-Summit &apos;23 Ticket
                 </p>
-                <p className="mt-1 w-5/6 text-xs text-white/60">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et
-                  massa mi.
-                </p>
+
                 {isSNU ? (
                   <span className="mt-1 w-5/6 text-xs text-blue-400">
                     Congratulations! You are eligible for a special SNU only
@@ -596,19 +599,26 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
             <p className="text-xl font-[600] text-white">
               E-Summit &apos;23 Ticket
             </p>
-            <p className="mt-1 w-4/5 text-sm text-white/60">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et
-              massa mi.
-            </p>
           </div>
           <div className="my-1 h-full flex-col overflow-y-auto border-y-[1px] border-white/50 p-6">
             <div className="flex flex-col gap-6 rounded-md bg-[#161616] p-4 text-left text-sm">
-              {/* {[...Array(10)].map((_, i) => (
-                <p key={i}>Lorem ipsum dolor sit amet, consectetur</p>
-              ))} */}
               <p>
                 <strong>
                   A free EV test drive by{" "}
+                  <a
+                    className="text-blue-400"
+                    target="_blank"
+                    href="https://bounceinfinity.com/"
+                    rel="noreferrer"
+                  >
+                    Bounce Infinity
+                  </a>{" "}
+                  (with a valid driving license, of course :P)
+                </strong>
+              </p>
+              <p>
+                <strong>
+                  A free F1 simulation powered by by redbull{" "}
                   <a
                     className="text-blue-400"
                     target="_blank"

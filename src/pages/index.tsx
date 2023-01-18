@@ -135,12 +135,12 @@ const Home: NextPage = () => {
           />
           {/* <RegBox /> */}
           <button
-            className="z-10 rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 py-[20px] px-[50px] py-1 text-[12px] font-bold sm:text-sm md:text-xl"
+            className="z-10 rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 py-2 px-3 font-bold sm:text-xl md:py-4 md:px-6 md:text-xl"
             onClick={() =>
               sessionData?.user ? setShowTicket(true) : signIn("google")
             }
           >
-            Buy Ticket
+            BUY YOUR TICKET!
           </button>
           <div className="mt-6 flex flex-col items-center gap-2 md:mt-12">
             <Countdown
