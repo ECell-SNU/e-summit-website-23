@@ -515,15 +515,23 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       <div
         className={`
 					absolute top-0 left-0 right-0 z-40 flex
-					h-[100vh] w-full justify-end overflow-y-auto
+					h-[100vh] justify-end 
 							backdrop-blur-md
 							md:h-screen
 					${showConfirm ? "" : "invisible"}
 				`}
-        style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
+        style={{
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+        }}
       >
-        <div className="flex h-[100vh] w-full flex-col justify-start gap-6 overflow-y-auto border-l-[1px] border-white/50 bg-black py-6 px-8 sm:w-[450px]">
-          <div className="flex h-full w-full items-end justify-between text-3xl">
+        <div
+          style={{
+            WebkitOverflowScrolling: "touch",
+            height: "-webkit-fill-available",
+          }}
+          className="flex h-[100vh] flex-col justify-start gap-6 overflow-scroll border-l-[1px] border-white/50 bg-black py-6 px-8 sm:w-[450px]"
+        >
+          <div className="flex items-end justify-between text-3xl">
             <ArrowBackIcon
               boxSize={7}
               cursor={"pointer"}
@@ -542,7 +550,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
             />
           </div>
           <h1 className="my-4 text-4xl text-white">Make Payment</h1>
-          <Image src={paymentQr} alt="" />
+          <Image className="hidden md:visible" src={paymentQr} alt="" />
           <p className="mb-4 text-center">
             Harnam Singh Chhabra
             <br />
@@ -608,8 +616,8 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       {/* Ticket */}
       <div
         className={`
-					absolute top-0 bottom-0 left-0 right-0 z-40 flex
-					h-[97vh] w-full items-center justify-center backdrop-blur-md  sm:h-screen
+					absolute top-[7vh] bottom-0 left-0 right-0 z-40 flex
+					h-[80vh] w-full items-center justify-center backdrop-blur-md  sm:h-screen
 					${showTicket ? "" : "invisible"}
 				`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
