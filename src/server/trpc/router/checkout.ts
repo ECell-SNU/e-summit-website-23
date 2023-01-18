@@ -97,7 +97,7 @@ export const checkoutRouter = router({
       console.log("checkinDate", checkinDate);
       console.log("checkoutDate", checkoutDate);
 
-      ctx.prisma.$transaction(async (tx) => {
+      await ctx.prisma.$transaction(async (tx) => {
         const userPayment = await tx.userPayment.create({
           data: {
             userId,
