@@ -363,7 +363,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       {/* Cart */}
       <div
         className={`
-					absolute top-0 right-0  z-40 flex h-[75vh] justify-end backdrop-blur-md sm:h-screen
+					absolute top-0 right-0 left-0 z-40 flex h-[75vh] w-full justify-end backdrop-blur-md sm:h-screen
 					${showCart ? "" : "invisible"}
 				`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
@@ -488,8 +488,10 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       {/* Confirm */}
       <div
         className={`
-					absolute top-0 bottom-0 left-0 right-0 z-40 flex
-					h-screen w-full justify-end backdrop-blur-md
+					absolute top-0 left-0 right-0 z-40 flex
+					h-[75vh] w-full justify-end overflow-y-auto
+							backdrop-blur-md
+							md:h-screen
 					${showConfirm ? "" : "invisible"}
 				`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
@@ -546,7 +548,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
             allowMultiple={false}
             server="/api/checkout/ss-upload"
             name="files"
-            labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+            labelIdle='Upload your payment <span class="filepond--label-action">Screenshot</span>'
           />
           <button
             disabled={files.length === 0 || handleInitialCheckout.isLoading}
