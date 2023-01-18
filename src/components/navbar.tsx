@@ -30,6 +30,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  useToast,
 } from "@chakra-ui/react";
 
 import eSummitLogo from "../assets/e-summit-logo.png";
@@ -115,7 +116,7 @@ const travelAtom = focusAtom(checkoutAtom, (optic) => optic.prop("travel"));
 const Navbar: React.FC<NavbarProps> = ({ page }) => {
   const { data: sessionData } = useSession();
   const ref = useRef<HTMLDivElement>(null);
-
+  const toast = useToast();
   const [showMobileNav, setShowMobileNav] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -179,6 +180,16 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
     }
   }, [showCart, showConfirm, showAccommodation, showTicket]);
 
+  useEffect(() => {
+    if (handleInitialCheckout.isSuccess)
+      toast({
+        title: "Upload",
+        description: "Your payment is processing",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+  }, [handleInitialCheckout.isSuccess, handleInitialCheckout.isLoading, toast]);
   const menu = () => {
     return navItems.map(({ title, href, drop, dropItems }) => {
       return drop ? (
@@ -353,123 +364,128 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       {/* Cart */}
       <div
         className={`
-					absolute top-0 bottom-0 left-0 right-0 z-40 flex
-					h-screen w-full justify-end backdrop-blur-md
+					absolute top-0 bottom-0 left-0 right-0 z-40 flex min-h-screen w-full justify-end backdrop-blur-md
 					${showCart ? "" : "invisible"}
 				`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
       >
-        <div className="flex h-screen w-full flex-col justify-start gap-6 border-l-[1px] border-white/50 bg-black py-6 px-8 sm:w-[450px]">
-          <div className="flex w-full items-end justify-between text-3xl">
-            <ArrowBackIcon
-              boxSize={7}
-              cursor={"pointer"}
-              onClick={() => {
-                setShowCart(false);
-                setShowTicket(true);
-              }}
-            />
-            <CloseIcon
-              boxSize={5}
-              cursor={"pointer"}
-              onClick={() => {
-                setShowCart(false);
-              }}
-            />
-          </div>
-          <h1 className="my-4 text-4xl text-white">Checkout</h1>
-          <div className="relative flex h-fit w-full flex-col gap-8 rounded-xl border-2 border-white/50 bg-[#0E0D0D] px-6 pt-4 pb-8">
-            <div className="flex w-full flex-col">
-              <p className="text-lg font-[600] text-white">
-                E-Summit &apos;23 Ticket
-              </p>
-              <p className="mt-1 w-5/6 text-xs text-white/60">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et
-                massa mi.
-              </p>
-              {isSNU ? (
-                <span className="mt-1 w-5/6 text-xs text-blue-400">
-                  Congratulations! You are eligible for a special SNU only
-                  discount :)
-                </span>
-              ) : (
-                <></>
-              )}
+        <div
+          className={`flex h-screen w-full  border-l-[1px] border-white/50 bg-black sm:w-[450px] ${
+            showCart ? "" : "invisible"
+          }`}
+        >
+          <div className="flex flex-col justify-start gap-6 overflow-y-auto py-6 px-8">
+            <div className="flex w-full items-end justify-between text-3xl">
+              <ArrowBackIcon
+                boxSize={7}
+                cursor={"pointer"}
+                onClick={() => {
+                  setShowCart(false);
+                  setShowTicket(true);
+                }}
+              />
+              <CloseIcon
+                boxSize={5}
+                cursor={"pointer"}
+                onClick={() => {
+                  setShowCart(false);
+                }}
+              />
             </div>
-            <div className="grid w-full grid-cols-[80%_20%] gap-4 text-sm">
-              <p>E-Summit &apos;23 Ticket</p>
-              <p>
+            <h1 className="my-4 text-4xl text-white">Checkout</h1>
+            <div className="relative flex h-fit w-full flex-col gap-8 rounded-xl border-2 border-white/50 bg-[#0E0D0D] px-6 pt-4 pb-8">
+              <div className="flex w-full flex-col">
+                <p className="text-lg font-[600] text-white">
+                  E-Summit &apos;23 Ticket
+                </p>
+                <p className="mt-1 w-5/6 text-xs text-white/60">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et
+                  massa mi.
+                </p>
                 {isSNU ? (
-                  <>
-                    <s className="inline">800 Rs</s>
-                    <span className="inline-block">600 Rs</span>
-                  </>
+                  <span className="mt-1 w-5/6 text-xs text-blue-400">
+                    Congratulations! You are eligible for a special SNU only
+                    discount :)
+                  </span>
                 ) : (
-                  "800 Rs"
+                  <></>
                 )}
-              </p>
-              {isAccom && (
-                <>
-                  <p>Accomodation</p>
-                  <p>
-                    <span className="inline">{`${total - base} Rs`}</span>
-                  </p>
-                </>
-              )}
-              <div className="col-span-2 mt-4 h-[1px] bg-white/50"></div>
-              <p>Total amount</p>
-              {/* <p>{isSNU ? "600 Rs" : "800 Rs"}</p> */}
-              <p>{`${total} Rs`}</p>
+              </div>
+              <div className="grid w-full grid-cols-[80%_20%] gap-4 text-sm">
+                <p>E-Summit &apos;23 Ticket</p>
+                <p>
+                  {isSNU ? (
+                    <>
+                      <s className="inline">800 Rs</s>
+                      <span className="inline-block">600 Rs</span>
+                    </>
+                  ) : (
+                    "800 Rs"
+                  )}
+                </p>
+                {isAccom && (
+                  <>
+                    <p>Accomodation</p>
+                    <p>
+                      <span className="inline">{`${total - base} Rs`}</span>
+                    </p>
+                  </>
+                )}
+                <div className="col-span-2 mt-4 h-[1px] bg-white/50"></div>
+                <p>Total amount</p>
+                {/* <p>{isSNU ? "600 Rs" : "800 Rs"}</p> */}
+                <p>{`${total} Rs`}</p>
+              </div>
             </div>
-          </div>
 
-          {isAccom && (
-            <div className="relative flex h-fit w-full flex-col gap-1 rounded-xl border-2 border-white/50 bg-[#0E0D0D] px-6 pt-4 pb-5">
-              <strong className="mb-1">Accomodation Details</strong>
-              <p className="text-sm">
-                <strong>Aadhar:</strong> {aadhar}
-              </p>
-              <p className="text-sm">
-                <strong>Checkin Date:</strong> {checkinDate?.toDateString()}
-              </p>
-              <p className="text-sm">
-                <strong>Checkout Date:</strong> {checkoutDate?.toDateString()}
-              </p>
+            {isAccom && (
+              <div className="relative flex h-fit w-full flex-col gap-1 rounded-xl border-2 border-white/50 bg-[#0E0D0D] px-6 pt-4 pb-5">
+                <strong className="mb-1">Accomodation Details</strong>
+                <p className="text-sm">
+                  <strong>Aadhar:</strong> {aadhar}
+                </p>
+                <p className="text-sm">
+                  <strong>Checkin Date:</strong> {checkinDate?.toDateString()}
+                </p>
+                <p className="text-sm">
+                  <strong>Checkout Date:</strong> {checkoutDate?.toDateString()}
+                </p>
+              </div>
+            )}
+
+            {/* TODO: Add this later */}
+            <div className="flex justify-evenly gap-4">
+              <button
+                className="flex justify-evenly gap-4 rounded-md bg-[#0E0D0D] px-4 py-2"
+                onClick={() => {
+                  setShowCart(false);
+                  setShowAccommodation(true);
+                  setIsAccom(true);
+                }}
+              >
+                <p>Acommodation</p>
+                <div className="flex h-[25px] w-[25px] items-center justify-center rounded-md bg-[#0085FF]">
+                  <AddIcon boxSize={2} />
+                </div>
+              </button>
+              <div className="flex justify-evenly gap-4 rounded-md bg-[#0E0D0D] px-4 py-2">
+                <p>Travel</p>
+                <div className="flex h-[25px] w-[25px] items-center justify-center rounded-md bg-[#0085FF]">
+                  <AddIcon boxSize={2} />
+                </div>
+              </div>
             </div>
-          )}
-
-          {/* TODO: Add this later */}
-          <div className="flex justify-evenly gap-4">
             <button
-              className="flex justify-evenly gap-4 rounded-md bg-[#0E0D0D] px-4 py-2"
+              className="flex w-full items-center justify-center gap-2 rounded-md bg-[#0085FF] py-2"
               onClick={() => {
                 setShowCart(false);
-                setShowAccommodation(true);
-                setIsAccom(true);
+                setShowConfirm(true);
               }}
             >
-              <p>Acommodation</p>
-              <div className="flex h-[25px] w-[25px] items-center justify-center rounded-md bg-[#0085FF]">
-                <AddIcon boxSize={2} />
-              </div>
+              <p className="font-semibold">Pay</p>
+              <ArrowForwardIcon boxSize={4} />
             </button>
-            <div className="flex justify-evenly gap-4 rounded-md bg-[#0E0D0D] px-4 py-2">
-              <p>Travel</p>
-              <div className="flex h-[25px] w-[25px] items-center justify-center rounded-md bg-[#0085FF]">
-                <AddIcon boxSize={2} />
-              </div>
-            </div>
           </div>
-          <button
-            className="flex w-full items-center justify-center gap-2 rounded-md bg-[#0085FF] py-2"
-            onClick={() => {
-              setShowCart(false);
-              setShowConfirm(true);
-            }}
-          >
-            <p className="font-semibold">Pay</p>
-            <ArrowForwardIcon boxSize={4} />
-          </button>
         </div>
       </div>
 
@@ -482,7 +498,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 				`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
       >
-        <div className="flex h-screen w-full flex-col justify-start gap-6 overflow-auto border-l-[1px] border-white/50 bg-black py-6 px-8 sm:w-[450px]">
+        <div className="flex h-screen w-full flex-col justify-start gap-6 overflow-y-auto border-l-[1px] border-white/50 bg-black py-6 px-8 sm:w-[450px]">
           <div className="flex w-full items-end justify-between text-3xl">
             <ArrowBackIcon
               boxSize={7}
@@ -537,7 +553,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
             labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
           />
           <button
-            disabled={files.length === 0}
+            disabled={files.length === 0 || handleInitialCheckout.isLoading}
             className={`flex w-full items-center justify-center gap-2 rounded-md py-2
 							${files.length === 0 ? "bg-gray-500" : "bg-[#0085FF]"}
 						`}
@@ -547,10 +563,9 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                 checkoutDate,
                 isAccomodation: isAccom,
               });
-              if (handleInitialCheckout.isSuccess) {
-                setShowConfirm(false);
-                setFiles([]);
-              }
+
+              setShowConfirm(false);
+              setFiles([]);
             }}
           >
             <p className="font-semibold">Confirm Payment</p>
@@ -562,7 +577,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       <div
         className={`
 					absolute top-0 bottom-0 left-0 right-0 z-40 flex
-					h-screen w-full items-center justify-center backdrop-blur-md
+					h-screen w-full items-center justify-center  backdrop-blur-md
 					${showTicket ? "" : "invisible"}
 				`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
@@ -585,7 +600,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
               massa mi.
             </p>
           </div>
-          <div className="my-1 h-full flex-col overflow-auto border-y-[1px] border-white/50 p-6">
+          <div className="my-1 h-full flex-col overflow-y-auto border-y-[1px] border-white/50 p-6">
             <div className="flex flex-col gap-6 rounded-md bg-[#161616] p-4 text-left text-sm">
               {/* {[...Array(10)].map((_, i) => (
                 <p key={i}>Lorem ipsum dolor sit amet, consectetur</p>

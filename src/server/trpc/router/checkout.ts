@@ -89,7 +89,7 @@ export const checkoutRouter = router({
         ? 300 * days - (days - 1) * 50 - 1
         : 0;
 
-      console.group("transaction start");
+      console.groupCollapsed("transaction start");
       console.log({ UPI });
       console.log(ssFilename);
       console.log("eventName", event.name);
@@ -102,8 +102,8 @@ export const checkoutRouter = router({
         const userPayment = await tx.userPayment.create({
           data: {
             userId,
-            upi: UPI ?? "",
-            url: ssFilename ?? "",
+            upi: UPI ? UPI : "Bruh",
+            url: ssFilename ? ssFilename : "bruh",
           },
         });
 
