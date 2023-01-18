@@ -28,7 +28,11 @@ const Footer: React.FC = () => {
           <div className="flex shrink-0 flex-col gap-5 whitespace-nowrap">
             <p className="text-white/50">Learn more about E-Summit &#39;23</p>
             <div className="flex flex-wrap gap-6">
-              <a target="_blank" href="https://www.instagram.com/esummit.snu/">
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://www.instagram.com/esummit.snu/"
+              >
                 CONTACT US
               </a>
               <a

@@ -618,8 +618,8 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                   <a
                     className="text-blue-400"
                     target="_blank"
-                    href="https://bounceinfinity.com/"
                     rel="noreferrer"
+                    href="https://bounceinfinity.com/"
                   >
                     Bounce Infinity
                   </a>{" "}
@@ -632,8 +632,8 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                   <a
                     className="text-red-400"
                     target="_blank"
-                    href="https://bounceinfinity.com/"
                     rel="noreferrer"
+                    href="https://bounceinfinity.com/"
                   >
                     Red Bull
                   </a>{" "}
