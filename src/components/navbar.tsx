@@ -375,8 +375,8 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
             showCart ? "" : "invisible"
           }`}
         >
-          <div className="flex flex-col justify-start gap-6 overflow-y-auto py-6 px-8">
-            <div className="flex w-full items-end justify-between text-3xl">
+          <div className="w- flex flex-col justify-start gap-6 overflow-y-auto py-6 px-8">
+            <div className="flex w-[90vw] items-end justify-between text-3xl">
               <ArrowBackIcon
                 boxSize={7}
                 cursor={"pointer"}
@@ -591,7 +591,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       <div
         className={`
 					absolute top-0 bottom-0 left-0 right-0 z-40 flex
-					h-[100vh] w-full items-center justify-center backdrop-blur-md  sm:h-screen
+					h-[97vh] w-full items-center justify-center backdrop-blur-md  sm:h-screen
 					${showTicket ? "" : "invisible"}
 				`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
@@ -696,7 +696,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 
       {/* Accommodation */}
       {showAccommodation && (
-        <div className="fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center backdrop-blur-md">
+        <div className="fixed top-0 left-0 z-50 flex h-screen w-screen translate-x-[8px] items-center justify-center backdrop-blur-md">
           <div className="relative flex h-[550px] w-[800px] flex-col items-center rounded-xl border border-white/50 bg-black py-4">
             <button
               className="absolute top-4 right-4 rounded-md border border-white/50 px-2"
