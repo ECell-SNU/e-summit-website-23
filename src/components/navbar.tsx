@@ -564,8 +564,8 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
             fileValidateTypeDetectType={(source, type) =>
               new Promise((resolve, reject) => {
                 // Do custom type detection here and return with promise
-                if (type.includes("image")) resolve(type);
-                reject();
+                // if (type.includes("image")) resolve(type);
+                resolve(type);
               })
             }
             // onupdatefiles={(files) => setFiles(files)}
