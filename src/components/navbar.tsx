@@ -47,10 +47,6 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const navItems = [
   {
-    title: "Sign Out",
-    href: "/",
-  },
-  {
     title: "Home",
     href: "/",
   },
@@ -85,26 +81,12 @@ const navItems = [
         href: "/events/paradigm",
         hover: "#A705BA",
       },
-      // {
-      //   title: "StartupXpo",
-      //   href: "/events/startupxpo",
-      //   hover: "#4B1485",
-      // },
     ],
   },
   // {
-  //   title: "Contact",
-  //   href: "/contact",
+  //   title: "Sign Out",
+  //   href: "/",
   // },
-  // {
-  //   title: "More",
-  //   drop: true,
-  //   dropItems: [],
-  // },
-	{
-		title: "Sign Out",
-		href: "/",
-	}
 ];
 
 interface NavbarProps {
@@ -124,7 +106,7 @@ const checkoutDateAtom = focusAtom(checkoutAtom, (optic) =>
 );
 const travelAtom = focusAtom(checkoutAtom, (optic) => optic.prop("travel"));
 const Navbar: React.FC<NavbarProps> = ({ page }) => {
-	const { data: sessionData } = useSession();
+  const { data: sessionData } = useSession();
   const ref = useRef<HTMLDivElement>(null);
   const toast = useToast();
   const [showMobileNav, setShowMobileNav] = useState(false);
@@ -193,8 +175,9 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
   useEffect(() => {
     if (handleInitialCheckout.isSuccess)
       toast({
-        title: "Upload",
-        description: "Your payment is processing",
+        title: "Payment processing",
+        description:
+          "Kindly wait for 24 hours for us to get back with a confirmation. Don't worry, your money is safe.",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -211,47 +194,47 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
         >
           {/* blasphemy */}
           <Menu>
-            {showMobileNav && title === "Sign Out" ? null : (
-              <MenuButton _hover={{ textColor: "white" }}>
-                {title}
-                {showMobileNav ? (
-                  <ChevronRightIcon color="white" />
-                ) : (
-                  <ChevronDownIcon color="white" />
-                )}
-              </MenuButton>
-            )}
+            <MenuButton _hover={{ textColor: "white" }}>
+              {title}
+              {showMobileNav ? (
+                <ChevronRightIcon color="white" />
+              ) : (
+                <ChevronDownIcon color="white" />
+              )}
+            </MenuButton>
             <MenuList textColor="#FFF" borderRadius="0" backgroundColor="black">
-							{dropItems.map((dropItem, index) => (
-								<Link
-									href={dropItem.href}
-									key={dropItem.title}
-									onClick={() => {
-										setShowMobileNav(false);
-										if (dropItem.title === "Sign Out") {
-											signOut({ callbackUrl: "/" });
-										}
-									}}
-								>
-								<MenuItem
-									backgroundColor="black"
-									_hover={{ backgroundColor: dropItem.hover ?? "" }}
-									py="0"
-									justifyContent="space-between"
-									>
-									{dropItem.title}
-									<ArrowForwardIcon color="white" />
-								</MenuItem>
-								{index !== dropItems.length - 1 && <MenuDivider />}
-							</Link>
-						))}
-						</MenuList>
+              {dropItems.map((dropItem, index) => (
+                <Link
+                  href={dropItem.href}
+                  key={dropItem.title}
+                  onClick={() => {
+                    setShowMobileNav(false);
+                    if (dropItem.title === "Sign Out") {
+                      signOut({ callbackUrl: "/" });
+                    }
+                  }}
+                >
+                  <MenuItem
+                    backgroundColor="black"
+                    _hover={{ backgroundColor: dropItem.hover ?? "" }}
+                    py="0"
+                    justifyContent="space-between"
+                  >
+                    {dropItem.title}
+                    <ArrowForwardIcon color="white" />
+                  </MenuItem>
+                  {index !== dropItems.length - 1 && <MenuDivider />}
+                </Link>
+              ))}
+            </MenuList>
           </Menu>
         </div>
       ) : (
         <Link
-					href={href ? href : ""}
-					className={`${title === "Sign Out" && sessionData == null ? "laptop:hidden" : ""}`}
+          href={href ? href : ""}
+          className={`${
+            title === "Sign Out" && sessionData == null ? "laptop:hidden" : ""
+          }`}
           key={title}
           onClick={() => {
             setShowMobileNav(false);
@@ -293,7 +276,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       >
         {sessionData && (
           <button
-            className="rounded-full py-2 px-6 font-bold text-white phone:hidden"
+            className={`rounded-full py-2 px-6 font-bold text-white phone:hidden`}
             style={{
               background:
                 "linear-gradient(90.83deg, #FF1761 0%, #910AB1 98.45%)",
@@ -365,7 +348,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
         </div>
         {sessionData && (
           <button
-            className="w-full rounded-full py-2 px-6 font-bold text-white"
+            className="w-full rounded-full py-2 px-6 font-bold text-white phone:hidden"
             style={{
               background:
                 "linear-gradient(90.83deg, #FF1761 0%, #910AB1 98.45%)",
@@ -380,13 +363,13 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       {/* Cart */}
       <div
         className={`
-					absolute top-0 bottom-0 left-0 right-0 z-40 flex min-h-screen w-full justify-end backdrop-blur-md
+					absolute top-0 right-0  z-40 flex h-[75vh] justify-end backdrop-blur-md sm:h-screen
 					${showCart ? "" : "invisible"}
 				`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
       >
         <div
-          className={`flex h-screen w-full  border-l-[1px] border-white/50 bg-black sm:w-[450px] ${
+          className={`flex h-[75vh] w-full border-l-[1px] border-white/50  bg-black sm:h-screen  sm:w-[450px] ${
             showCart ? "" : "invisible"
           }`}
         >
@@ -590,7 +573,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       <div
         className={`
 					absolute top-0 bottom-0 left-0 right-0 z-40 flex
-					h-screen w-full items-center justify-center  backdrop-blur-md
+					h-[75vh] w-full items-center justify-center backdrop-blur-md  sm:h-screen
 					${showTicket ? "" : "invisible"}
 				`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
