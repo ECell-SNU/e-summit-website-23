@@ -39,15 +39,23 @@ import {
 import eSummitLogo from "../assets/e-summit-logo.png";
 
 // Import React FilePond
+
+import { FilePond, registerPlugin } from "react-filepond";
+
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+
+// import { FilePondFile } from "filepond";
+
 import "filepond/dist/filepond.min.css";
-import { FilePond, registerPlugin } from "react-filepond";
-import { FilePondFile } from "filepond";
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
-registerPlugin(FilePondPluginFileValidateType);
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+
+registerPlugin(
+  FilePondPluginImageExifOrientation,
+  FilePondPluginImagePreview,
+  FilePondPluginFileValidateType
+);
 
 const navItems = [
   {
@@ -553,6 +561,13 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
           <FilePond
             files={files}
             acceptedFileTypes={["image/png", "image/jpg", "image/jpeg"]}
+            fileValidateTypeDetectType={(source, type) =>
+              new Promise((resolve, reject) => {
+                // Do custom type detection here and return with promise
+                if (type.includes("image")) resolve(type);
+                reject();
+              })
+            }
             // onupdatefiles={(files) => setFiles(files)}
             onprocessfile={(error, file) => {
               if (!error) {
