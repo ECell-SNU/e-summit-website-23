@@ -375,18 +375,18 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       {/* Cart */}
       <div
         className={`
-					absolute top-0 right-0 left-0 z-40 flex h-[75vh] w-full justify-end backdrop-blur-md sm:h-screen
+					absolute top-0 right-0 left-0 z-40 flex h-[75vh] w-[100vw] justify-end backdrop-blur-md sm:h-screen
 					${showCart ? "" : "invisible"}
 				`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
       >
         <div
-          className={`flex h-[100vh] w-full border-l-[1px] border-white/50  bg-black sm:h-screen  sm:w-[450px] ${
+          className={`flex h-[100vh] w-[100vw] border-l-[1px] border-white/50  bg-black sm:h-screen  sm:w-[450px] ${
             showCart ? "" : "invisible"
           }`}
         >
-          <div className="w- flex flex-col justify-start gap-6 overflow-y-auto py-6 px-8">
-            <div className="flex w-[90vw] items-end justify-between text-3xl">
+          <div className="flex w-full flex-col justify-start gap-6 overflow-y-auto py-6 px-8">
+            <div className="flex items-end justify-between text-3xl">
               <ArrowBackIcon
                 boxSize={7}
                 cursor={"pointer"}
@@ -490,12 +490,12 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                   <AddIcon boxSize={2} />
                 </div>
               </button>
-              <div className="flex justify-evenly gap-4 rounded-md bg-[#0E0D0D] px-4 py-2">
+              {/* <div className="flex justify-evenly gap-4 rounded-md bg-[#0E0D0D] px-4 py-2">
                 <p>Travel</p>
                 <div className="flex h-[25px] w-[25px] items-center justify-center rounded-md bg-[#0085FF]">
                   <AddIcon boxSize={2} />
                 </div>
-              </div>
+              </div> */}
             </div>
             <button
               className="flex w-full items-center justify-center gap-2 rounded-md bg-[#0085FF] py-2"
@@ -529,7 +529,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
             WebkitOverflowScrolling: "touch",
             height: "-webkit-fill-available",
           }}
-          className="flex h-[100vh] flex-col justify-start gap-6 overflow-scroll border-l-[1px] border-white/50 bg-black py-6 px-8 sm:w-[450px]"
+          className="flex h-[100vh] w-full flex-col justify-start  gap-6 border-l-[1px] border-white/50 bg-black py-6 px-8 sm:w-[450px]"
         >
           <div className="flex items-end justify-between text-3xl">
             <ArrowBackIcon
@@ -549,7 +549,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
               }}
             />
           </div>
-          <h1 className="my-4 text-4xl text-white">Make Payment</h1>
+          <h1 className="my-4 text-center text-4xl text-white">Make Payment</h1>
           <Image className="hidden md:visible" src={paymentQr} alt="" />
           <p className="mb-4 text-center">
             Harnam Singh Chhabra
@@ -562,10 +562,10 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
               https://p.paytm.me/xCTH/kmd08rbm
             </a>
           </p>
-          <h1 className="text-center text-2xl text-white">Amount</h1>
-          <h1 className="-mt-4 mb-4 text-center text-5xl text-white">
-            {`${total} Rs`}
+          <h1 className="text-center text-2xl text-white">
+            Amount {`${total} Rs`}
           </h1>
+
           <FilePond
             files={files}
             acceptedFileTypes={["image/*"]}
@@ -616,13 +616,13 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       {/* Ticket */}
       <div
         className={`
-					absolute top-[7vh] bottom-0 left-0 right-0 z-40 flex
-					h-[80vh] w-full items-center justify-center backdrop-blur-md  sm:h-screen
+					absolute top-[7vh] bottom-0 left-0 right-0 z-40 flex h-[80vh]
+					w-full items-center justify-center backdrop-blur-md sm:h-screen  md:top-0
 					${showTicket ? "" : "invisible"}
 				`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
       >
-        <div className="z-60 relative flex h-full w-full flex-col border border-white/50 bg-black sm:h-[700px] sm:w-[600px] sm:rounded-xl">
+        <div className="z-60 relative flex h-full w-full flex-col border border-white/50 bg-black sm:w-[600px] sm:rounded-xl">
           <button
             className="absolute top-4 right-4 rounded-md border border-white/50 px-2"
             onClick={() => {
@@ -722,7 +722,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 
       {/* Accommodation */}
       {showAccommodation && (
-        <div className="fixed top-0 left-0 z-50 flex h-screen w-screen translate-x-[8px] items-center justify-center backdrop-blur-md">
+        <div className="fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center backdrop-blur-md">
           <div className="relative flex h-[550px] w-[800px] flex-col items-center rounded-xl border border-white/50 bg-black py-4">
             <button
               className="absolute top-4 right-4 rounded-md border border-white/50 px-2"
