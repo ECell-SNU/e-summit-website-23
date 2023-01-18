@@ -371,7 +371,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
         style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
       >
         <div
-          className={`flex h-[75vh] w-full border-l-[1px] border-white/50  bg-black sm:h-screen  sm:w-[450px] ${
+          className={`flex h-[100vh] w-full border-l-[1px] border-white/50  bg-black sm:h-screen  sm:w-[450px] ${
             showCart ? "" : "invisible"
           }`}
         >
@@ -505,15 +505,15 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       <div
         className={`
 					absolute top-0 left-0 right-0 z-40 flex
-					h-[75vh] w-full justify-end overflow-y-auto
+					h-[100vh] w-full justify-end overflow-y-auto
 							backdrop-blur-md
 							md:h-screen
 					${showConfirm ? "" : "invisible"}
 				`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
       >
-        <div className="flex h-screen w-full flex-col justify-start gap-6 overflow-y-auto border-l-[1px] border-white/50 bg-black py-6 px-8 sm:w-[450px]">
-          <div className="flex w-full items-end justify-between text-3xl">
+        <div className="flex h-[100vh] w-full flex-col justify-start gap-6 overflow-y-auto border-l-[1px] border-white/50 bg-black py-6 px-8 sm:w-[450px]">
+          <div className="flex h-full w-full items-end justify-between text-3xl">
             <ArrowBackIcon
               boxSize={7}
               cursor={"pointer"}
@@ -591,7 +591,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
       <div
         className={`
 					absolute top-0 bottom-0 left-0 right-0 z-40 flex
-					h-[75vh] w-full items-center justify-center backdrop-blur-md  sm:h-screen
+					h-[100vh] w-full items-center justify-center backdrop-blur-md  sm:h-screen
 					${showTicket ? "" : "invisible"}
 				`}
         style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
