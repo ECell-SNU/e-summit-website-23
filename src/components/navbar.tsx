@@ -125,7 +125,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
   const [showCart, setShowCart] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showAccommodation, setShowAccommodation] = useState(false);
-  const [files, setFiles] = useState<any>([]);
+  const [files, setFiles] = useState<any[]>([]);
 
   const [showTicket, setShowTicket] = useAtom(showTicketAtom);
   // const [checkout, setCheckout] = useAtom(checkoutAtom);
@@ -560,7 +560,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
           </h1>
           <FilePond
             files={files}
-            acceptedFileTypes={["image/png", "image/jpg", "image/jpeg"]}
+            acceptedFileTypes={["image/*"]}
             // fileValidateTypeDetectType={(source, type) =>
             //   new Promise((resolve, reject) => {
             //     // Do custom type detection here and return with promise
