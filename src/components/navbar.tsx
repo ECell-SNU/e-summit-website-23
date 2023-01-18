@@ -143,6 +143,16 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
   const handleInitialCheckout =
     trpc.checkout.handleInitialCheckout.useMutation();
 
+  const calcTotal = () => {
+    const base = isSNU ? 600 : 800;
+
+    const days = isAccom ? checkoutDate!.getDate() - checkinDate!.getDate() : 0;
+    return {
+      base,
+      total: base + (isAccom ? 300 * days - (days - 1) * 50 - 1 : 0),
+    };
+  };
+
   useEffect(() => {
     if (showMobileNav) {
       disableBodyScroll(document.body);
@@ -398,11 +408,36 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                   "800 Rs"
                 )}
               </p>
+              {isAccom && (
+                <>
+                  <p>Accomodation</p>
+                  <p>
+                    <span className="inline">{`${
+                      calcTotal().total - calcTotal().base
+                    } Rs`}</span>
+                  </p>
+                </>
+              )}
               <div className="col-span-2 mt-4 h-[1px] bg-white/50"></div>
               <p>Total amount</p>
-              <p>{isSNU ? "600 Rs" : "800 Rs"}</p>
+              {/* <p>{isSNU ? "600 Rs" : "800 Rs"}</p> */}
+              <p>{`${calcTotal().total} Rs`}</p>
             </div>
           </div>
+
+          <div className="relative flex h-fit w-full flex-col gap-1 rounded-xl border-2 border-white/50 bg-[#0E0D0D] px-6 pt-4 pb-5">
+            <strong className="mb-1">Accomodation Details</strong>
+            <p className="text-sm">
+              <strong>Aadhar:</strong> {aadhar}
+            </p>
+            <p className="text-sm">
+              <strong>Checkin Date:</strong> {checkinDate?.toDateString()}
+            </p>
+            <p className="text-sm">
+              <strong>Checkout Date:</strong> {checkoutDate?.toDateString()}
+            </p>
+          </div>
+
           {/* TODO: Add this later */}
           <div className="flex justify-evenly gap-4">
             <button
