@@ -145,6 +145,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
   // jotai bs for travel checkout handling
 
   const { data: isSNU } = trpc.checkout.isSNU.useQuery();
+  console.log({ isSNU });
   const base = isSNU ? 600 : 800;
 
   const handleInitialCheckout =
@@ -156,7 +157,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
     const days = isAccom ? checkoutDate!.getDate() - checkinDate!.getDate() : 0;
 
     setTotal(base + (isAccom ? 300 * days - (days - 1) * 50 - 1 : 0));
-  }, [isAccom, checkoutDate, checkinDate]);
+  }, [isAccom, checkoutDate, checkinDate, base]);
 
   useEffect(() => {
     if (showMobileNav) {
