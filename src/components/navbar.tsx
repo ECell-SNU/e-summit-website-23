@@ -140,7 +140,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
   const handleInitialCheckout =
     trpc.checkout.handleInitialCheckout.useMutation();
 
-  const [total, setTotal] = useState(isSNU ? 600 : 800);
+  const [total, setTotal] = useState(base);
 
   useEffect(() => {
     const days = isAccom ? checkoutDate!.getDate() - checkinDate!.getDate() : 0;
@@ -611,8 +611,8 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
             </p>
           </div>
           <div className="my-1 h-full flex-col overflow-y-auto border-y-[1px] border-white/50 p-6">
-            <div className="flex flex-col gap-6 rounded-md bg-[#161616] p-4 text-left text-sm">
-              <p>
+            <ul className="flex flex-col gap-6 rounded-md bg-[#161616] p-4 text-left text-sm">
+              <li>
                 <strong>
                   A free EV test drive by{" "}
                   <a
@@ -625,25 +625,24 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                   </a>{" "}
                   (with a valid driving license, of course :P)
                 </strong>
-              </p>
-              <p>
+              </li>
+              <li>
                 <strong>
-                  A free F1 simulation powered by by redbull{" "}
+                  A free F1 simulation powered by{" "}
                   <a
-                    className="text-blue-400"
+                    className="text-red-400"
                     target="_blank"
                     href="https://bounceinfinity.com/"
                     rel="noreferrer"
                   >
-                    Bounce Infinity
+                    Red Bull
                   </a>{" "}
-                  (with a valid driving license, of course :P)
                 </strong>
-              </p>
-              <p>
+              </li>
+              <li>
                 Chance to meet and interact with startup founders,
                 entrepreneurs, and venture capitalists.
-              </p>
+              </li>
               <p>
                 Interactive speaker sessions from the best of the
                 entrepreneurial world
@@ -669,7 +668,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                 Interaction with SNU alumni to guide you through your college
                 experience
               </p>
-            </div>
+            </ul>
           </div>
           <div className="flex items-center py-4 px-5">
             <p className="w-full text-lg">{isSNU ? "Rs. 600" : "Rs. 800"}</p>
