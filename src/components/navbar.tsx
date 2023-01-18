@@ -561,13 +561,13 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
           <FilePond
             files={files}
             acceptedFileTypes={["image/png", "image/jpg", "image/jpeg"]}
-            fileValidateTypeDetectType={(source, type) =>
-              new Promise((resolve, reject) => {
-                // Do custom type detection here and return with promise
-                // if (type.includes("image")) resolve(type);
-                resolve(type);
-              })
-            }
+            // fileValidateTypeDetectType={(source, type) =>
+            //   new Promise((resolve, reject) => {
+            //     // Do custom type detection here and return with promise
+            //     // if (type.includes("image")) resolve(type);
+            //     resolve(type);
+            //   })
+            // }
             // onupdatefiles={(files) => setFiles(files)}
             onprocessfile={(error, file) => {
               if (!error) {
@@ -582,7 +582,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
             allowMultiple={false}
             server="/api/checkout/ss-upload"
             name="files"
-            labelIdle='Upload your payment <span class="filepond--label-action">Screenshot</span>'
+            labelIdle="Upload your payment screenshot"
           />
           <button
             disabled={files.length === 0 || handleInitialCheckout.isLoading}
