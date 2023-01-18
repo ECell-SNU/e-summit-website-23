@@ -112,13 +112,13 @@ AIC deliverables`,
             </div>
           ))}
         </div>
-        <div className="col-span-1 row-start-4 flex flex-col gap-6 xl:col-span-2 xl:row-start-2">
+        {/* <div className="col-span-1 row-start-4 flex flex-col gap-6 xl:col-span-2 xl:row-start-2">
           <h1 className="text-2xl font-bold">Judges</h1>
           <div className="flex w-full flex-wrap gap-6">
             <Image className="xl:w-1/3" alt="" src={judgeComingSoon} />
             <Image className="xl:w-1/3" alt="" src={judgeComingSoon} />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

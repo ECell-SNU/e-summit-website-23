@@ -28,14 +28,14 @@ const details = [
     title: "Registration Open",
     content: "29th Dec 2022",
   },
-  {
-    title: "Registration End",
-    content: "17th Jan 2023",
-  },
-  {
-    title: "Teams notified via Gmail",
-    content: "20th Jan 2023",
-  },
+  // {
+  //   title: "Registration End",
+  //   content: "17th Jan 2023",
+  // },
+  // {
+  //   title: "Teams notified via Gmail",
+  //   content: "20th Jan 2023",
+  // },
 ];
 
 const prizes = [
@@ -95,7 +95,7 @@ const Paradigm: NextPage = () => {
             pool of 3 lakhs. Beginner? No problem, we&apos;re welcome to all.
             It&apos;s time to hack. It&apos;s time to build.
           </p>
-          <Flex flexDir="column" align="center" className="m-2 gap-5 sm:m-6 ">
+          <div className="m-2 flex w-full flex-col justify-between gap-5 sm:m-6 md:flex-row md:gap-10 md:px-4">
             <a
               className="w-full rounded-lg py-2 text-lg"
               style={{
@@ -127,7 +127,7 @@ const Paradigm: NextPage = () => {
             >
               Event Details
             </a>
-          </Flex>
+          </div>
           <p className="text-xs sm:text-sm">Registration ends in</p>
           <h1 className="text-lg font-bold sm:text-2xl">{time} Days</h1>
         </div>
@@ -160,13 +160,13 @@ const Paradigm: NextPage = () => {
             </div>
           ))}
         </div>
-        <div className="col-span-1 row-start-4 flex flex-col gap-6 xl:col-span-2 xl:row-start-2">
+        {/* <div className="col-span-1 row-start-4 flex flex-col gap-6 xl:col-span-2 xl:row-start-2">
           <h1 className="text-2xl font-bold">Judges</h1>
           <div className="flex w-full flex-wrap gap-6">
             <Image className="xl:w-1/3" alt="" src={judgeComingSoon} />
             <Image className="xl:w-1/3" alt="" src={judgeComingSoon} />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

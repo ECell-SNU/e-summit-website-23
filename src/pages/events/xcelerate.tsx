@@ -30,14 +30,14 @@ const Xcelerate: NextPage = () => {
       title: "Registration Open",
       content: "29th Dec 2022",
     },
-    {
-      title: "Registration End",
-      content: "17th Jan 2023",
-    },
-    {
-      title: "Teams notified via Gmail",
-      content: "20th Jan 2023",
-    },
+    // {
+    //   title: "Registration End",
+    //   content: "17th Jan 2023",
+    // },
+    // {
+    //   title: "Teams notified via Gmail",
+    //   content: "20th Jan 2023",
+    // },
   ];
 
   const prizes = [
@@ -140,13 +140,13 @@ Goodies, swags and free subscriptions from a multitude of companies`,
             </div>
           ))}
         </div>
-        <div className="col-span-1 row-start-4 flex flex-col gap-6 xl:col-span-2 xl:row-start-2">
+        {/* <div className="col-span-1 row-start-4 flex flex-col gap-6 xl:col-span-2 xl:row-start-2">
           <h1 className="text-2xl font-bold">Judges</h1>
           <div className="flex w-full flex-wrap gap-6">
             <Image className="xl:w-1/3" alt="" src={judgeComingSoon} />
             <Image className="xl:w-1/3" alt="" src={judgeComingSoon} />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
