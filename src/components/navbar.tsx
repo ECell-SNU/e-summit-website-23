@@ -140,18 +140,18 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
   // jotai bs for travel checkout handling
 
   const { data: isSNU } = trpc.checkout.isSNU.useQuery();
+  const base = isSNU ? 600 : 800;
+
   const handleInitialCheckout =
     trpc.checkout.handleInitialCheckout.useMutation();
 
-  const calcTotal = () => {
-    const base = isSNU ? 600 : 800;
+  const [total, setTotal] = useState(isSNU ? 600 : 800);
 
+  useEffect(() => {
     const days = isAccom ? checkoutDate!.getDate() - checkinDate!.getDate() : 0;
-    return {
-      base,
-      total: base + (isAccom ? 300 * days - (days - 1) * 50 - 1 : 0),
-    };
-  };
+
+    setTotal(base + (isAccom ? 300 * days - (days - 1) * 50 - 1 : 0));
+  }, [isAccom, checkoutDate, checkinDate]);
 
   useEffect(() => {
     if (showMobileNav) {
@@ -412,31 +412,31 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                 <>
                   <p>Accomodation</p>
                   <p>
-                    <span className="inline">{`${
-                      calcTotal().total - calcTotal().base
-                    } Rs`}</span>
+                    <span className="inline">{`${total - base} Rs`}</span>
                   </p>
                 </>
               )}
               <div className="col-span-2 mt-4 h-[1px] bg-white/50"></div>
               <p>Total amount</p>
               {/* <p>{isSNU ? "600 Rs" : "800 Rs"}</p> */}
-              <p>{`${calcTotal().total} Rs`}</p>
+              <p>{`${total} Rs`}</p>
             </div>
           </div>
 
-          <div className="relative flex h-fit w-full flex-col gap-1 rounded-xl border-2 border-white/50 bg-[#0E0D0D] px-6 pt-4 pb-5">
-            <strong className="mb-1">Accomodation Details</strong>
-            <p className="text-sm">
-              <strong>Aadhar:</strong> {aadhar}
-            </p>
-            <p className="text-sm">
-              <strong>Checkin Date:</strong> {checkinDate?.toDateString()}
-            </p>
-            <p className="text-sm">
-              <strong>Checkout Date:</strong> {checkoutDate?.toDateString()}
-            </p>
-          </div>
+          {isAccom && (
+            <div className="relative flex h-fit w-full flex-col gap-1 rounded-xl border-2 border-white/50 bg-[#0E0D0D] px-6 pt-4 pb-5">
+              <strong className="mb-1">Accomodation Details</strong>
+              <p className="text-sm">
+                <strong>Aadhar:</strong> {aadhar}
+              </p>
+              <p className="text-sm">
+                <strong>Checkin Date:</strong> {checkinDate?.toDateString()}
+              </p>
+              <p className="text-sm">
+                <strong>Checkout Date:</strong> {checkoutDate?.toDateString()}
+              </p>
+            </div>
+          )}
 
           {/* TODO: Add this later */}
           <div className="flex justify-evenly gap-4">
@@ -516,7 +516,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
           </p>
           <h1 className="text-center text-2xl text-white">Amount</h1>
           <h1 className="-mt-4 mb-4 text-center text-5xl text-white">
-            {isSNU ? "600 Rs" : "800 Rs"}
+            {`${total} Rs`}
           </h1>
           <FilePond
             files={files}

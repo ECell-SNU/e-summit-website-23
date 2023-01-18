@@ -6,8 +6,8 @@ type CheckoutState = CheckoutObject & { aadharCardNumber: string };
 const initialCheckoutState: CheckoutState = {
   aadharCardNumber: "",
   isAccommodation: false,
-  // checkinDate,
-  // checkoutDate
+  checkinDate: new Date("Jan 28, 2023 00:00:00"),
+  checkoutDate: new Date("Jan 29, 2023 00:00:00"),
   travel: [],
 };
 
