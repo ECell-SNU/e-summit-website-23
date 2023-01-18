@@ -12,6 +12,8 @@ import { focusAtom } from "jotai-optics";
 import { showTicketAtom } from "../atoms/index";
 import { checkoutAtom } from "../atoms/index";
 
+import { initialCheckoutState } from "../atoms/index";
+
 import {
   ArrowBackIcon,
   ArrowForwardIcon,
@@ -436,7 +438,21 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 
             {isAccom && (
               <div className="relative flex h-fit w-full flex-col gap-1 rounded-xl border-2 border-white/50 bg-[#0E0D0D] px-6 pt-4 pb-5">
-                <strong className="mb-1">Accomodation Details</strong>
+                <div className="flex justify-between">
+                  <strong className="mb-1">Accomodation Details</strong>
+                  <span
+                    onClick={() => {
+                      // reset accommodation state
+                      setIsAccom(false);
+                      setAadhar("");
+                      setCheckinDate(initialCheckoutState.checkinDate);
+                      setCheckoutDate(initialCheckoutState.checkoutDate);
+                    }}
+                    className="cursor-pointer"
+                  >
+                    <CloseIcon boxSize={3} />
+                  </span>
+                </div>
                 <p className="text-sm">
                   <strong>Aadhar:</strong> {aadhar}
                 </p>
@@ -687,6 +703,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
               className="absolute top-4 right-4 rounded-md border border-white/50 px-2"
               onClick={() => {
                 setShowAccommodation(false);
+                setIsAccom(false);
               }}
             >
               x

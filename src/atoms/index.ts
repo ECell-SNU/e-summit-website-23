@@ -3,7 +3,7 @@ import { CheckoutObject } from "../types";
 
 type CheckoutState = CheckoutObject & { aadharCardNumber: string };
 
-const initialCheckoutState: CheckoutState = {
+export const initialCheckoutState: CheckoutState = {
   aadharCardNumber: "",
   isAccommodation: false,
   checkinDate: new Date("Jan 28, 2023 00:00:00"),
