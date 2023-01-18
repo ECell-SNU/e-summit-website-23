@@ -42,6 +42,7 @@
     "react-dom": "18.2.0",
     "react-filepond": "^7.1.2",
     "react-hook-form": "^7.41.0",
+    "sharp": "^0.31.3",
     "superjson": "1.9.1",
     "zod": "^3.20.2"
   },
