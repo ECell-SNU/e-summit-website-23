@@ -3,10 +3,8 @@ import useEmblaCarousel from "embla-carousel-react";
 import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
 import { type NextPage } from "next";
 import Image from "next/image";
-import { Menu, MenuButton, MenuItem, MenuList, Button } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 
-import { ArrowForwardIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import blueEllipse from "../assets/blue-ellipse.svg";
 import blueEllipse1 from "../assets/blue-ellipse1.svg";
 import blueUniverse from "../assets/blue-universe.png";
@@ -26,8 +24,7 @@ import startupverse from "../assets/startupverse.svg";
 import universe from "../assets/universe.svg";
 import videoThumbnail from "../assets/video-thumbnail.png";
 
-import RegBox from "../components/reg-box";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 // Add this to every page to protect from users who haven't filled the form
 export { default as getServerSideProps } from "../lib/serverProps";

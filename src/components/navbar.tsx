@@ -525,13 +525,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
           backgroundColor: "rgba(0, 0, 0, 0.8)",
         }}
       >
-        <div
-          style={{
-            WebkitOverflowScrolling: "touch",
-            height: "-webkit-fill-available",
-          }}
-          className="flex h-[100vh] w-full flex-col justify-start  gap-6 border-l-[1px] border-white/50 bg-black py-6 px-8 sm:w-[450px]"
-        >
+        <div className="flex h-[100vh] w-full flex-col justify-start gap-6 overflow-y-auto border-l-[1px] border-white/50 bg-black py-6 px-8 sm:w-[450px]">
           <div className="flex items-end justify-between text-3xl">
             <ArrowBackIcon
               boxSize={7}
@@ -553,7 +547,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
           <h1 className="my-4 text-center text-4xl text-white">Make Payment</h1>
           <Image className="hidden md:visible" src={paymentQr} alt="" />
           <p className="mb-4 text-center">
-            Harnam Singh Chhabra
+            Upload Screenshot after payment
             <br />
             9109782774@paytm <br />
             <a
