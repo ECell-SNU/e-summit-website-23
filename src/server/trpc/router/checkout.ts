@@ -7,6 +7,7 @@ import os from "os";
 import path from "path";
 import * as fs from "node:fs/promises";
 import OCR from "../../../lib/ocr";
+import mailWork from "../../../lib/mailwork";
 
 export const checkoutRouter = router({
   isSNU: publicProcedure.query(({ ctx }) => {
@@ -144,5 +145,7 @@ export const checkoutRouter = router({
           });
         }
       });
+
+      await mailWork(user.email as string, user.name as string, UPI as string);
     }),
 });
