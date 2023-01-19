@@ -554,7 +554,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
             />
           </div>
           <h1 className="text-center text-4xl text-white">Make Payment</h1>
-          <Image className="hidden md:visible" src={paymentQr} alt="" />
+          <Image className="hidden md:block" src={paymentQr} alt="" />
           <p className="text-center">
             Upload Screenshot after payment
             <br />
