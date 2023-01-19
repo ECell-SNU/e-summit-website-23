@@ -118,6 +118,7 @@ const checkoutDateAtom = focusAtom(checkoutAtom, (optic) =>
 );
 const travelAtom = focusAtom(checkoutAtom, (optic) => optic.prop("travel"));
 const Navbar: React.FC<NavbarProps> = ({ page }) => {
+  const [isTicket, setIsTicket] = useState<boolean>(false);
   const { data: sessionData } = useSession();
   const ref = useRef<HTMLDivElement>(null);
   const toast = useToast();
@@ -158,6 +159,14 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 
     setTotal(base + (isAccom ? 300 * days - (days - 1) * 50 - 1 : 0));
   }, [isAccom, checkoutDate, checkinDate, base]);
+
+  useEffect(() => {
+    if (sessionData) {
+      fetch("/api/fetch-event-reg?userId=" + sessionData.user?.id)
+        .then((data) => data.json())
+        .then((data) => data !== null && setIsTicket(true));
+    }
+  }, [sessionData]);
 
   useEffect(() => {
     if (showMobileNav) {
@@ -478,7 +487,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 
             {/* TODO: Add this later */}
             <div className="flex justify-evenly gap-4">
-              <button
+              {/* <button
                 className="flex justify-evenly gap-4 rounded-md bg-[#0E0D0D] px-4 py-2"
                 onClick={() => {
                   setShowCart(false);
@@ -490,7 +499,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                 <div className="flex h-[25px] w-[25px] items-center justify-center rounded-md bg-[#0085FF]">
                   <AddIcon boxSize={2} />
                 </div>
-              </button>
+              </button> */}
               {/* <div className="flex justify-evenly gap-4 rounded-md bg-[#0E0D0D] px-4 py-2">
                 <p>Travel</p>
                 <div className="flex h-[25px] w-[25px] items-center justify-center rounded-md bg-[#0085FF]">
@@ -702,11 +711,14 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
               <p className="text-sm">Cancel</p>
             </button>
             <button
-              className="ml-2 flex items-center gap-1 rounded-md bg-[#0085FF] px-6 py-2"
+              className={`ml-2 flex items-center gap-1 rounded-md ${
+                isTicket ? "bg-gray-600" : "bg-[#0085FF]"
+              } px-6 py-2`}
               onClick={() => {
                 setShowTicket(false);
                 setShowCart(true);
               }}
+              disabled={isTicket}
             >
               <p className="text-sm">Next</p>
               <ArrowForwardIcon color={"white"} />
