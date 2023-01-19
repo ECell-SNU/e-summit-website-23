@@ -162,10 +162,9 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 
   useEffect(() => {
     if (sessionData) {
-      fetch("/api/fetch-event-reg?userId=" + sessionData.user?.id).then(
-        (data) => data.json()
-      );
-      // .then((data) => data !== null && setIsTicket(true));
+      fetch("/api/fetch-event-reg?userId=" + sessionData.user?.id)
+        .then((data) => data.json())
+        .then((data) => data !== null && setIsTicket(true));
     }
   }, [sessionData]);
 
