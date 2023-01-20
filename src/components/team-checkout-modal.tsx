@@ -179,7 +179,7 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
                       borderColor: "rgba(255, 255, 255, 0.5)",
                     }}
                     onChange={(e) =>
-                      setMember({ ...member, aadharNumber: e.target.number })
+                      setMember({ ...member, aadharNumber: e.target.value })
                     }
                     className="mt-1"
                     variant="outline"
@@ -286,7 +286,7 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
             }}
             // disabled={isTicket}
           >
-            <p className="text-sm">Next</p>
+            <p className="text-sm">{isActive === -1 ? "Add" : "Edit"}</p>
             <ArrowForwardIcon color={"white"} />
           </button>
         </div>
