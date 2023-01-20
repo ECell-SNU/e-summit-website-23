@@ -87,14 +87,16 @@ model User {
   yearOfStudy  String?
   mobileNumber String?
   gender       Gender?
-
-  Team         Team[]
+  teamId       String?
+  team         Team?          @relation(fields: [teamId], references: [id])
   teamLeader   Boolean        @default(false)
   Accomodation Accomodation[]
   TravelItem   TravelItem[]
   EventReg     EventReg[]
   PaymentItem  PaymentItem[]
   UserPayment  UserPayment[]
+
+  @@index([teamId])
 }
 
 model VerificationToken {
@@ -177,8 +179,8 @@ model Team {
   id      String @id @default(cuid())
   name    String
   event   Event  @relation(fields: [eventId], references: [id])
-  members User[]
   eventId String
+  User    User[]
 
   @@index([eventId])
 }
