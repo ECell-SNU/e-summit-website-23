@@ -147,7 +147,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 
   const { data: isSNU } = trpc.checkout.isSNU.useQuery();
   console.log({ isSNU });
-  const base = isSNU ? 600 : 800;
+  const base = isSNU ? 599 : 699;
 
   const handleInitialCheckout =
     trpc.checkout.handleInitialCheckout.useMutation();
@@ -434,11 +434,11 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                 <p>
                   {isSNU ? (
                     <>
-                      <s className="inline">800 Rs</s>
-                      <span className="inline-block">600 Rs</span>
+                      <s className="inline">699 Rs</s>
+                      <span className="inline-block">599 Rs</span>
                     </>
                   ) : (
-                    "800 Rs"
+                    "699 Rs"
                   )}
                 </p>
                 {isAccom && (
@@ -451,7 +451,6 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                 )}
                 <div className="col-span-2 mt-4 h-[1px] bg-white/50"></div>
                 <p>Total amount</p>
-                {/* <p>{isSNU ? "600 Rs" : "800 Rs"}</p> */}
                 <p>{`${total} Rs`}</p>
               </div>
             </div>
@@ -556,7 +555,8 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
           <h1 className="text-center text-4xl text-white">Make Payment</h1>
           <Image className="hidden md:block" src={paymentQr} alt="" />
           <p className="text-center">
-            Upload Screenshot after payment
+            Upload Screenshot after payment, make sure it includes UPI Order /
+            ref id
             <br />
             9109782774@paytm <br />
             <a
@@ -701,7 +701,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
             </ul>
           </div>
           <div className="flex items-center py-4 px-5">
-            <p className="w-full text-lg">{isSNU ? "Rs. 600" : "Rs. 800"}</p>
+            <p className="w-full text-lg">{isSNU ? "Rs. 599" : "Rs. 699"}</p>
             <button
               className="rounded-md border border-white/50 px-6 py-2"
               onClick={() => {
