@@ -41,8 +41,8 @@ const TeamCheckout: NextPage = () => {
                 className="cursor-pointer"
                 onClick={() => {
                   console.log("editing", name);
-                  setIsActive(i);
                   setShowMemberModal(true);
+                  setIsActive(i);
                 }}
               >
                 <EditIcon

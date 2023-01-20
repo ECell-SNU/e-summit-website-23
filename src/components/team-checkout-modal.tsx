@@ -127,7 +127,7 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
                 borderColor: "rgba(255, 255, 255, 0.5)",
               }}
               onChange={(e) => setMember({ ...member, name: e.target.value })}
-              defaultValue={member.name}
+              value={member.name}
               className="mt-1"
               variant="outline"
               placeholder="Full name"
@@ -143,6 +143,7 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
                 setMember({ ...member, emailId: e.target.value })
               }
               className="mt-1"
+              value={member.emailId}
               variant="outline"
               placeholder="Email address"
             />
@@ -157,6 +158,7 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
                 setMember({ ...member, phoneNumber: e.target.value })
               }
               className="mt-1"
+              value={member.phoneNumber}
               variant="outline"
               placeholder="Phone number"
             />
@@ -173,6 +175,7 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
               onChange={(e) =>
                 setMember({ ...member, gender: e.target.value as Gender })
               }
+              value={member.gender}
             >
               <option value="MALE">MALE</option>
               <option value="FEMALE">FEMALE</option>
@@ -297,6 +300,7 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
           <button
             className="rounded-md border border-white/50 px-6 py-2"
             onClick={() => {
+              setIsActive(-1);
               setShowMemberUI(false);
             }}
           >
@@ -305,28 +309,18 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
           <button
             className={`ml-2 flex items-center gap-1 rounded-md px-6 py-2`}
             onClick={() => {
+              if (isActive === -1) {
+                addMember(member);
+              } else {
+                editMember(member, isActive);
+              }
+
+              setIsActive(-1);
               setShowMemberUI(false);
             }}
-            // disabled={isTicket}
           >
-            <div
-              className="flex gap-2"
-              onClick={() => {
-                editMember(member, isActive);
-              }}
-            >
-              <p
-                className="text-sm"
-                onClick={() => {
-                  if (isActive === -1) {
-                    addMember(member);
-                  } else {
-                    editMember(member, isActive);
-                  }
-                }}
-              >
-                {isActive === -1 ? "Add" : "Edit"}
-              </p>
+            <div className="flex gap-2">
+              <p className="text-sm">{isActive === -1 ? "Add" : "Edit"}</p>
               <ArrowForwardIcon color={"white"} />
             </div>
           </button>
