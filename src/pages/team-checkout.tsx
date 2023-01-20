@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { signIn, useSession } from "next-auth/react";
 import { useEffect } from "react";
 
-import { EditIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
 import { useAtom } from "jotai";
 import { showMemberModalAtom } from "../atoms/index";
@@ -34,16 +34,43 @@ const TeamCheckout: NextPage = () => {
             key={i}
             className="m-2 flex items-center justify-between rounded-md bg-slate-500 p-4"
           >
-            <div className="text-3xl">{name}</div>
-            <div
-              className="cursor-pointer"
-              onClick={() => {
-                console.log("editing", name);
-                setIsActive(i);
-                setShowMemberModal(true);
-              }}
-            >
-              <EditIcon boxSize={7} />
+            <div className="select-none text-3xl">{name}</div>
+
+            <div className="flex gap-2">
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  console.log("editing", name);
+                  setIsActive(i);
+                  setShowMemberModal(true);
+                }}
+              >
+                <EditIcon
+                  p={2}
+                  borderRadius={"8px"}
+                  bgColor={"blue.600"}
+                  _hover={{ bgColor: "blue.700" }}
+                  // border="1px solid #6c7078"
+                  boxSize={10}
+                />
+              </div>
+
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  console.log("deleting", name);
+                  removeMember(i);
+                }}
+              >
+                <DeleteIcon
+                  p={2}
+                  borderRadius={"8px"}
+                  bgColor={"red.600"}
+                  _hover={{ bgColor: "red.700" }}
+                  // border="1px solid #6c7078"
+                  boxSize={10}
+                />
+              </div>
             </div>
           </div>
         ))}

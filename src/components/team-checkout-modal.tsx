@@ -33,24 +33,37 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
     removeMember,
   } = checkout;
 
-  const [member, setMember] = useState<Member>(
-    isActive === -1
-      ? {
-          name: "",
-          emailId: "",
-          phoneNumber: "",
-          aadharNumber: "",
-          gender: "MALE",
-          isAccomodation: false,
-          checkinDate: new Date("Jan 28, 2023 00:00:00"),
-          checkoutDate: new Date("Jan 29, 2023 00:00:00"),
-        }
-      : (members[isActive] as Member)
-  );
+  const [member, setMember] = useState<Member>({
+    name: "",
+    emailId: "",
+    phoneNumber: "",
+    aadharNumber: "",
+    gender: "MALE",
+    isAccomodation: false,
+    checkinDate: new Date("Jan 28, 2023 00:00:00"),
+    checkoutDate: new Date("Jan 29, 2023 00:00:00"),
+  });
 
   useEffect(() => {
     console.log(member);
   }, [member]);
+
+  useEffect(() => {
+    if (isActive === -1) {
+      setMember({
+        name: "",
+        emailId: "",
+        phoneNumber: "",
+        aadharNumber: "",
+        gender: "MALE",
+        isAccomodation: false,
+        checkinDate: new Date("Jan 28, 2023 00:00:00"),
+        checkoutDate: new Date("Jan 29, 2023 00:00:00"),
+      });
+    } else {
+      setMember(members[isActive] as Member);
+    }
+  }, [isActive]);
 
   const [showMemberUI, setShowMemberUI] = useAtom(showMemberModalAtom);
   const ref = useRef<HTMLDivElement>(null);
@@ -79,13 +92,13 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
     <div
       className={`
 					absolute top-[7vh] bottom-0 left-0 right-0 z-40 flex h-[80vh]
-					w-full items-center justify-center backdrop-blur-md sm:h-screen md:top-[10vh]
+					w-full items-center justify-center backdrop-blur-md sm:h-screen
           md:h-[65vh]
 					${showMemberUI ? "" : "invisible"}
 				`}
       style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
     >
-      <div className=" z-60 relative flex h-full w-full flex-col border border-white/50 bg-black sm:w-[600px] sm:rounded-xl">
+      <div className="z-60 relative flex h-full w-full flex-col border border-white/50 bg-black sm:w-[600px] sm:rounded-xl md:mt-[3vh]">
         <button
           className="absolute top-4 right-4 rounded-md border border-white/50 px-2"
           onClick={() => {
@@ -110,6 +123,7 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
                 borderColor: "rgba(255, 255, 255, 0.5)",
               }}
               onChange={(e) => setMember({ ...member, name: e.target.value })}
+              defaultValue={member.name}
               className="mt-1"
               variant="outline"
               placeholder="Full name"
