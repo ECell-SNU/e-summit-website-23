@@ -1,35 +1,18 @@
 import { z } from "zod";
 
-import { TRPCError } from "@trpc/server";
-import { protectedProcedure, publicProcedure, router } from "../trpc";
+import { protectedProcedure, router } from "../trpc";
 
+import { Gender } from "@prisma/client";
+import * as fs from "node:fs/promises";
 import os from "os";
 import path from "path";
-import * as fs from "node:fs/promises";
 import OCR from "../../../lib/ocr";
-import mailWork from "../../../lib/mailwork";
-import { Gender, Role, User } from "@prisma/client";
 
-const a = z.object({
-  teamName: z.string(),
-  members: z
-    .object({
-      name: z.string(),
-      emailId: z.string(),
-      phoneNumber: z.string(),
-      isAccomodation: z.boolean().optional(),
-      checkinDate: z.date().optional(),
-      checkoutDate: z.date().optional(),
-    })
-    .array(),
-});
-
-export const checkoutRouter = router({
+export const teamCheckoutRouter = router({
   handleInitialCheckout: protectedProcedure
     .input(
       z.object({
         teamName: z.string(),
-
         members: z
           .object({
             name: z.string().optional(),
