@@ -1,11 +1,12 @@
 import { Gender } from "@prisma/client";
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import { z } from "zod";
 
 export type Member = {
   name: string;
   phoneNumber: string;
   emailId: string;
+  aadharNumber: string;
   checkinDate: Date;
   checkoutDate: Date;
   isAccomodation: boolean;
@@ -24,9 +25,9 @@ export interface CheckoutState {
   editMember: (member: Member, index: number) => void;
   members: Member[];
   isActive: number;
-  setIsActive: () => {};
+  setIsActive: Dispatch<SetStateAction<number>>;
   checkoutState: TeamCheckoutState;
-  setCheckoutState: () => {};
+  setCheckoutState: Dispatch<SetStateAction<TeamCheckoutState>>;
 }
 
 const useCheckout = () => {

@@ -1,8 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
-import { Input, Select, Checkbox } from "@chakra-ui/react";
-import { ArrowForwardIcon } from "@chakra-ui/icons";
+import {
+  Input,
+  Select,
+  Checkbox,
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from "@chakra-ui/react";
+import { ArrowForwardIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
 import useCheckout, {
   type Member,
@@ -27,8 +36,9 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
           name: "",
           emailId: "",
           phoneNumber: "",
+          aadharNumber: "",
           gender: "MALE",
-          isAccomodation: false,
+          isAccomodation: true,
           checkinDate: new Date(),
           checkoutDate: new Date(),
         }
@@ -149,6 +159,7 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
 
             <Checkbox
               mt={4}
+              checked={member.isAccomodation}
               onChange={(e) =>
                 setMember({ ...member, isAccomodation: e.target.checked })
               }
@@ -157,6 +168,92 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
                 Need Accomodation for this team member?
               </p>
             </Checkbox>
+
+            {member.isAccomodation && (
+              <>
+                <div className="mt-2 h-20 w-full bg-green-600">
+                  <p className="text-xs text-white">Aadhar Card Number</p>
+                  <Input
+                    style={{
+                      borderRadius: "12px",
+                      borderColor: "rgba(255, 255, 255, 0.5)",
+                    }}
+                    onChange={(e) => setMember({ ...member })}
+                    className="mt-1"
+                    variant="outline"
+                    placeholder="12 digits without space"
+                  />
+
+                  <p className="text-xs text-white">Check In Date</p>
+                  <Menu>
+                    <MenuButton
+                      as={Button}
+                      rightIcon={<ChevronDownIcon className="w-full" />}
+                      backgroundColor={"transparent"}
+                      fontWeight={"normal"}
+                      borderRadius={"12px"}
+                      _hover={{}}
+                      _active={{}}
+                      className="mt-1 border border-white/50 pl-4 text-left text-white"
+                    >
+                      {checkinDate?.toDateString()}
+                    </MenuButton>
+                    <MenuList backgroundColor={"#000000"}>
+                      <MenuItem
+                        backgroundColor={"#000000"}
+                        onClick={() =>
+                          setCheckinDate(new Date("Jan 28, 2023 00:00:00"))
+                        }
+                      >
+                        {new Date("Jan 28, 2023 00:00:00").toDateString()}
+                      </MenuItem>
+                      <MenuItem
+                        backgroundColor={"#000000"}
+                        onClick={() =>
+                          setCheckinDate(new Date("Jan 29, 2023 00:00:00"))
+                        }
+                      >
+                        {new Date("Jan 29, 2023 00:00:00").toDateString()}
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+
+                  <p className="text-xs text-white">Check Out Date</p>
+                  <Menu>
+                    <MenuButton
+                      as={Button}
+                      rightIcon={<ChevronDownIcon className="w-full" />}
+                      backgroundColor={"transparent"}
+                      fontWeight={"normal"}
+                      borderRadius={"12px"}
+                      _hover={{}}
+                      _active={{}}
+                      className="mt-1 border border-white/50 pl-4 text-left text-white"
+                    >
+                      {checkoutDate?.toDateString()}
+                    </MenuButton>
+                    <MenuList backgroundColor={"#000000"}>
+                      <MenuItem
+                        backgroundColor={"#000000"}
+                        onClick={() =>
+                          setCheckoutDate(new Date("Jan 29, 2023 00:00:00"))
+                        }
+                      >
+                        {new Date("Jan 29, 2023 00:00:00").toDateString()}
+                      </MenuItem>
+                      <MenuItem
+                        backgroundColor={"#000000"}
+                        onClick={() =>
+                          setCheckoutDate(new Date("Jan 30, 2023 00:00:00"))
+                        }
+                      >
+                        {new Date("Jan 30, 2023 00:00:00").toDateString()}
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                </div>
+              </>
+            )}
           </div>
         </div>
         <div className="flex items-center py-4 px-5">
