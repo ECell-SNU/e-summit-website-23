@@ -14,3 +14,5 @@ export const initialCheckoutState: CheckoutState = {
 export const checkoutAtom = atom<CheckoutState>(initialCheckoutState);
 
 export const showTicketAtom = atom<boolean>(false);
+
+export const showMemberModalAtom = atom<boolean>(false);

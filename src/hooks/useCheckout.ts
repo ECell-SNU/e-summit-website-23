@@ -32,7 +32,11 @@ export interface CheckoutState {
 
 const useCheckout = () => {
   // TODO: get currently added members from DB via trpc and populate this
-  const [members, setMembers] = useState<Member[]>([]);
+  const [members, setMembers] = useState<Member[] | any>([
+    { name: "Somesh Kar" },
+    { name: "Pratham Aggarwal" },
+    { name: "Prabhav Pandey" },
+  ]);
   const [checkoutState, setCheckoutState] = useState<TeamCheckoutState>(
     TeamCheckoutState.MEMBER_INFO
   );

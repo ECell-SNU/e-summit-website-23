@@ -20,6 +20,9 @@ import useCheckout, {
 
 import { type Gender } from "@prisma/client";
 
+import { useAtom } from "jotai";
+import { showMemberModalAtom } from "../atoms/index";
+
 const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
   const {
     isActive,
@@ -49,7 +52,7 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
     console.log(member);
   }, [member]);
 
-  const [showMemberUI, setShowMemberUI] = useState(true);
+  const [showMemberUI, setShowMemberUI] = useAtom(showMemberModalAtom);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -93,7 +96,9 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
         </button>
         <div className="flex w-full flex-col gap-1 p-6">
           <p className="text-xl font-[600] text-white">
-            {isActive === -1 ? "Add new member" : `Edit member #${isActive}`}
+            {isActive === -1
+              ? "Add new member"
+              : `Edit member #${isActive + 1}`}
           </p>
         </div>
         <div className="my-1 h-full flex-col overflow-y-auto border-y-[1px] border-white/50 p-6">
