@@ -18,6 +18,17 @@ export enum TeamCheckoutState {
   PAYMENT,
 }
 
+export interface CheckoutState {
+  addMember: (member: Member) => void;
+  removeMember: (index: number) => void;
+  editMember: (member: Member, index: number) => void;
+  members: Member[];
+  isActive: number;
+  setIsActive: () => {};
+  checkoutState: TeamCheckoutState;
+  setCheckoutState: () => {};
+}
+
 const useCheckout = () => {
   // TODO: get currently added members from DB via trpc and populate this
   const [members, setMembers] = useState<Member[]>([]);

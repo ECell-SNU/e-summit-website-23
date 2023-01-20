@@ -4,10 +4,23 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { Input, Select, Checkbox } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
-import useCheckout, { type Member } from "../hooks/useCheckout";
+import useCheckout, {
+  type Member,
+  type CheckoutState,
+} from "../hooks/useCheckout";
+
 import { type Gender } from "@prisma/client";
 
-const TeamCheckoutModal = () => {
+const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
+  const {
+    isActive,
+    setIsActive,
+    members,
+    addMember,
+    editMember,
+    removeMember,
+  } = checkout;
+
   const [member, setMember] = useState<Member>(
     isActive === -1
       ? {

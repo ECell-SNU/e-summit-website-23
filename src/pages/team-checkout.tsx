@@ -6,6 +6,8 @@ import TeamCheckoutModal from "../components/team-checkout-modal";
 import useCheckout from "../hooks/useCheckout";
 
 const TeamCheckout: NextPage = () => {
+  const checkout = useCheckout();
+
   const {
     isActive,
     setIsActive,
@@ -13,7 +15,8 @@ const TeamCheckout: NextPage = () => {
     addMember,
     editMember,
     removeMember,
-  } = useCheckout();
+  } = checkout;
+
   return (
     <div className="mt-20">
       {/* <div className="text-3xl"></div> */}
@@ -21,7 +24,7 @@ const TeamCheckout: NextPage = () => {
         <div>main contents</div>
       </div>
 
-      <TeamCheckoutModal />
+      <TeamCheckoutModal checkout={checkout} />
     </div>
   );
 };
