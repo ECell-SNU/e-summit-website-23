@@ -45,7 +45,7 @@ const useCheckout = () => {
   const addMember = (member: Member) => setMembers([...members, member]);
 
   const removeMember = (index: number) =>
-    setMembers(members.filter((_, i) => i !== index));
+    setMembers(members.filter((_: any, i: number) => i !== index));
 
   const editMember = (member: Member, index: number) => {
     const newMembers = [...members];
