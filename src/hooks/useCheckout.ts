@@ -12,9 +12,17 @@ export type Member = {
   gender: Gender;
 };
 
+export enum TeamCheckoutState {
+  MEMBER_INFO,
+  OVERALL,
+  PAYMENT,
+}
+
 const useCheckout = () => {
   const [members, setMembers] = useState<Member[]>([]);
-
+  const [checkoutState, setCheckoutState] = useState<TeamCheckoutState>(
+    TeamCheckoutState.MEMBER_INFO
+  );
   // -1 means new member, others mean editing some member
   const [isActive, setIsActive] = useState(-1);
   const addMember = (member: Member) => setMembers([...members, member]);
@@ -35,6 +43,8 @@ const useCheckout = () => {
     members,
     isActive,
     setIsActive,
+    checkoutState,
+    setCheckoutState,
   };
 };
 
