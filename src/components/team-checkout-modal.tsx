@@ -61,7 +61,11 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
         checkoutDate: new Date("Jan 29, 2023 00:00:00"),
       });
     } else {
-      setMember(members[isActive] as Member);
+      setMember({
+        ...(members[isActive] as Member),
+        checkinDate: new Date("Jan 28, 2023 00:00:00"),
+        checkoutDate: new Date("Jan 29, 2023 00:00:00"),
+      });
     }
   }, [isActive]);
 
@@ -217,7 +221,7 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
                       _active={{}}
                       className="mt-1 w-full border border-white/50 pl-4 text-left text-white"
                     >
-                      {member.checkinDate?.toDateString()}
+                      {member.checkinDate.toDateString()}
                     </MenuButton>
                     <MenuList backgroundColor={"#000000"}>
                       <MenuItem
@@ -257,7 +261,7 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
                       _active={{}}
                       className="mt-1 w-full border border-white/50 pl-4 text-left text-white"
                     >
-                      {member.checkoutDate?.toDateString()}
+                      {member.checkoutDate.toDateString()}
                     </MenuButton>
                     <MenuList backgroundColor={"#000000"}>
                       <MenuItem
@@ -305,8 +309,26 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
             }}
             // disabled={isTicket}
           >
-            <p className="text-sm">{isActive === -1 ? "Add" : "Edit"}</p>
-            <ArrowForwardIcon color={"white"} />
+            <div
+              className="flex gap-2"
+              onClick={() => {
+                editMember(member, isActive);
+              }}
+            >
+              <p
+                className="text-sm"
+                onClick={() => {
+                  if (isActive === -1) {
+                    addMember(member);
+                  } else {
+                    editMember(member, isActive);
+                  }
+                }}
+              >
+                {isActive === -1 ? "Add" : "Edit"}
+              </p>
+              <ArrowForwardIcon color={"white"} />
+            </div>
           </button>
         </div>
       </div>

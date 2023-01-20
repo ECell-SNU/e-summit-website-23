@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { signIn, useSession } from "next-auth/react";
 import { useEffect } from "react";
 
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon, AddIcon } from "@chakra-ui/icons";
 
 import { useAtom } from "jotai";
 import { showMemberModalAtom } from "../atoms/index";
@@ -74,6 +74,15 @@ const TeamCheckout: NextPage = () => {
             </div>
           </div>
         ))}
+        <div
+          className="m-2 flex cursor-pointer items-center items-center justify-center rounded-md border-2 border-dotted border-slate-500 p-4"
+          onClick={() => {
+            setIsActive(-1);
+            setShowMemberModal(true);
+          }}
+        >
+          <AddIcon boxSize={10} />
+        </div>
       </div>
 
       <TeamCheckoutModal checkout={checkout} />
