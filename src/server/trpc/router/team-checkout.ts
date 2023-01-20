@@ -28,16 +28,9 @@ export const teamCheckoutRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       const { id: userId } = ctx.session.user;
+
+      // get info from db
       const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
-
-      const ssDir = path.join(os.homedir(), "screenshots");
-
-      const ssFilename = (await fs.readdir(ssDir))
-        .filter((ss) => ss.includes(userId))
-        .sort()
-        .reverse()[0];
-
-      const UPI = (await OCR(ssDir + "/" + ssFilename))[0];
 
       const clusterMale = await ctx.prisma.cluster.findFirst({
         where: {
@@ -52,7 +45,6 @@ export const teamCheckoutRouter = router({
       });
 
       const eventName = user?.role;
-
       const event = await ctx.prisma.event.findFirst({
         where: {
           name: eventName,
@@ -86,6 +78,12 @@ export const teamCheckoutRouter = router({
       );
 
       // create global received payment
+      const ssDir = path.join(os.homedir(), "screenshots");
+      const ssFilename = (await fs.readdir(ssDir))
+        .filter((ss) => ss.includes(userId))
+        .sort()
+        .reverse()[0];
+      const UPI = (await OCR(ssDir + "/" + ssFilename))[0];
       const userPayment = await ctx.prisma.userPayment.create({
         data: {
           upi: UPI ?? "UPI NOT FOUND",
@@ -103,7 +101,6 @@ export const teamCheckoutRouter = router({
           state: "PROCESSING",
         },
       });
-
       await ctx.prisma.eventReg.create({
         data: {
           userId,
