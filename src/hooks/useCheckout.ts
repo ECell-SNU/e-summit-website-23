@@ -19,6 +19,7 @@ export enum TeamCheckoutState {
 }
 
 const useCheckout = () => {
+  // TODO: get currently added members from DB via trpc and populate this
   const [members, setMembers] = useState<Member[]>([]);
   const [checkoutState, setCheckoutState] = useState<TeamCheckoutState>(
     TeamCheckoutState.MEMBER_INFO
