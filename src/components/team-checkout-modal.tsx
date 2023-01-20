@@ -217,7 +217,7 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
                         onClick={() =>
                           setMember({
                             ...member,
-                            checkoutDate: new Date("Jan 29, 2023 00:00:00"),
+                            checkinDate: new Date("Jan 29, 2023 00:00:00"),
                           })
                         }
                       >
