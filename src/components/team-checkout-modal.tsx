@@ -38,9 +38,9 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
           phoneNumber: "",
           aadharNumber: "",
           gender: "MALE",
-          isAccomodation: true,
-          checkinDate: new Date(),
-          checkoutDate: new Date(),
+          isAccomodation: false,
+          checkinDate: new Date("Jan 28, 2023 00:00:00"),
+          checkoutDate: new Date("Jan 29, 2023 00:00:00"),
         }
       : (members[isActive] as Member)
   );
@@ -171,20 +171,22 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
 
             {member.isAccomodation && (
               <>
-                <div className="mt-2 h-20 w-full bg-green-600">
+                <div className="mt-4 w-full">
                   <p className="text-xs text-white">Aadhar Card Number</p>
                   <Input
                     style={{
                       borderRadius: "12px",
                       borderColor: "rgba(255, 255, 255, 0.5)",
                     }}
-                    onChange={(e) => setMember({ ...member })}
+                    onChange={(e) =>
+                      setMember({ ...member, aadharNumber: e.target.number })
+                    }
                     className="mt-1"
                     variant="outline"
                     placeholder="12 digits without space"
                   />
 
-                  <p className="text-xs text-white">Check In Date</p>
+                  <p className="mt-4 text-xs text-white">Check In Date</p>
                   <Menu>
                     <MenuButton
                       as={Button}
@@ -194,15 +196,18 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
                       borderRadius={"12px"}
                       _hover={{}}
                       _active={{}}
-                      className="mt-1 border border-white/50 pl-4 text-left text-white"
+                      className="mt-1 w-full border border-white/50 pl-4 text-left text-white"
                     >
-                      {checkinDate?.toDateString()}
+                      {member.checkinDate?.toDateString()}
                     </MenuButton>
                     <MenuList backgroundColor={"#000000"}>
                       <MenuItem
                         backgroundColor={"#000000"}
                         onClick={() =>
-                          setCheckinDate(new Date("Jan 28, 2023 00:00:00"))
+                          setMember({
+                            ...member,
+                            checkinDate: new Date("Jan 28, 2023 00:00:00"),
+                          })
                         }
                       >
                         {new Date("Jan 28, 2023 00:00:00").toDateString()}
@@ -210,7 +215,10 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
                       <MenuItem
                         backgroundColor={"#000000"}
                         onClick={() =>
-                          setCheckinDate(new Date("Jan 29, 2023 00:00:00"))
+                          setMember({
+                            ...member,
+                            checkoutDate: new Date("Jan 29, 2023 00:00:00"),
+                          })
                         }
                       >
                         {new Date("Jan 29, 2023 00:00:00").toDateString()}
@@ -218,7 +226,7 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
                     </MenuList>
                   </Menu>
 
-                  <p className="text-xs text-white">Check Out Date</p>
+                  <p className="mt-4 text-xs text-white">Check Out Date</p>
                   <Menu>
                     <MenuButton
                       as={Button}
@@ -228,15 +236,18 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
                       borderRadius={"12px"}
                       _hover={{}}
                       _active={{}}
-                      className="mt-1 border border-white/50 pl-4 text-left text-white"
+                      className="mt-1 w-full border border-white/50 pl-4 text-left text-white"
                     >
-                      {checkoutDate?.toDateString()}
+                      {member.checkoutDate?.toDateString()}
                     </MenuButton>
                     <MenuList backgroundColor={"#000000"}>
                       <MenuItem
                         backgroundColor={"#000000"}
                         onClick={() =>
-                          setCheckoutDate(new Date("Jan 29, 2023 00:00:00"))
+                          setMember({
+                            ...member,
+                            checkoutDate: new Date("Jan 29, 2023 00:00:00"),
+                          })
                         }
                       >
                         {new Date("Jan 29, 2023 00:00:00").toDateString()}
@@ -244,7 +255,10 @@ const TeamCheckoutModal = ({ checkout }: { checkout: CheckoutState }) => {
                       <MenuItem
                         backgroundColor={"#000000"}
                         onClick={() =>
-                          setCheckoutDate(new Date("Jan 30, 2023 00:00:00"))
+                          setMember({
+                            ...member,
+                            checkoutDate: new Date("Jan 30, 2023 00:00:00"),
+                          })
                         }
                       >
                         {new Date("Jan 30, 2023 00:00:00").toDateString()}
