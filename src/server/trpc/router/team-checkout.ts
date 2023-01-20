@@ -52,7 +52,6 @@ export const teamCheckoutRouter = router({
       });
 
       const eventName = user?.role;
-      if (!eventName || !clusterFemale || !clusterMale) return;
 
       const event = await ctx.prisma.event.findFirst({
         where: {
@@ -60,23 +59,13 @@ export const teamCheckoutRouter = router({
         },
       });
 
-      if (!event) return;
+      if (!event || !clusterFemale || !clusterMale) return;
 
       // create a team
       const team = await ctx.prisma.team.create({
         data: {
           name: input.teamName,
           eventId: event.id,
-        },
-      });
-
-      // update team for captain
-      await ctx.prisma.user.update({
-        where: {
-          id: userId,
-        },
-        data: {
-          teamId: team.id,
         },
       });
 
