@@ -7,7 +7,7 @@ import fs from "fs";
 type Res = {
   status: string;
   message: string;
-  random?: any;
+  random?: unknown;
 };
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Res>) {

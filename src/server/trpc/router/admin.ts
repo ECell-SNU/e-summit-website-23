@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { router, publicProcedure, protectedProcedure } from "../trpc";
+import { protectedProcedure, router } from "../trpc";
 
 const specialAdmins = {
   agaash: "agaash@gmail.com",
@@ -15,11 +15,11 @@ export const adminRouter = router({
   }),
   agaashMutateAccomodation: protectedProcedure
     .input(z.object({ id: z.string(), change: z.any() }))
-    .query(async ({ ctx, input }) => {
+    .query(async ({ ctx }) => {
       if (ctx.session.user.email !== specialAdmins.agaash) return;
 
-      const { id } = input;
-      const acc = await ctx.prisma.accomodation.findMany({ where: { id } });
+      // const { id } = input;
+      // const acc = await ctx.prisma.accomodation.findMany({ where: { id } });
 
       // mutate accomodation with change here
 

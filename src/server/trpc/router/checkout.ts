@@ -38,12 +38,6 @@ export const checkoutRouter = router({
         isAccomodation: z.boolean().optional(),
         checkinDate: z.date().optional(),
         checkoutDate: z.date().optional(),
-        travel: z
-          .object({
-            destination: z.string(),
-            departureDateAndTime: z.date(),
-          })
-          .optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -53,7 +47,7 @@ export const checkoutRouter = router({
       const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
       if (!user) return;
 
-      const { isAccomodation, travel, checkinDate, checkoutDate } = input;
+      const { isAccomodation, checkinDate, checkoutDate } = input;
 
       const ssDir = path.join(os.homedir(), "screenshots");
 
@@ -72,29 +66,15 @@ export const checkoutRouter = router({
 
       const cluster = await ctx.prisma.cluster.findFirst({
         where: {
-          gender: user.gender!,
+          gender: user.gender ?? "MALE",
         },
       });
 
-      if (
-        !cluster ||
-        !event ||
-        (isAccomodation && (!checkinDate || !checkoutDate))
-      )
-        return;
-
-      const days = isAccomodation
-        ? checkoutDate!.getDate() - checkinDate!.getDate()
-        : 0;
-      const accomodationAmount = isAccomodation
-        ? 300 * days - (days - 1) * 50 - 1
-        : 0;
+      if (!cluster || !event) return;
 
       console.log({ UPI });
       console.log(ssFilename);
       console.log("eventName", event.name);
-      console.log("Days", days);
-      console.log("Accomodation Amount", accomodationAmount);
       console.log("checkinDate", checkinDate);
       console.log("checkoutDate", checkoutDate);
 
@@ -116,7 +96,7 @@ export const checkoutRouter = router({
           },
         });
 
-        const eventReg = await tx.eventReg.create({
+        await tx.eventReg.create({
           data: {
             userId,
             eventId: event.id,
@@ -125,6 +105,9 @@ export const checkoutRouter = router({
         });
 
         if (isAccomodation && checkinDate && checkoutDate) {
+          const days = checkoutDate.getDate() - checkinDate.getDate();
+          const accomodationAmount = 300 * days - (days - 1) * 50 - 1;
+
           const accomodationPaymentItem = await tx.paymentItem.create({
             data: {
               userId,
@@ -134,7 +117,7 @@ export const checkoutRouter = router({
             },
           });
 
-          const accomodation = await tx.accomodation.create({
+          await tx.accomodation.create({
             data: {
               checkInDate: checkinDate,
               checkOutDate: checkoutDate,
