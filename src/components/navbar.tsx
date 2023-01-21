@@ -1,5 +1,4 @@
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import { Fragment } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,8 +8,7 @@ import { trpc } from "../utils/trpc";
 
 import { useAtom } from "jotai";
 import { focusAtom } from "jotai-optics";
-import { showTicketAtom } from "../atoms/index";
-import { checkoutAtom } from "../atoms/index";
+import { checkoutAtom, showTicketAtom } from "../atoms/index";
 
 import { initialCheckoutState } from "../atoms/index";
 
@@ -21,7 +19,6 @@ import {
   ChevronRightIcon,
   CloseIcon,
   HamburgerIcon,
-  AddIcon,
 } from "@chakra-ui/icons";
 
 import {
@@ -42,14 +39,14 @@ import eSummitLogo from "../assets/e-summit-logo.png";
 
 import { FilePond, registerPlugin } from "react-filepond";
 
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
-import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 
 // import { FilePondFile } from "filepond";
 
-import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import "filepond/dist/filepond.min.css";
 
 registerPlugin(
   FilePondPluginImageExifOrientation,
@@ -146,7 +143,6 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
   // jotai bs for travel checkout handling
 
   const { data: isSNU } = trpc.checkout.isSNU.useQuery();
-  console.log({ isSNU });
   const base = isSNU ? 599 : 699;
 
   const handleInitialCheckout =
@@ -303,7 +299,11 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
               background:
                 "linear-gradient(90.83deg, #FF1761 0%, #910AB1 98.45%)",
             }}
-            onClick={() => setShowTicket(true)}
+            onClick={() =>
+              sessionData?.user
+                ? (window.location.href = "/checkout")
+                : signIn("google", { callbackUrl: "/checkout" })
+            }
           >
             Buy Ticket
           </button>

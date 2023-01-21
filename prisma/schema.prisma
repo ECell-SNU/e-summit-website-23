@@ -133,6 +133,8 @@ model EventReg {
   paymentId String
   payment   PaymentItem @relation(fields: [paymentId], references: [id])
 
+  quantity Int @default(1)
+
   @@index([userId])
   @@index([eventId])
   @@index([paymentId])

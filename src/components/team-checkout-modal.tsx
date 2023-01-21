@@ -22,9 +22,7 @@ const TeamCheckoutModal = () => {
       : (members[isActive] as Member)
   );
 
-  useEffect(() => {
-    console.log(member);
-  }, [member]);
+  useEffect(() => {}, [member]);
 
   const [showMemberUI, setShowMemberUI] = useState(true);
   const ref = useRef<HTMLDivElement>(null);

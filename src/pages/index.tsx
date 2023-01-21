@@ -27,7 +27,7 @@ import videoThumbnail from "../assets/video-thumbnail.png";
 import { signIn, useSession } from "next-auth/react";
 
 // Add this to every page to protect from users who haven't filled the form
-export { default as getServerSideProps } from "../lib/serverProps";
+// export { default as getServerSideProps } from "../lib/serverProps";
 
 import Countdown from "../components/countdown";
 // import { showCheckoutSetter } from "../components/navbar";
@@ -61,7 +61,6 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (emblaApi) {
-      console.log(emblaApi?.selectedScrollSnap());
       const interval = setInterval(() => {
         emblaApi.scrollPrev();
       }, 3000);
@@ -134,7 +133,9 @@ const Home: NextPage = () => {
           <div
             className="z-10 cursor-pointer rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 py-2 px-3 font-bold sm:text-xl md:py-4 md:px-6 md:text-xl"
             onClick={() =>
-              sessionData?.user ? setShowTicket(true) : signIn("google")
+              sessionData?.user
+                ? (window.location.href = "/checkout")
+                : signIn("google", { callbackUrl: "/checkout" })
             }
           >
             BUY YOUR TICKET!

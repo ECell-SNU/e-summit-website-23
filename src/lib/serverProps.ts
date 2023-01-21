@@ -20,8 +20,6 @@ export default async function getServerSideProps(
     const email = session.user?.email;
     const user = await prisma.user.findFirst({ where: { email } });
 
-    console.log("index server props: ", { user });
-
     if (!user?.hasFilledInfo) {
       return {
         redirect: {
