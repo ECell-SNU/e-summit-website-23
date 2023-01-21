@@ -36,7 +36,6 @@ export const checkoutRouter = router({
     .input(
       z.object({
         isAccomodation: z.boolean().optional(),
-        aadharNumber: z.string().optional(),
         checkinDate: z.date().optional(),
         checkoutDate: z.date().optional(),
       })
