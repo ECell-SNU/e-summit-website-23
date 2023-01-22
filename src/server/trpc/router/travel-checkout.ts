@@ -13,8 +13,8 @@ export const travelCheckoutRouter = router({
 	handleTravelCheckout: protectedProcedure
 		.input(
 			z.object({
-				location: z.number(),
-				seater: z.number(),
+				location: z.number().min(0).max(2),
+				seater: z.number().min(0).max(1),
 			}))
 		.mutation(async ({ ctx, input }) => {
 			const { location, seater } = input;
@@ -25,14 +25,7 @@ export const travelCheckoutRouter = router({
 				[975, 1550], // Connaught Place
 				[1575, 2350], // IGI Airport
 			];
-			if (location >= 0 && location <= 2 && seater >= 0 && seater <= 1) {
-				amount = cost[location][seater];
-			} else {
-				throw new TRPCError({
-					code: "BAD_REQUEST",
-					message: "Invalid location or seater",
-				});
-			}
+			amount = cost[location][seater];
 			
 			const { id: userId } = ctx.session.user;
       const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
