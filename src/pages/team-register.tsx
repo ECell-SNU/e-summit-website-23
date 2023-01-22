@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Center,
   Flex,
   FormControl,
@@ -19,33 +20,28 @@ type MemInfo = {
 };
 const TeamRegister = () => {
   const { data: isEvent } = trpc.teamRegisterRouter.isEvent.useQuery();
-  const [size, setSize] = useState(1);
+  const [size, setSize] = useState(2);
   const [membersInfo, setMembersInfo] = useState<MemInfo[]>([
     { name: "", email: "" },
   ]);
 
-  const changeSize = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSize(Number(e.target.value));
-    const newMembersInfo = Array(Number(e.target.value)).fill({
-      name: "",
-      email: "",
-    });
-  };
+  console.log(membersInfo);
+
+  const [teamName, setTeamName] = useState("");
   const updateName = (name: string, index: number) => {
     const newMembersInfo = [...membersInfo];
 
-    if (newMembersInfo[index] !== undefined) newMembersInfo[index].name = name;
+    newMembersInfo[index]!.name = name;
     setMembersInfo(newMembersInfo);
   };
 
   const updateEmail = (email: string, index: number) => {
     const newMembersInfo = [...membersInfo];
-    if (newMembersInfo[index] !== undefined)
-      newMembersInfo[index].email = email;
+    if (newMembersInfo[index] === undefined)
+      newMembersInfo[index]!.email = email;
     setMembersInfo(newMembersInfo);
   };
 
-  console.log(membersInfo);
   const maxSize =
     isEvent === "STARTUPVERSE" ? Array(10).fill(0) : Array(4).fill(0);
 
@@ -63,36 +59,60 @@ const TeamRegister = () => {
               maxW="100px"
               onChange={(e) => setSize(Number(e.target.value))}
             >
-              {maxSize.map((_, index) => (
-                <option
-                  style={{ background: "black" }}
-                  key={index}
-                  value={index + 1}
-                >
-                  {index + 1}
-                </option>
-              ))}
+              {maxSize.map(
+                (_, index) =>
+                  index > 0 && (
+                    <option
+                      style={{ background: "black" }}
+                      key={index}
+                      value={index + 1}
+                    >
+                      {index + 1}
+                    </option>
+                  )
+              )}
             </Select>
           </Flex>
           <FormControl maxW="300px" isRequired>
             <FormLabel>Team Name</FormLabel>
-            <Input type="text" />
+            <Input
+              onChange={(e) => setTeamName(e.target.value)}
+              value={teamName}
+              type="text"
+            />
           </FormControl>
           {curSize.map((_, index) => (
             <>
-              <FormControl key={index} maxW="300px" isRequired>
-                <FormLabel>Member {index + 1} name</FormLabel>
-                <Input type="text" />
-              </FormControl>
-              <FormControl key={index} maxW="300px" isRequired>
-                <FormLabel>Member {index + 1} Email ID</FormLabel>
-                <Input type="text" />
-              </FormControl>
+              <Text>
+                Member {index + 1} {index === 0 ? "(Leader)" : ""}
+              </Text>
+              <Flex gap="1rem">
+                <Input
+                  placeholder="name"
+                  onChange={(e) => updateName(e.target.value, index)}
+                  value={membersInfo[index]?.name}
+                  type="text"
+                />
+                <Input
+                  placeholder="email"
+                  value={membersInfo[index]?.email}
+                  onChange={(e) => updateEmail(e.target.value, index)}
+                  type="text"
+                />
+              </Flex>
             </>
           ))}
         </Flex>
+        <Button
+          color="black"
+          isDisabled={membersInfo.some(
+            (member) => member.name === "" || member.email === ""
+          )}
+        >
+          Register Team
+        </Button>
       </Center>
     );
-  else return <h1 style={{ margin: "10rem", color: "white" }}></h1>;
+  else return <Heading mt="5rem">Not registered for event</Heading>;
 };
 export default TeamRegister;
