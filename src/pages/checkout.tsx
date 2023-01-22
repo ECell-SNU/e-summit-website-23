@@ -67,12 +67,19 @@ const Checkout: NextPage = () => {
           <Text>Select quantity</Text>
           <Select
             w="125px"
+            bg="black"
             value={quantity}
             onChange={(e) => setQuantity(Number(e.target.value))}
           >
-            <option value={1}>Individual</option>
-            <option value={2}>Duo</option>
-            <option value={4}>Besties</option>
+            <option style={{ backgroundColor: "black" }} value={1}>
+              Individual
+            </option>
+            <option style={{ backgroundColor: "black" }} value={2}>
+              Duo
+            </option>
+            <option style={{ backgroundColor: "black" }} value={4}>
+              Besties
+            </option>
           </Select>
         </Flex>
 
