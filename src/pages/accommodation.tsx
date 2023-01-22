@@ -11,51 +11,49 @@ import { trpc } from "../utils/trpc";
 import { useState, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
 
-const Travel : React.FC = () => {
-	const cost: number[][] = [
-		[875, 1350], // Botanical Gardens
-		[975, 1550], // Connaught Place
-		[1575, 2350], // IGI Airport
-	];
-	const [location, setLocation] = useState(2);
-	const [seater, setSeater] = useState(1);
+const Accommodation : React.FC = () => {
+	const cost: number[] = [ 349, 599, 899 ];
+	const [checkinDate, setCheckinDate] = useState(new Date("2021-01-27"));
+	const [checkoutDate, setCheckoutDate] = useState(new Date("2021-01-30"));
+	const [days, setDays] = useState(3);
 	const [files, setFiles] = useState<any>([]);
 	const user = useSession();
-	const handleTravelCheckout = trpc.travelCheckout.handleTravelCheckout.useMutation();
+	const handleAcomCheckout = trpc.accommodationCheckout.handleAccommodationCheckout.useMutation();
 	
 	useEffect(() => {
     if (user.status === "unauthenticated")
-      signIn("google", { callbackUrl: "/travel" });
-  }, [user]);
+      signIn("google", { callbackUrl: "/accommodation" });
+	}, [user]);
+	
+	useEffect(() => {
+		setDays(Math.floor((checkoutDate.getTime() - checkinDate.getTime()) / (1000 * 3600 * 24)));
+	}, [checkinDate, checkoutDate]);
 	
 	return (
 		<div className="flex flex-col items-center pt-24 gap-10">
 			<Heading textAlign="center">
-				Travel
+				Accommodation
 			</Heading>
-			<Select
-				placeContent="Select Location"
-				maxW="300px"
-				isRequired
-				value={location}
-				onChange={(e) => setLocation(Number(e.target.value))}
-			>
-				<option style={{ color: 'black' }} value={0}>Botanical Gardens</option>
-				<option style={{ color: 'black' }} value={1}>Connaught Place</option>
-				<option style={{ color: 'black' }} value={2}>IGI Airport</option>
-			</Select>
-			<Select
-				placeContent="Select Seater"
-				onChange={(e) => setSeater(Number(e.target.value))}
-				maxW="300px"
-				value={seater}
-				isRequired
-			>
-				<option style={{ color: 'black' }} value={0}>4 Seater</option>
-				<option style={{ color: 'black' }} value={1}>7 Seater</option>
-			</Select>
+			{/* Datepicket */}
+			<input
+				className="bg-white text-black rounded-lg py-2 px-4 appearance-none leading-normal"
+				value={checkinDate.toISOString().split("T")[0]}
+				onChange={(e) => setCheckinDate(new Date(e.target.value))}
+				type="date"
+			/>	
+			<input
+				className="bg-white text-black rounded-lg py-2 px-4 appearance-none leading-normal"
+				value={checkoutDate.toISOString().split("T")[0]}
+				onChange={(e) => setCheckoutDate(new Date(e.target.value))}
+				type="date"
+			/>
+			{!(days > 0 && days < 4) && (
+				<h1 className="text-center text-xl text-red-500">
+					Select between dates of 27th Jan to 30th Jan
+				</h1>
+			)}
 			<h1 className="text-center text-4xl text-white">
-				Make Payment {cost[location][seater]} Rs
+				Make Payment {cost[days - 1]} Rs
 			</h1>
 			<Image
 				className="hidden md:block"
@@ -98,7 +96,7 @@ const Travel : React.FC = () => {
 				/>
 			</Box>
 			<Button
-				isDisabled={files.length === 0 || handleTravelCheckout.isLoading}
+				isDisabled={files.length === 0 || handleAcomCheckout.isLoading}
 				_disabled={{
 					color: "white",
 					bg: "gray.500",
@@ -108,7 +106,10 @@ const Travel : React.FC = () => {
 				_hover={{}}
 				_focus={{}}
 				onClick={() => {
-					handleTravelCheckout.mutate({  });
+					handleAcomCheckout.mutate({ 
+						checkinDate: checkinDate,
+						checkoutDate: checkoutDate,
+					 });
 					setFiles([]);
 				}}
 			>
@@ -118,4 +119,4 @@ const Travel : React.FC = () => {
 	);
 };
 
-export default Travel;
+export default Accommodation;
