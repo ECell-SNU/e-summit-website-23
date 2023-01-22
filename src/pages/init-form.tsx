@@ -34,8 +34,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     const email = session.user?.email;
     const user = await prisma.user.findFirst({ where: { email } });
 
-    console.log({ user }, "has visited the init form");
-
     if (user?.hasFilledInfo) {
       return {
         redirect: {
@@ -73,7 +71,6 @@ const InitialForm: NextPage = () => {
   } = useForm<InitFormInputs>();
 
   const onSubmit: SubmitHandler<InitFormInputs> = (data) => {
-    console.log(data);
     mutation.mutate(data);
 
     if (mutation.isError) {

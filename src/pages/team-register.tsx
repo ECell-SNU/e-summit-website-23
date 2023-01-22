@@ -11,35 +11,46 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Role } from "@prisma/client";
-import { useState } from "react";
+import React, { useState } from "react";
 import { trpc } from "../utils/trpc";
 
-type MemInfo = {
-  name: string;
-  email: string;
-};
+// type MemInfo =
 const TeamRegister = () => {
   const { data: isEvent } = trpc.teamRegisterRouter.isEvent.useQuery();
+  const registerTeam = trpc.teamRegisterRouter.handleRegisterTeam.useMutation();
   const [size, setSize] = useState(2);
-  const [membersInfo, setMembersInfo] = useState<MemInfo[]>([
+  const [members, setMembers] = useState<
+    {
+      name: string;
+      email: string;
+    }[]
+  >([
+    { name: "", email: "" },
     { name: "", email: "" },
   ]);
 
-  console.log(membersInfo);
+  const changeSize = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newSize = Number(e.target.value);
+    const newMembersInfo = [...members];
+    if (newSize > size)
+      for (let i = size; i < newSize; i++)
+        newMembersInfo.push({ name: "", email: "" });
+    else newMembersInfo.pop();
+
+    setMembers(newMembersInfo);
+  };
 
   const [teamName, setTeamName] = useState("");
   const updateName = (name: string, index: number) => {
-    const newMembersInfo = [...membersInfo];
-
+    const newMembersInfo = [...members];
     newMembersInfo[index]!.name = name;
-    setMembersInfo(newMembersInfo);
+    setMembers(newMembersInfo);
   };
 
   const updateEmail = (email: string, index: number) => {
-    const newMembersInfo = [...membersInfo];
-    if (newMembersInfo[index] === undefined)
-      newMembersInfo[index]!.email = email;
-    setMembersInfo(newMembersInfo);
+    const newMembersInfo = [...members];
+    newMembersInfo[index]!.email = email;
+    setMembers(newMembersInfo);
   };
 
   const maxSize =
@@ -57,7 +68,10 @@ const TeamRegister = () => {
             <Text>Team Size</Text>
             <Select
               maxW="100px"
-              onChange={(e) => setSize(Number(e.target.value))}
+              onChange={(e) => {
+                setSize(Number(e.target.value));
+                changeSize(e);
+              }}
             >
               {maxSize.map(
                 (_, index) =>
@@ -82,7 +96,7 @@ const TeamRegister = () => {
             />
           </FormControl>
           {curSize.map((_, index) => (
-            <>
+            <React.Fragment key={index + "/"}>
               <Text>
                 Member {index + 1} {index === 0 ? "(Leader)" : ""}
               </Text>
@@ -90,24 +104,31 @@ const TeamRegister = () => {
                 <Input
                   placeholder="name"
                   onChange={(e) => updateName(e.target.value, index)}
-                  value={membersInfo[index]?.name}
+                  value={members[index]?.name}
                   type="text"
                 />
                 <Input
                   placeholder="email"
-                  value={membersInfo[index]?.email}
+                  value={members[index]?.email}
                   onChange={(e) => updateEmail(e.target.value, index)}
                   type="text"
                 />
               </Flex>
-            </>
+            </React.Fragment>
           ))}
         </Flex>
         <Button
           color="black"
-          isDisabled={membersInfo.some(
+          isDisabled={members.some(
             (member) => member.name === "" || member.email === ""
           )}
+          onClick={() => {
+            console.log(members);
+            registerTeam.mutate({
+              teamName,
+              members,
+            });
+          }}
         >
           Register Team
         </Button>
