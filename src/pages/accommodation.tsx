@@ -13,9 +13,8 @@ import { useSession, signIn } from "next-auth/react";
 
 const Accommodation : React.FC = () => {
 	const cost: number[] = [ 349, 599, 899 ];
-	const [checkinDate, setCheckinDate] = useState(new Date("2021-01-27"));
-	const [checkoutDate, setCheckoutDate] = useState(new Date("2021-01-30"));
-	const [days, setDays] = useState(3);
+	const [checkinDate, setCheckinDate] = useState(0); // 27, 28, 29
+	const [checkoutDate, setCheckoutDate] = useState(2); // 28, 29, 30
 	const [files, setFiles] = useState<any>([]);
 	const user = useSession();
 	const handleAcomCheckout = trpc.accommodationCheckout.handleAccommodationCheckout.useMutation();
@@ -25,37 +24,41 @@ const Accommodation : React.FC = () => {
       signIn("google", { callbackUrl: "/accommodation" });
 	}, [user]);
 	
-	useEffect(() => {
-		setDays(Math.floor((checkoutDate.getTime() - checkinDate.getTime()) / (1000 * 3600 * 24)));
-		if (checkinDate < new Date("2021-01-27") || checkoutDate > new Date("2021-01-30") || checkoutDate < checkinDate)
-			setDays(-1);
-	}, [checkinDate, checkoutDate]);
-	
 	return (
 		<div className="flex flex-col items-center pt-24 gap-10">
 			<Heading textAlign="center">
 				Accommodation
 			</Heading>
 			{/* Datepicket */}
-			<input
-				className="bg-white text-black rounded-lg py-2 px-4 appearance-none leading-normal"
-				value={checkinDate.toISOString().split("T")[0]}
-				onChange={(e) => setCheckinDate(new Date(e.target.value))}
-				type="date"
-			/>	
-			<input
-				className="bg-white text-black rounded-lg py-2 px-4 appearance-none leading-normal"
-				value={checkoutDate.toISOString().split("T")[0]}
-				onChange={(e) => setCheckoutDate(new Date(e.target.value))}
-				type="date"
-			/>
-			{days < 0 && (
+			<Select
+				placeContent="Select Checkin Date"
+				maxW="300px"
+				isRequired
+				value={checkinDate}
+				onChange={(e) => setCheckinDate(parseInt(e.target.value))}
+			>
+				<option style={{ color: 'black' }} value="0">27th Jan</option>
+				<option style={{ color: 'black' }} value="1">28th Jan</option>
+				<option style={{ color: 'black' }} value="2">29th Jan</option>
+			</Select>
+			<Select
+				placeContent="Select Checkout Date"	
+				maxW="300px"
+				isRequired
+				value={checkoutDate}
+				onChange={(e) => setCheckoutDate(parseInt(e.target.value))}
+			>
+				<option style={{ color: 'black' }} value="0">28th Jan</option>
+				<option style={{ color: 'black' }} value="1">29th Jan</option>
+				<option style={{ color: 'black' }} value="2">30th Jan</option>
+			</Select>			
+			{checkinDate > checkoutDate && (
 				<h1 className="text-center text-xl text-red-500">
-					Select between dates of 27th Jan to 30th Jan
+					Check in date should be before check out date
 				</h1>
 			)}
 			<h1 className="text-center text-4xl text-white">
-				Make Payment {cost[days - 1]} Rs
+				Make Payment {cost[checkoutDate - checkinDate]} Rs
 			</h1>
 			<Image
 				className="hidden md:block"
@@ -98,7 +101,7 @@ const Accommodation : React.FC = () => {
 				/>
 			</Box>
 			<Button
-				isDisabled={files.length === 0 || handleAcomCheckout.isLoading || days > 0}
+				isDisabled={files.length === 0 || handleAcomCheckout.isLoading || checkinDate > checkoutDate}
 				_disabled={{
 					color: "white",
 					bg: "gray.500",
