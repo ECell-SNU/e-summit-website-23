@@ -19,12 +19,10 @@ export const accommodationCheckoutRouter = router({
 			
 			let amount = 349;
 			const cost: number[] = [ 349, 599, 899 ];
-			amount = cost[checkoutDate - checkinDate];
+			amount = cost[checkoutDate - checkinDate] ?? 349;
 			
-			// get date object from checkinDate
-			// get date object from checkoutDate
-			const indate = new Date(["2023-01-27", "2023-01-28", "2023-01-29"][checkinDate]);
-			const outdate = new Date(["2023-01-28", "2023-01-29", "2023-01-30"][checkoutDate]);
+			const indate = new Date(["2023-01-27", "2023-01-28", "2023-01-29"][checkinDate] ?? "2023-01-27");
+			const outdate = new Date(["2023-01-28", "2023-01-29", "2023-01-30"][checkoutDate] ?? "2023-01-28");
 			
 			const { id: userId } = ctx.session.user;
       const user = await ctx.prisma.user.findFirst({ where: { id: userId } });

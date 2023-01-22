@@ -55,7 +55,7 @@ const Travel : React.FC = () => {
 				<option style={{ color: 'black' }} value={1}>7 Seater</option>
 			</Select>
 			<h1 className="text-center text-4xl text-white">
-				Make Payment {cost[location][seater]} Rs
+				Make Payment {cost[location]?.[seater] ?? 875} Rs
 			</h1>
 			<Image
 				className="hidden md:block"
@@ -108,7 +108,10 @@ const Travel : React.FC = () => {
 				_hover={{}}
 				_focus={{}}
 				onClick={() => {
-					handleTravelCheckout.mutate({  });
+					handleTravelCheckout.mutate({
+						location,
+						seater,
+					});
 					setFiles([]);
 				}}
 			>

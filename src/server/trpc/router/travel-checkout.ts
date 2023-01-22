@@ -25,7 +25,7 @@ export const travelCheckoutRouter = router({
 				[975, 1550], // Connaught Place
 				[1575, 2350], // IGI Airport
 			];
-			amount = cost[location][seater];
+			amount = cost[location]?.[seater] ?? 875;
 			
 			const { id: userId } = ctx.session.user;
       const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
