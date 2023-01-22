@@ -27,6 +27,8 @@ const Accommodation : React.FC = () => {
 	
 	useEffect(() => {
 		setDays(Math.floor((checkoutDate.getTime() - checkinDate.getTime()) / (1000 * 3600 * 24)));
+		if (checkinDate < new Date("2021-01-27") || checkoutDate > new Date("2021-01-30") || checkoutDate < checkinDate)
+			setDays(-1);
 	}, [checkinDate, checkoutDate]);
 	
 	return (
@@ -47,7 +49,7 @@ const Accommodation : React.FC = () => {
 				onChange={(e) => setCheckoutDate(new Date(e.target.value))}
 				type="date"
 			/>
-			{!(days > 0 && days < 4) && (
+			{days < 0 && (
 				<h1 className="text-center text-xl text-red-500">
 					Select between dates of 27th Jan to 30th Jan
 				</h1>
@@ -96,7 +98,7 @@ const Accommodation : React.FC = () => {
 				/>
 			</Box>
 			<Button
-				isDisabled={files.length === 0 || handleAcomCheckout.isLoading}
+				isDisabled={files.length === 0 || handleAcomCheckout.isLoading || days > 0}
 				_disabled={{
 					color: "white",
 					bg: "gray.500",
