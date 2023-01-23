@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import { z } from "zod";
 
 import { protectedProcedure, router } from "../trpc";
@@ -29,5 +30,36 @@ export const adminRouter = router({
     if (ctx.session.user.email !== specialAdmins.harnam) return;
 
     return await [];
+  }),
+  adminViewTickets: protectedProcedure.query(async ({ ctx }) => {
+    const { id: userId } = ctx.session.user;
+    const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
+    console.log({ user });
+    if (user === null || user.role != Role.ADMIN)
+      return {
+        isAdmin: false,
+        totalAmount: 0,
+        totalQuantity: 0,
+      };
+
+    // prisma sum quantity column in table EventReg
+    const totalQuantity = await ctx.prisma.eventReg.aggregate({
+      _sum: {
+        quantity: true,
+      },
+    });
+
+    const totalAmount = await ctx.prisma.paymentItem.aggregate({
+      _sum: {
+        amount: true,
+      },
+    });
+    totalAmount._sum.amount;
+
+    return {
+      isAdmin: true,
+      totalQuantity: totalQuantity._sum.quantity,
+      totalAmount: totalAmount._sum.amount,
+    };
   }),
 });

@@ -7,6 +7,7 @@ import { discountedCheckoutRouter } from "./discounted-checkout";
 import { teamRegisterRouter } from "./team-register";
 import { travelCheckoutRouter } from "./travel-checkout";
 import { accommodationCheckoutRouter } from "./accommodation-checkout";
+import { adminRouter } from "./admin";
 
 export const appRouter = router({
   auth: authRouter,
@@ -15,8 +16,9 @@ export const appRouter = router({
   teamCheckout: teamCheckoutRouter,
   discountedCheckout: discountedCheckoutRouter,
   teamRegisterRouter: teamRegisterRouter,
-	travelCheckout: travelCheckoutRouter,
-	accommodationCheckout: accommodationCheckoutRouter,
+  travelCheckout: travelCheckoutRouter,
+  adminRouter: adminRouter,
+  accommodationCheckout: accommodationCheckoutRouter,
 });
 
 // export type definition of API

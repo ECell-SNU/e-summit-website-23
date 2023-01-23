@@ -181,11 +181,11 @@ model Team {
 }
 
 model Travel {
-  id                   String       @id @default(cuid())
-  destination          String
-  amount               Int
-  departureDateAndTime DateTime
-  travelItem           TravelItem[]
+  id         String       @id @default(cuid())
+  pickUp     String
+  seater     Int
+  amount     Int
+  travelItem TravelItem[]
 }
 
 model TravelItem {
