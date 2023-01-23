@@ -8,31 +8,36 @@ import { TRPCError } from "@trpc/server";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 export const accommodationCheckoutRouter = router({
-	handleAccommodationCheckout: protectedProcedure
-		.input(
-			z.object({
-				checkinDate: z.number().min(0).max(2),
-				checkoutDate: z.number().min(0).max(2),
-			}))
-		.mutation(async ({ ctx, input }) => {
-			const { checkinDate, checkoutDate } = input;
-			
-			let amount = 349;
-			const cost: number[] = [ 349, 599, 899 ];
-			amount = cost[checkoutDate - checkinDate] ?? 349;
-			
-			const indate = new Date(["2023-01-27", "2023-01-28", "2023-01-29"][checkinDate] ?? "2023-01-27");
-			const outdate = new Date(["2023-01-28", "2023-01-29", "2023-01-30"][checkoutDate] ?? "2023-01-28");
-			
-			const { id: userId } = ctx.session.user;
+  handleAccommodationCheckout: protectedProcedure
+    .input(
+      z.object({
+        checkinDate: z.number().min(0).max(2),
+        checkoutDate: z.number().min(0).max(2),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { checkinDate, checkoutDate } = input;
+
+      let amount = 349;
+      const cost: number[] = [349, 599, 899];
+      amount = cost[checkoutDate - checkinDate] ?? 349;
+
+      const indate = new Date(
+        ["2023-01-27", "2023-01-28", "2023-01-29"][checkinDate] ?? "2023-01-27"
+      );
+      const outdate = new Date(
+        ["2023-01-28", "2023-01-29", "2023-01-30"][checkoutDate] ?? "2023-01-28"
+      );
+
+      const { id: userId } = ctx.session.user;
       const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
-			if (!user) return;
-			const cluster = await ctx.prisma.cluster.findFirst({
+      if (!user) return;
+      const cluster = await ctx.prisma.cluster.findFirst({
         where: {
           gender: user.gender ?? "MALE",
         },
-			});
-			if (!cluster) return;
+      });
+      if (!cluster) return;
 
       const ssDir = path.join(os.homedir(), "screenshots");
 
@@ -42,11 +47,12 @@ export const accommodationCheckoutRouter = router({
         .reverse()[0];
 
       const UPI = (await OCR(ssDir + "/" + ssFilename))[0];
-			
-			console.log({ UPI });
-			console.log({ ssFilename });
-			
-			await ctx.prisma.$transaction(async (tx) => {
+
+      console.log({ UPI });
+      console.log({ ssFilename });
+      console.log({ indate, outdate, cluster, amount });
+
+      await ctx.prisma.$transaction(async (tx) => {
         const userPayment = await tx.userPayment.create({
           data: {
             userId,
@@ -55,26 +61,25 @@ export const accommodationCheckoutRouter = router({
           },
         });
 
-				const paymentItem = await tx.paymentItem.create({
-					data: {
-						userId,
-						userPaymentId: userPayment.id,
-						amount,
-						state: "PROCESSING",
-					},
-				});
+        const paymentItem = await tx.paymentItem.create({
+          data: {
+            userId,
+            userPaymentId: userPayment.id,
+            amount,
+            state: "PROCESSING",
+          },
+        });
 
-				await tx.accomodation.create({
-					data: {
-						checkInDate: indate,
-						checkOutDate: outdate,
-						clusterId: cluster.id,
-						paymentId: paymentItem.id,
-						userId,
-					},
-				});
-        
+        const acc = await tx.accomodation.create({
+          data: {
+            checkInDate: indate,
+            checkOutDate: outdate,
+            clusterId: cluster.id,
+            paymentId: paymentItem.id,
+            userId,
+          },
+        });
+        console.log({ acc, paymentItem, userPayment });
       });
-		})
+    }),
 });
-			

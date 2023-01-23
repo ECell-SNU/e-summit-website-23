@@ -17,11 +17,18 @@ export const travelCheckoutRouter = router({
     .mutation(async ({ ctx, input }) => {
       const { location, seater } = input;
 
-      const amount = 875;
-
       const { id: userId } = ctx.session.user;
       const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
       if (!user) return;
+
+      const travel = await ctx.prisma.travel.findFirst({
+        where: {
+          pickUp: location,
+          seater,
+        },
+      });
+
+      if (!travel) return;
 
       const ssDir = path.join(os.homedir(), "screenshots");
 
@@ -34,7 +41,7 @@ export const travelCheckoutRouter = router({
 
       console.log({ UPI });
       console.log({ ssFilename });
-
+      console.log({ travel });
       await ctx.prisma.$transaction(async (tx) => {
         const userPayment = await tx.userPayment.create({
           data: {
@@ -44,16 +51,22 @@ export const travelCheckoutRouter = router({
           },
         });
 
-        const eventPaymentItem = await tx.paymentItem.create({
+        const travelPaymentItem = await tx.paymentItem.create({
           data: {
             userId,
             userPaymentId: userPayment.id,
-            amount,
+            amount: travel.amount,
             state: "PROCESSING",
           },
         });
 
-        // TODO: TRAVELLLLLLLLLLLLL
+        await tx.travelItem.create({
+          data: {
+            travelId: travel.id,
+            paymentItemId: travelPaymentItem.id,
+            userId,
+          },
+        });
       });
     }),
 });
