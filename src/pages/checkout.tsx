@@ -57,11 +57,9 @@ const Checkout: NextPage = () => {
     <Center mt="6rem">
       <Flex flexDir="column" align="center" gap="2rem">
         <UnorderedList maxW="70%">
-          <ListItem>Individual - 1 Ticket worth Rs 599</ListItem>
+          <ListItem>Solo - 1 Ticket worth Rs 599</ListItem>
           <ListItem>Duo - 2 Tickets worth Rs 1099 (1 ticket = 549)</ListItem>
-          <ListItem>
-            Besties - 4 Tickets worth Rs 1999 (1 ticket = 499)
-          </ListItem>
+          <ListItem>Squad - 4 Tickets worth Rs 1999 (1 ticket = 499)</ListItem>
         </UnorderedList>
         <Flex align="center" gap="1rem">
           <Text>Select quantity</Text>
@@ -72,13 +70,13 @@ const Checkout: NextPage = () => {
             onChange={(e) => setQuantity(Number(e.target.value))}
           >
             <option style={{ backgroundColor: "black" }} value={1}>
-              Individual
+              Solo
             </option>
             <option style={{ backgroundColor: "black" }} value={2}>
               Duo
             </option>
             <option style={{ backgroundColor: "black" }} value={4}>
-              Besties
+              Squad
             </option>
           </Select>
         </Flex>
