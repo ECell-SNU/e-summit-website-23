@@ -32,7 +32,7 @@ const CheckinPage = () => {
       <QrReader
         onResult={(result, error) => {
           if (result) {
-            setQrData(result?.text);
+            setQrData(result.getText());
           }
 
           if (error) {

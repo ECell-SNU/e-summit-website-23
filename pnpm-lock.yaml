@@ -47,11 +47,8 @@ specifiers:
   react-dom: 18.2.0
   react-filepond: ^7.1.2
   react-hook-form: ^7.41.0
-<<<<<<< Updated upstream
   react-qr-code: ^2.0.11
-=======
   react-qr-reader: 3.0.0-beta-1
->>>>>>> Stashed changes
   sharp: ^0.31.3
   superjson: 1.9.1
   tailwindcss: ^3.2.0
@@ -93,11 +90,8 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-filepond: 7.1.2_mnl76jm3ryge2poziybvdyye2a
   react-hook-form: 7.42.1_react@18.2.0
-<<<<<<< Updated upstream
   react-qr-code: 2.0.11_react@18.2.0
-=======
   react-qr-reader: 3.0.0-beta-1_biqbaboplfbrettd7655fr4n2y
->>>>>>> Stashed changes
   sharp: 0.31.3
   superjson: 1.9.1
   ts-node: 10.9.1_awa2wsr5thmg3i7jqycphctjfq
@@ -4784,7 +4778,6 @@ packages:
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
-<<<<<<< Updated upstream
   /react-qr-code/2.0.11_react@18.2.0:
     resolution: {integrity: sha512-P7mvVM5vk9NjGdHMt4Z0KWeeJYwRAtonHTghZT2r+AASinLUUKQ9wfsGH2lPKsT++gps7hXmaiMGRvwTDEL9OA==}
     peerDependencies:
@@ -4797,7 +4790,8 @@ packages:
       prop-types: 15.8.1
       qr.js: 0.0.0
       react: 18.2.0
-=======
+    dev: false
+
   /react-qr-reader/3.0.0-beta-1_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-5HeFH9x/BlziRYQYGK2AeWS9WiKYZtGGMs9DXy3bcySTX3C9UJL9EwcPnWw8vlf7JP4FcrAlr1SnZ5nsWLQGyw==}
     peerDependencies:
@@ -4809,7 +4803,6 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       rollup: 2.79.1
->>>>>>> Stashed changes
     dev: false
 
   /react-remove-scroll-bar/2.3.4_kzbn2opkn2327fwg5yzwzya5o4:
