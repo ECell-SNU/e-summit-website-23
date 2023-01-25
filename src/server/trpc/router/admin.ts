@@ -9,6 +9,13 @@ const specialAdmins = {
 };
 
 export const adminRouter = router({
+  checkIfAdmin: protectedProcedure.query(async ({ ctx }) => {
+    const user = await ctx.prisma.user.findFirst({
+      where: { id: ctx.session.user.id },
+    });
+
+    return user !== null && user.role === Role.ADMIN;
+  }),
   agaashViewAccomodation: protectedProcedure.query(async ({ ctx }) => {
     if (ctx.session.user.email !== specialAdmins.agaash) return;
 
@@ -29,13 +36,13 @@ export const adminRouter = router({
   harnamViewPayments: protectedProcedure.query(async ({ ctx }) => {
     if (ctx.session.user.email !== specialAdmins.harnam) return;
 
-    return await [];
+    return [];
   }),
   adminViewTickets: protectedProcedure.query(async ({ ctx }) => {
     const { id: userId } = ctx.session.user;
     const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
     console.log({ user });
-    if (user === null || user.role != Role.ADMIN)
+    if (user === null || user.role !== Role.ADMIN)
       return {
         isAdmin: false,
         totalAmount: 0,
@@ -62,4 +69,24 @@ export const adminRouter = router({
       totalAmount: totalAmount._sum.amount,
     };
   }),
+  adminCheckinParticipant: protectedProcedure
+    .input(z.object({ userIdToCheckIn: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { id: userId } = ctx.session.user;
+      const { userIdToCheckIn } = input;
+
+      const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
+
+      console.log({ user });
+
+      if (user === null || user.role !== Role.ADMIN) return { isAdmin: false };
+
+      const userToCheckIn = await ctx.prisma.user.findFirst({
+        where: { id: userIdToCheckIn },
+      });
+
+      console.log({ userToCheckIn });
+
+      return { isAdmin: true, userToCheckIn };
+    }),
 });
