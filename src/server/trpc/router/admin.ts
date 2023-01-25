@@ -50,11 +50,11 @@ export const adminRouter = router({
       };
 
     // prisma sum quantity column in table EventReg
-    const totalQuantity = await ctx.prisma.eventReg.aggregate({
-      _sum: {
-        quantity: true,
-      },
-    });
+		// const totalQuantity = await ctx.prisma.eventReg.aggregate({
+		// 	_sum: {
+		// 		quantity: true,
+		// 	},
+		// });
 
     const totalAmount = await ctx.prisma.paymentItem.aggregate({
       _sum: {
@@ -65,10 +65,28 @@ export const adminRouter = router({
 
     return {
       isAdmin: true,
-      totalQuantity: totalQuantity._sum.quantity,
+      // totalQuantity: totalQuantity._sum.quantity,
       totalAmount: totalAmount._sum.amount,
     };
-  }),
+	}),
+	adminViewTeams: protectedProcedure.query(async ({ ctx }) => {
+		const { id: userId } = ctx.session.user;
+		const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
+		
+		if (user === null || user.role !== Role.ADMIN)
+      return {
+        isAdmin: false,
+        totalAmount: 0,
+        totalQuantity: 0,
+			};
+		
+		const teams = await ctx.prisma.team.findMany({
+			include: {
+				User: true,
+			},
+		});
+		return { isAdmin: true, teams };
+	}),
   adminGetQrUserData: protectedProcedure
     .input(z.object({ qrUserId: z.string() }))
     .mutation(async ({ ctx, input }) => {
