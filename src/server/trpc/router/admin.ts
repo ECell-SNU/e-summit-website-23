@@ -83,6 +83,7 @@ export const adminRouter = router({
 		const teams = await ctx.prisma.team.findMany({
 			include: {
 				User: true,
+				event: true,
 			},
 		});
 		return { isAdmin: true, teams };
