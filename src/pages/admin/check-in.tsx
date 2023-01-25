@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Center, flexbox, Text } from "@chakra-ui/react";
 import { trpc } from "../../utils/trpc";
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import QrScan from "react-qr-reader";
 
