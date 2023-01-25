@@ -368,18 +368,21 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
         >
           <CloseIcon />
         </div>
-        {sessionData && (
-          <button
-            className="w-full rounded-full py-2 px-6 font-bold text-white phone:hidden"
-            style={{
-              background:
-                "linear-gradient(90.83deg, #FF1761 0%, #910AB1 98.45%)",
-            }}
-            onClick={() => setShowTicket(true)}
+        {sessionData ? (
+          <div
+            className="absolute top-[90vh] left-[5%] w-[90%] text-center cursor-pointer rounded-full bg-blue-500 px-7 py-1 text-lg transition-transform duration-300 ease-in-out hover:-translate-y-px"
+            onClick={() => signOut({ callbackUrl: "/" })}
           >
-            Buy Ticket
-          </button>
-        )}
+            Sign Out
+          </div>
+				) : (
+					<div
+            className="absolute top-[90vh] left-[5%] w-[90%] text-center cursor-pointer rounded-full bg-blue-500 px-7 py-1 text-lg transition-transform duration-300 ease-in-out hover:-translate-y-px"
+            onClick={() => signIn("google")}
+          >
+            Sign in
+          </div>
+				)}
       </div>
 
       {/* Cart */}
