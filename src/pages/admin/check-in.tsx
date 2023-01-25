@@ -64,6 +64,7 @@ const CheckinPage = () => {
   const handleScan = (data: string) => {
     if (data) {
       setQrData(data);
+      // setQrData("cld2wysth000693eki37eksh1"); // user with an EventReg attached
     }
   };
 
@@ -107,6 +108,13 @@ const CheckinPage = () => {
               <div>Uni: {qrUser.university}</div>
               <div>Grad: {qrUser.yearOfStudy}</div>
               <div>Team Lead: {qrUser.teamLeader.toString()}</div>
+              <div>
+                Event:{" "}
+                {qrUser.EventReg[0].event.name
+                  ? qrUser.EventReg[0].event.name
+                  : "none"}
+              </div>
+
               {/* <div>Phone: {qrUser.mobileNumber}</div> */}
             </div>
             <Button

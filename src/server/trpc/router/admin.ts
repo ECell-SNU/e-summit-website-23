@@ -85,6 +85,9 @@ export const adminRouter = router({
 
       const qrUser = await ctx.prisma.user.findFirst({
         where: { id: qrUserId },
+        include: {
+          EventReg: { include: { event: true } },
+        },
       });
 
       if (qrUser) {
