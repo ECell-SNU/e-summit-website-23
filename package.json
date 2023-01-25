@@ -43,11 +43,8 @@
     "react-dom": "18.2.0",
     "react-filepond": "^7.1.2",
     "react-hook-form": "^7.41.0",
-<<<<<<< Updated upstream
     "react-qr-code": "^2.0.11",
-=======
     "react-qr-reader": "3.0.0-beta-1",
->>>>>>> Stashed changes
     "sharp": "^0.31.3",
     "superjson": "1.9.1",
     "ts-node": "^10.9.1",
