@@ -6,7 +6,7 @@ import {
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { FilePond } from "react-filepond";
-import paymentQr from "../assets/payment_qr.jpg";
+import paymentQr from "../assets/agaash-qr.jpg";
 import { trpc } from "../utils/trpc";
 import { useState, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
@@ -71,12 +71,12 @@ const Accommodation : React.FC = () => {
 				Upload Screenshot after payment, make sure it includes UPI Order / ref
 				id
 				<br />
-				9109782774@paytm <br />
+				9150232364@paytm <br />
 				<a
 					className="text-blue-500 underline"
 					href="https://p.paytm.me/xCTH/kmd08rbm"
 				>
-					https://p.paytm.me/xCTH/kmd08rbm
+					https://p.paytm.me/xCTH/igmp4sad
 				</a>
 			</p>
 
