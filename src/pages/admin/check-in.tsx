@@ -1,32 +1,70 @@
 import { useState, useEffect } from "react";
 
-import { Center, flexbox, Text } from "@chakra-ui/react";
+import { Center, Button, useToast } from "@chakra-ui/react";
+import { ChevronRightIcon } from "@chakra-ui/icons";
+
 import { trpc } from "../../utils/trpc";
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import QrScan from "react-qr-reader";
 
 const CheckinPage = () => {
+  const toast = useToast();
+
   const {
     data: isAdmin,
     isLoading,
     isError,
   } = trpc.adminRouter.checkIfAdmin.useQuery();
 
-  const qrUserDataMut = trpc.adminRouter.adminGetQrUserData.useMutation();
-  const checkInMut = trpc.adminRouter.adminCheckinParticipant.useMutation();
+  const [qrData, setQrData] = useState("");
+  const [qrUser, setQrUser] = useState<any>();
 
-  const [qrData, setQrData] = useState("No result");
+  const {
+    isLoading: qrUserLoading,
+    data: qrUserData,
+    refetch: qrUserDataRefetch,
+  } = trpc.adminRouter.adminGetQrUserData.useQuery({
+    qrUserId: qrData,
+  });
+
+  const {
+    isLoading: checkInMutLoading,
+    isError: checkInMutError,
+    ...checkInMut
+  } = trpc.adminRouter.adminCheckinParticipant.useMutation();
 
   useEffect(() => {
-    // const d = qrUserDataMut.mutate({ qrUserId: qrData });
+    if (!qrData) return;
 
-    checkInMut.mutate({ userIdToCheckIn: qrData });
+    console.log("reached here", { qrData });
+
+    qrUserDataRefetch();
   }, [qrData]);
+
+  useEffect(() => {
+    console.log("reached qruserdata effect", { qrUserLoading, qrUserData });
+
+    if (qrUserData?.qrUser?.name) {
+      setQrUser(qrUserData?.qrUser);
+    }
+  }, [qrUserData]);
+
+  useEffect(() => {
+    if (checkInMut.isSuccess) {
+      toast({
+        title: "Checked in successfully",
+        status: "success",
+        isClosable: true,
+      });
+    }
+  }, [checkInMutLoading]);
 
   const handleScan = (data: string) => {
     if (data) {
       setQrData(data);
+      // setQrData("cld2wysth000693eki37eksh1"); // user with an EventReg attached
     }
   };
 
@@ -46,10 +84,10 @@ const CheckinPage = () => {
 
   return (
     <Center flexDir="column" minH="100vh" color="white">
-      <h1 className="text-3xl">Admin</h1>
+      <h1 className="mt-10 text-3xl">Admin</h1>
       <h1 className="text-xl">Check in a participant</h1>
       <div>
-        <div style={{ marginTop: 30, marginBottom: 100 }}>
+        <div style={{ marginTop: 30, marginBottom: 20 }}>
           <QrScan
             delay={300}
             onError={handleError}
@@ -58,8 +96,49 @@ const CheckinPage = () => {
           />
         </div>
       </div>
-      <div className="flex flex-col rounded-xl bg-slate-600 p-10">
-        <p className="text-xl text-white">{qrData}</p>
+      <div className="flex w-[90%] flex-col rounded-xl bg-slate-600 py-8 px-10">
+        {qrUser ? (
+          // <pre className="text-md text-white">
+          //   {JSON.stringify(qrUser, null, 2)}
+          // </pre>
+          <>
+            <div className="text-md">
+              <div className="font-bold">{qrUser.name}</div>
+              <div>Email: {qrUser.email}</div>
+              <div>Uni: {qrUser.university}</div>
+              <div>Grad: {qrUser.yearOfStudy}</div>
+              <div>Team Lead: {qrUser.teamLeader.toString()}</div>
+              <div>
+                Event:{" "}
+                {qrUser.EventReg[0].event.name
+                  ? qrUser.EventReg[0].event.name
+                  : "none"}
+              </div>
+
+              {/* <div>Phone: {qrUser.mobileNumber}</div> */}
+            </div>
+            <Button
+              w="100%"
+              mt={3}
+              colorScheme="green"
+              onClick={() => {
+                checkInMut.mutate({ userIdToCheckIn: qrUser.id });
+              }}
+            >
+              Check in <ChevronRightIcon boxSize={6} />
+            </Button>
+
+            {checkInMut.error && (
+              <p className="text-red-600">
+                Something went wrong! {checkInMut.error.message}
+              </p>
+            )}
+          </>
+        ) : qrData ? (
+          <p className="text-xl">{`userId: ${qrData}`}</p>
+        ) : (
+          <p className="text-xl">No result</p>
+        )}
       </div>
     </Center>
   );

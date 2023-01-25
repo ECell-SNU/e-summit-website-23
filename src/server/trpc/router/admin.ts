@@ -89,7 +89,7 @@ export const adminRouter = router({
 	}),
   adminGetQrUserData: protectedProcedure
     .input(z.object({ qrUserId: z.string() }))
-    .mutation(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       const { id: userId } = ctx.session.user;
       const { qrUserId } = input;
 
@@ -99,9 +99,21 @@ export const adminRouter = router({
 
       if (user === null || user.role !== Role.ADMIN) return { isAdmin: false };
 
+      if (!qrUserId) return { isAdmin: true };
+
       const qrUser = await ctx.prisma.user.findFirst({
         where: { id: qrUserId },
+        include: {
+          EventReg: { include: { event: true } },
+        },
       });
+
+      if (qrUser) {
+        await ctx.prisma.user.update({
+          where: { id: qrUserId },
+          data: { arrivedOnsite: true },
+        });
+      }
 
       return { isAdmin: true, qrUser };
     }),
