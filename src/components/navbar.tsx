@@ -359,30 +359,30 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
 				`}
         style={{ backgroundColor: "rgba(0, 0, 0, 1)" }}
       >
-        <div className="flex flex-grow flex-col justify-center gap-16">
-          {menu()}
-        </div>
         <div
           className="fixed top-[20px] right-[30px] cursor-pointer text-3xl"
           onClick={() => setShowMobileNav(false)}
         >
           <CloseIcon />
         </div>
-        {sessionData ? (
-          <div
-            className="absolute top-[90vh] left-[5%] w-[90%] text-center cursor-pointer rounded-full bg-blue-500 px-7 py-1 text-lg transition-transform duration-300 ease-in-out hover:-translate-y-px"
-            onClick={() => signOut({ callbackUrl: "/" })}
-          >
-            Sign Out
-          </div>
-				) : (
-					<div
-            className="absolute top-[90vh] left-[5%] w-[90%] text-center cursor-pointer rounded-full bg-blue-500 px-7 py-1 text-lg transition-transform duration-300 ease-in-out hover:-translate-y-px"
-            onClick={() => signIn("google")}
-          >
-            Sign in
-          </div>
-				)}
+        <div className="flex flex-grow flex-col justify-center gap-16 w-full">
+          {menu()}
+					{sessionData ? (
+						<div
+							className="w-full text-center cursor-pointer rounded-full bg-blue-500 px-7 py-1 text-lg transition-transform duration-300 ease-in-out hover:-translate-y-px"
+							onClick={() => signOut({ callbackUrl: "/" })}
+						>
+							Sign Out
+						</div>
+					) : (
+						<div
+							className="w-full text-center cursor-pointer rounded-full bg-blue-500 px-7 py-1 text-lg transition-transform duration-300 ease-in-out hover:-translate-y-px"
+							onClick={() => signIn("google")}
+						>
+							Sign in
+						</div>
+					)}
+        </div>
       </div>
 
       {/* Cart */}
