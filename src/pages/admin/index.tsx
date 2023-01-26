@@ -17,6 +17,7 @@ const Admin = () => {
   return (
     <div className="flex flex-col items-start justify-start gap-6 px-10 pt-[90px]">
       <h1 className="whitespace-nowrap text-4xl">Admin</h1>
+      <Text>Total Tickets Bought - {data.totalQuantity}</Text>
       <Text>Total Amount - {data.totalAmount} </Text>
       <div className="flex gap-8">
         <button

@@ -5,6 +5,7 @@ import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { Event, Role } from "@prisma/client";
 
 const teamLeaders: Record<string, Role> = {
+  "prathu.agg@gmail.com": Role.HACKATHON,
   "vj284@snu.edu.in": Role.HACKATHON,
   "ansarialan31@gmail.com": Role.HACKATHON,
   "amanuniquecoder@gmail.com": Role.HACKATHON,
@@ -68,7 +69,8 @@ export const teamRegisterRouter = router({
     const email = user?.email ?? "";
     return {
       role: teamLeaders[email] ?? (Role.USER as Role),
-      isTeam: user?.teamId,
+
+      isTeam: user?.teamId ? true : false,
     };
   }),
   handleRegisterTeam: protectedProcedure
@@ -87,10 +89,8 @@ export const teamRegisterRouter = router({
       const { id: userId } = ctx.session.user;
       const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
       if (!user) return false;
-      const members = input.members.reverse();
-      members.pop();
-      console.log({ members });
-      const eventName = user.role;
+
+      const eventName = teamLeaders[user.email ?? "asd"] ?? Role.USER;
       const event: Event | null = await ctx.prisma.event.findFirst({
         where: {
           name: eventName,
@@ -105,33 +105,19 @@ export const teamRegisterRouter = router({
         },
       });
 
-      members.forEach(
+      input.members.forEach(
         async (member) =>
-          await ctx.prisma.user.upsert({
+          await ctx.prisma.user.update({
             where: {
               email: member.email,
             },
-            update: {
+            data: {
               teamId: team.id,
-              role: Role.HACKATHON,
-            },
-            create: {
-              name: member.name,
-              email: member.email,
-              teamId: team.id,
-              role: Role.HACKATHON,
+              role: teamLeaders[user.email ?? "asd"] ?? Role.USER,
             },
           })
       );
 
-      await ctx.prisma.user.update({
-        where: {
-          id: user.id,
-        },
-        data: {
-          teamId: team.id,
-        },
-      });
       return team;
     }),
 });

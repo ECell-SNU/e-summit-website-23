@@ -39,7 +39,7 @@ const TeamRegister = () => {
     { name: "", email: "" },
     { name: "", email: "" },
   ]);
-
+  console.log(isEvent);
   const changeSize = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newSize = Number(e.target.value);
     const newMembersInfo = [...members];
@@ -51,6 +51,9 @@ const TeamRegister = () => {
     setMembers(newMembersInfo);
   };
 
+  useEffect(() => {
+    if (registerTeam.isSuccess) window.location.href = "/team-register";
+  }, [registerTeam]);
   const [teamName, setTeamName] = useState("");
   const updateName = (name: string, index: number) => {
     const newMembersInfo = [...members];
@@ -65,14 +68,18 @@ const TeamRegister = () => {
   };
 
   const maxSize =
-    isEvent === "STARTUPVERSE" ? Array(10).fill(0) : Array(4).fill(0);
+    isEvent?.role === "STARTUPVERSE" ? Array(10).fill(0) : Array(4).fill(0);
 
   const curSize = Array(size).fill(0);
-  if (isEvent !== Role.USER && isEvent !== undefined)
+  if (
+    isEvent?.role !== Role.USER &&
+    isEvent !== undefined &&
+    isEvent.isTeam === false
+  )
     return (
       <Center flexDir="column" gap="2rem">
         <Heading textAlign="center" mt="5rem">
-          Register team for {isEvent.toLowerCase()}
+          Register team for {isEvent.role.toLowerCase()}
         </Heading>
         <Flex flexDir="column" align="start" mx="auto" maxW="80%" gap="1rem">
           <Flex w="100%" align="center" gap="1rem">
@@ -145,6 +152,13 @@ const TeamRegister = () => {
         </Button>
       </Center>
     );
-  else return <Heading mt="5rem">Not registered for event</Heading>;
+  else
+    return (
+      <Heading mt="5rem" textAlign="center">
+        {isEvent?.isTeam
+          ? "Already Registered"
+          : "Contact +919466007434 if you have registered for an event and cant access this"}
+      </Heading>
+    );
 };
 export default TeamRegister;

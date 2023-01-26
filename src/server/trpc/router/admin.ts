@@ -72,11 +72,11 @@ export const adminRouter = router({
       };
 
     // prisma sum quantity column in table EventReg
-    // const totalQuantity = await ctx.prisma.eventReg.aggregate({
-    // 	_sum: {
-    // 		quantity: true,
-    // 	},
-    // });
+    const totalQuantity = await ctx.prisma.eventReg.aggregate({
+      _sum: {
+        quantity: true,
+      },
+    });
 
     const totalAmount = await ctx.prisma.paymentItem.aggregate({
       _sum: {
@@ -87,7 +87,7 @@ export const adminRouter = router({
 
     return {
       isAdmin: true,
-      // totalQuantity: totalQuantity._sum.quantity,
+      totalQuantity: totalQuantity._sum.quantity,
       totalAmount: totalAmount._sum.amount,
     };
   }),
