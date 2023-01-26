@@ -50,11 +50,11 @@ export const adminRouter = router({
       };
 
     // prisma sum quantity column in table EventReg
-		// const totalQuantity = await ctx.prisma.eventReg.aggregate({
-		// 	_sum: {
-		// 		quantity: true,
-		// 	},
-		// });
+    // const totalQuantity = await ctx.prisma.eventReg.aggregate({
+    // 	_sum: {
+    // 		quantity: true,
+    // 	},
+    // });
 
     const totalAmount = await ctx.prisma.paymentItem.aggregate({
       _sum: {
@@ -68,26 +68,26 @@ export const adminRouter = router({
       // totalQuantity: totalQuantity._sum.quantity,
       totalAmount: totalAmount._sum.amount,
     };
-	}),
-	adminViewTeams: protectedProcedure.query(async ({ ctx }) => {
-		const { id: userId } = ctx.session.user;
-		const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
-		
-		if (user === null || user.role !== Role.ADMIN)
+  }),
+  adminViewTeams: protectedProcedure.query(async ({ ctx }) => {
+    const { id: userId } = ctx.session.user;
+    const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
+
+    if (user === null || user.role !== Role.ADMIN)
       return {
         isAdmin: false,
         totalAmount: 0,
         totalQuantity: 0,
-			};
-		
-		const teams = await ctx.prisma.team.findMany({
-			include: {
-				User: true,
-				event: true,
-			},
-		});
-		return { isAdmin: true, teams };
-	}),
+      };
+
+    const teams = await ctx.prisma.team.findMany({
+      include: {
+        User: true,
+        event: true,
+      },
+    });
+    return { isAdmin: true, teams };
+  }),
   adminGetQrUserData: protectedProcedure
     .input(z.object({ qrUserId: z.string() }))
     .query(async ({ ctx, input }) => {
@@ -109,13 +109,6 @@ export const adminRouter = router({
         },
       });
 
-      if (qrUser) {
-        await ctx.prisma.user.update({
-          where: { id: qrUserId },
-          data: { arrivedOnsite: true },
-        });
-      }
-
       return { isAdmin: true, qrUser };
     }),
   adminCheckinParticipant: protectedProcedure
@@ -136,6 +129,40 @@ export const adminRouter = router({
 
       console.log({ userToCheckIn });
 
+      if (userToCheckIn) {
+        await ctx.prisma.user.update({
+          where: { id: userIdToCheckIn },
+          data: { arrivedOnsite: true },
+        });
+      }
+
       return { isAdmin: true, userToCheckIn };
+    }),
+  adminRegParticipant: protectedProcedure
+    .input(z.object({ userIdToReg: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { id: userId } = ctx.session.user;
+      const { userIdToReg } = input;
+
+      const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
+
+      console.log({ user });
+
+      if (user === null || user.role !== Role.ADMIN) return { isAdmin: false };
+
+      const userToReg = await ctx.prisma.user.findFirst({
+        where: { id: userIdToReg },
+      });
+
+      console.log({ userToReg });
+
+      if (userToReg) {
+        await ctx.prisma.user.update({
+          where: { id: userIdToReg },
+          data: { registeredForEvent: true },
+        });
+      }
+
+      return { isAdmin: true, userToReg };
     }),
 });
