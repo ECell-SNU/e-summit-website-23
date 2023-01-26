@@ -4,8 +4,8 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
 
 const specialAdmins = {
-  agaash: "agaash@gmail.com",
-  harnam: "harnam@gmail.com",
+  agaash: ["agaash@gmail.com", "somesh.kar@gmail.com"],
+  harnam: ["harnam@gmail.com", "somesh.kar@gmail.com"],
 };
 
 export const adminRouter = router({
@@ -16,15 +16,22 @@ export const adminRouter = router({
 
     return user !== null && user.role === Role.ADMIN;
   }),
+  checkIfAgaash: protectedProcedure.query(async ({ ctx }) => {
+    return specialAdmins.agaash.includes(ctx.session.user.email as string);
+  }),
   agaashViewAccomodation: protectedProcedure.query(async ({ ctx }) => {
-    if (ctx.session.user.email !== specialAdmins.agaash) return;
+    if (!specialAdmins.agaash.includes(ctx.session.user.email as string))
+      return { isAgaash: false };
 
-    return await ctx.prisma.accomodation.findMany();
+    const accoms = await ctx.prisma.accomodation.findMany();
+
+    return { isAgaash: true, accoms };
   }),
   agaashMutateAccomodation: protectedProcedure
     .input(z.object({ id: z.string(), change: z.any() }))
     .query(async ({ ctx }) => {
-      if (ctx.session.user.email !== specialAdmins.agaash) return;
+      if (!specialAdmins.agaash.includes(ctx.session.user.email as string))
+        return { isAgaash: false };
 
       // const { id } = input;
       // const acc = await ctx.prisma.accomodation.findMany({ where: { id } });
@@ -34,7 +41,8 @@ export const adminRouter = router({
       // return changed data
     }),
   harnamViewPayments: protectedProcedure.query(async ({ ctx }) => {
-    if (ctx.session.user.email !== specialAdmins.harnam) return;
+    if (!specialAdmins.harnam.includes(ctx.session.user.email as string))
+      return { isHarnam: false };
 
     return [];
   }),
