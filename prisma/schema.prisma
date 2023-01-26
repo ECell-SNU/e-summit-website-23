@@ -73,22 +73,23 @@ model User {
   // if this is false, pester the user to fill the form
   hasFilledInfo Boolean @default(false)
 
-  // make this true after scanning QR code at gate
-  arrivedOnsite      Boolean        @default(false)
-  registeredForEvent Boolean        @default(false)
-  university         String?
-  fieldOfStudy       String?
-  yearOfStudy        String?
-  mobileNumber       String?
-  gender             Gender?
-  teamId             String?
-  team               Team?          @relation(fields: [teamId], references: [id])
-  teamLeader         Boolean        @default(false)
-  Accomodation       Accomodation[]
-  TravelItem         TravelItem[]
-  EventReg           EventReg[]
-  PaymentItem        PaymentItem[]
-  UserPayment        UserPayment[]
+  checkedIn          Boolean @default(false)
+  registeredForEvent Boolean @default(false)
+  checkedOut         Boolean @default(false)
+
+  university   String?
+  fieldOfStudy String?
+  yearOfStudy  String?
+  mobileNumber String?
+  gender       Gender?
+  teamId       String?
+  team         Team?          @relation(fields: [teamId], references: [id])
+  teamLeader   Boolean        @default(false)
+  Accomodation Accomodation[]
+  TravelItem   TravelItem[]
+  EventReg     EventReg[]
+  PaymentItem  PaymentItem[]
+  UserPayment  UserPayment[]
 
   @@index([teamId])
 }
