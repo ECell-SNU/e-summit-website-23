@@ -14,6 +14,7 @@ enum Role {
   HACKATHON
   IDEATHON
   STARTUPVERSE
+  ESUMMIT
 }
 
 enum Gender {
@@ -73,21 +74,21 @@ model User {
   hasFilledInfo Boolean @default(false)
 
   // make this true after scanning QR code at gate
-  arrivedOnsite Boolean @default(false)
-
-  university   String?
-  fieldOfStudy String?
-  yearOfStudy  String?
-  mobileNumber String?
-  gender       Gender?
-  teamId       String?
-  team         Team?          @relation(fields: [teamId], references: [id])
-  teamLeader   Boolean        @default(false)
-  Accomodation Accomodation[]
-  TravelItem   TravelItem[]
-  EventReg     EventReg[]
-  PaymentItem  PaymentItem[]
-  UserPayment  UserPayment[]
+  arrivedOnsite      Boolean        @default(false)
+  registeredForEvent Boolean        @default(false)
+  university         String?
+  fieldOfStudy       String?
+  yearOfStudy        String?
+  mobileNumber       String?
+  gender             Gender?
+  teamId             String?
+  team               Team?          @relation(fields: [teamId], references: [id])
+  teamLeader         Boolean        @default(false)
+  Accomodation       Accomodation[]
+  TravelItem         TravelItem[]
+  EventReg           EventReg[]
+  PaymentItem        PaymentItem[]
+  UserPayment        UserPayment[]
 
   @@index([teamId])
 }
