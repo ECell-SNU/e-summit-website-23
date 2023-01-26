@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { Center, Button, useToast } from "@chakra-ui/react";
+import { Center, Button, useToast, Spinner } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 
 import { trpc } from "../../utils/trpc";
@@ -84,7 +84,7 @@ const CheckinPage = () => {
 
   return (
     <Center flexDir="column" minH="100vh" color="white">
-      <h1 className="mt-10 text-3xl">Admin</h1>
+      <h1 className="mt-20 text-3xl">Admin</h1>
       <h1 className="text-xl">Check in a participant</h1>
       <div>
         <div style={{ marginTop: 30, marginBottom: 20 }}>
@@ -108,24 +108,40 @@ const CheckinPage = () => {
               <div>Uni: {qrUser.university}</div>
               <div>Grad: {qrUser.yearOfStudy}</div>
               <div>Team Lead: {qrUser.teamLeader.toString()}</div>
-              <div>
-                Event:{" "}
-                {qrUser.EventReg[0].event.name
+              <div>Role: {qrUser.role}</div>
+              {/* {qrUser.EventReg[0].event.name
                   ? qrUser.EventReg[0].event.name
-                  : "none"}
-              </div>
+                  : "none"} */}
 
               {/* <div>Phone: {qrUser.mobileNumber}</div> */}
             </div>
             <Button
               w="100%"
               mt={3}
-              colorScheme="green"
+              colorScheme={qrUser.arrivedOnsite ? "gray" : "green"}
+              isLoading={checkInMutLoading}
+              spinner={<Spinner color="white" />}
+              disabled={qrUser.arrivedOnsite}
               onClick={() => {
-                checkInMut.mutate({ userIdToCheckIn: qrUser.id });
+                if (!qrUser.arrivedOnsite) {
+                  checkInMut.mutate({ userIdToCheckIn: qrUser.id });
+                  return;
+                }
+
+                toast({
+                  title: "User has already checked in",
+                  status: "error",
+                  isClosable: true,
+                });
               }}
             >
-              Check in <ChevronRightIcon boxSize={6} />
+              {qrUser.arrivedOnsite ? (
+                <div className="text-gray-600">Already checked in</div>
+              ) : (
+                <>
+                  Check in <ChevronRightIcon boxSize={6} />
+                </>
+              )}
             </Button>
 
             {checkInMut.error && (
