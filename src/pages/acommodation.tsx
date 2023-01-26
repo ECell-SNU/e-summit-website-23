@@ -1,20 +1,34 @@
-import { Select, Heading, Box, Button, Text } from "@chakra-ui/react";
+import { Select, Heading, Box, Button, Text, useToast } from "@chakra-ui/react";
 import Image from "next/image";
 import { FilePond } from "react-filepond";
 import paymentQr from "../assets/agaash-qr.jpg";
 import { trpc } from "../utils/trpc";
 import { useState, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
+import { Gender } from "@prisma/client";
 
 const Accommodation: React.FC = () => {
   const cost: number[] = [349, 599, 899];
   const [checkinDate, setCheckinDate] = useState(0); // 27, 28, 29
   const [checkoutDate, setCheckoutDate] = useState(2); // 28, 29, 30
+  const [gender, setGender] = useState<"MALE" | "FEMALE">("MALE");
   const [files, setFiles] = useState<any>([]);
   const user = useSession();
+  const toast = useToast();
   const handleAcomCheckout =
     trpc.accommodationCheckout.handleAccommodationCheckout.useMutation();
 
+  useEffect(() => {
+    if (handleAcomCheckout.isSuccess) {
+      toast({
+        title: "Payment processing",
+        description: "Acommodation booking successful.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  }, [handleAcomCheckout, toast]);
   useEffect(() => {
     if (user.status === "unauthenticated")
       signIn("google", { callbackUrl: "/accommodation" });
@@ -58,6 +72,20 @@ const Accommodation: React.FC = () => {
         </option>
         <option style={{ color: "black" }} value="2">
           30th Jan
+        </option>
+      </Select>
+      <Select
+        placeContent="Select Gender"
+        maxW="100px"
+        isRequired
+        value={gender}
+        onChange={(e) => setGender(e.target.value as Gender)}
+      >
+        <option style={{ color: "black" }} value="MALE">
+          MALE
+        </option>
+        <option style={{ color: "black" }} value="FEMALE">
+          FEMALE
         </option>
       </Select>
       {checkinDate > checkoutDate && (
@@ -126,6 +154,7 @@ const Accommodation: React.FC = () => {
           handleAcomCheckout.mutate({
             checkinDate: checkinDate,
             checkoutDate: checkoutDate,
+            gender,
           });
           setFiles([]);
         }}

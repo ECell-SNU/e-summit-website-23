@@ -1,11 +1,11 @@
-import { z } from "zod";
 import * as fs from "node:fs/promises";
 import os from "os";
 import path from "path";
+import { z } from "zod";
 
+import type { Gender } from "@prisma/client";
 import OCR from "../../../lib/ocr";
-import { TRPCError } from "@trpc/server";
-import { protectedProcedure, publicProcedure, router } from "../trpc";
+import { protectedProcedure, router } from "../trpc";
 
 export const accommodationCheckoutRouter = router({
   handleAccommodationCheckout: protectedProcedure
@@ -13,10 +13,11 @@ export const accommodationCheckoutRouter = router({
       z.object({
         checkinDate: z.number().min(0).max(2),
         checkoutDate: z.number().min(0).max(2),
+        gender: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { checkinDate, checkoutDate } = input;
+      const { checkinDate, checkoutDate, gender } = input;
 
       let amount = 349;
       const cost: number[] = [349, 599, 899];
@@ -34,7 +35,7 @@ export const accommodationCheckoutRouter = router({
       if (!user) return;
       const cluster = await ctx.prisma.cluster.findFirst({
         where: {
-          gender: user.gender ?? "MALE",
+          gender: gender as Gender,
         },
       });
       if (!cluster) return;
