@@ -42,16 +42,22 @@ const Dashboard: NextPage = () => {
   return (
     <div className="h-[80vh] p-[100px] items-center justify-start flex flex-col gap-10">
 			<div className="text-4xl sm:text-5xl whitespace-nowrap">QR Code</div>
-			<QRCode
-				id="QRCode"
-				value={user.data?.user?.id ?? ""}
-				bgColor="#000000"
-				fgColor="#ffffff"
-				style={{
-					borderRadius: "4px",
-				}}
-				size={218}
-			/>
+			{user.data?.user?.id ? (
+				<QRCode
+					id="QRCode"
+					value={user.data?.user?.id ?? ""}
+					bgColor="#000000"
+					fgColor="#ffffff"
+					style={{
+						borderRadius: "4px",
+					}}
+					size={218}
+				/>
+			) : (
+				<div className="text-xl whitespace-nowrap">
+					Loading...
+				</div>
+			)}
 			<button
 				className="bg-blue-500 text-white font-bold text-md sm:text-xl rounded-full py-2 px-6 cursor-pointer whitespace-nowrap"
 				style={{
