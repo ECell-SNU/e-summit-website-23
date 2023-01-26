@@ -142,7 +142,7 @@ const Home: NextPage = () => {
           </div>
           <div className="mt-6 flex flex-col items-center gap-2 md:mt-12">
             <Countdown
-              initialTime={new Date("Jan 28, 2023 00:00:00").getTime()}
+              initialTime={new Date("Jan 27, 2023 12:00:00").getTime()}
               isLarge={true}
             />
             <h1 className="text-lg font-thin sm:text-3xl md:text-4xl">
