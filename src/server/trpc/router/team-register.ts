@@ -121,8 +121,6 @@ export const teamRegisterRouter = router({
               })
           );
         });
-
-        return team;
       } catch (e) {
         throw new TRPCError({ code: "PRECONDITION_FAILED" });
       }
