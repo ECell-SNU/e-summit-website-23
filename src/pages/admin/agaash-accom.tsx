@@ -13,7 +13,7 @@ const AgaashAccomPage: NextPage = () => {
   if (isAgaashQuery.isError) return <div>Error</div>;
 
   if (!isAgaash) {
-    return <div>You're not Agaash</div>;
+    return <div>You&apos;re not Agaash</div>;
   }
 
   return (
