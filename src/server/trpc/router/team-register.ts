@@ -7,6 +7,7 @@ import { TRPCError } from "@trpc/server";
 
 const teamLeaders: Record<string, Role> = {
   "prathu.agg@gmail.com": Role.HACKATHON,
+  "somesh.kar@gmail.com": Role.HACKATHON,
   "vj284@snu.edu.in": Role.HACKATHON,
   "ansarialan31@gmail.com": Role.HACKATHON,
   "amanuniquecoder@gmail.com": Role.HACKATHON,
@@ -67,6 +68,13 @@ export const teamRegisterRouter = router({
     const user = await ctx.prisma.user.findFirst({
       where: { id },
     });
+
+    // console.log("piece of shit isEvent found this user: ", { user });
+
+    // console.log("piece of shit isEvent found this teamLeaders: ", {
+    //   teamLeaders,
+    // });
+
     const email = user?.email ?? "";
     return {
       role: teamLeaders[email] ?? (Role.USER as Role),
@@ -108,20 +116,20 @@ export const teamRegisterRouter = router({
             },
           });
 
-          input.members.forEach(
-            async (member) =>
-              await tx.user.update({
-                where: {
-                  email: member.email,
-                },
-                data: {
-                  teamId: team.id,
-                  role: teamLeaders[user.email ?? "asd"] ?? Role.USER,
-                },
-              })
-          );
+          for (const member of input.members) {
+            await tx.user.update({
+              where: {
+                email: member.email,
+              },
+              data: {
+                teamId: team.id,
+                role: teamLeaders[user.email ?? "asd"] ?? Role.USER,
+              },
+            });
+          }
         });
       } catch (e) {
+        console.log("\n\n\n\nERRRROOROORR\n\n\n");
         throw new TRPCError({ code: "PRECONDITION_FAILED" });
       }
     }),
