@@ -96,10 +96,10 @@ const navItems = [
   //   title: "Sign Out",
   //   href: "/",
   // },
-	{
-		title: "Check-in",
-		href: "/qr",
-	}
+  // {
+  // 	title: "Check-in",
+  // 	href: "/qr",
+  // }
 ];
 
 interface NavbarProps {
@@ -369,23 +369,23 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
         >
           <CloseIcon />
         </div>
-        <div className="flex flex-grow flex-col justify-center gap-16 w-full">
+        <div className="flex w-full flex-grow flex-col justify-center gap-16">
           {menu()}
-					{sessionData ? (
-						<div
-							className="w-full text-center cursor-pointer rounded-full bg-blue-500 px-7 py-1 text-lg transition-transform duration-300 ease-in-out hover:-translate-y-px"
-							onClick={() => signOut({ callbackUrl: "/" })}
-						>
-							Sign Out
-						</div>
-					) : (
-						<div
-							className="w-full text-center cursor-pointer rounded-full bg-blue-500 px-7 py-1 text-lg transition-transform duration-300 ease-in-out hover:-translate-y-px"
-							onClick={() => signIn("google")}
-						>
-							Sign in
-						</div>
-					)}
+          {sessionData ? (
+            <div
+              className="w-full cursor-pointer rounded-full bg-blue-500 px-7 py-1 text-center text-lg transition-transform duration-300 ease-in-out hover:-translate-y-px"
+              onClick={() => signOut({ callbackUrl: "/" })}
+            >
+              Sign Out
+            </div>
+          ) : (
+            <div
+              className="w-full cursor-pointer rounded-full bg-blue-500 px-7 py-1 text-center text-lg transition-transform duration-300 ease-in-out hover:-translate-y-px"
+              onClick={() => signIn("google")}
+            >
+              Sign in
+            </div>
+          )}
         </div>
       </div>
 
