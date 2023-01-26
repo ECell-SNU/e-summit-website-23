@@ -31,6 +31,8 @@ const Checkout: NextPage = () => {
         return 599;
       case 2:
         return 1099;
+      case 3:
+        return 1599;
       case 4:
         return 1999;
     }
@@ -59,6 +61,7 @@ const Checkout: NextPage = () => {
         <UnorderedList maxW="70%">
           <ListItem>Solo - 1 Ticket worth Rs 599</ListItem>
           <ListItem>Duo - 2 Tickets worth Rs 1099 (1 ticket = 549)</ListItem>
+          <ListItem>Trio - 3 Tickets worth Rs 1599 (1 Ticket = 535)</ListItem>
           <ListItem>Squad - 4 Tickets worth Rs 1999 (1 ticket = 499)</ListItem>
         </UnorderedList>
         <Flex align="center" gap="1rem">
@@ -74,6 +77,9 @@ const Checkout: NextPage = () => {
             </option>
             <option style={{ backgroundColor: "black" }} value={2}>
               Duo
+            </option>
+            <option style={{ backgroundColor: "black" }} value={3}>
+              Trio
             </option>
             <option style={{ backgroundColor: "black" }} value={4}>
               Squad

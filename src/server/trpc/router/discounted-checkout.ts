@@ -26,6 +26,8 @@ export const discountedCheckoutRouter = router({
         case 2:
           amount = 1099;
           break;
+        case 3:
+          amount = 1599;
         case 4:
           amount = 1999;
           break;

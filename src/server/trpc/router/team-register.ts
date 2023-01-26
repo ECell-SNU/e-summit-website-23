@@ -69,12 +69,6 @@ export const teamRegisterRouter = router({
       where: { id },
     });
 
-    // console.log("piece of shit isEvent found this user: ", { user });
-
-    // console.log("piece of shit isEvent found this teamLeaders: ", {
-    //   teamLeaders,
-    // });
-
     const email = user?.email ?? "";
     return {
       role: teamLeaders[email] ?? (Role.USER as Role),
