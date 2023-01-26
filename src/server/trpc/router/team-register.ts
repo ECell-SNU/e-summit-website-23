@@ -101,7 +101,7 @@ export const teamRegisterRouter = router({
 
       try {
         await ctx.prisma.$transaction(async (tx) => {
-          const team = await ctx.prisma.team.create({
+          const team = await tx.team.create({
             data: {
               name: input.teamName,
               eventId: event.id,
@@ -110,7 +110,7 @@ export const teamRegisterRouter = router({
 
           input.members.forEach(
             async (member) =>
-              await ctx.prisma.user.update({
+              await tx.user.update({
                 where: {
                   email: member.email,
                 },

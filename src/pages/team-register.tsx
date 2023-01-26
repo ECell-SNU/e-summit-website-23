@@ -9,6 +9,7 @@ import {
   Input,
   Select,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { Role } from "@prisma/client";
 import React, { useEffect, useState } from "react";
@@ -19,7 +20,7 @@ import { trpc } from "../utils/trpc";
 // type MemInfo =
 const TeamRegister = () => {
   const session = useSession();
-
+  const toast = useToast();
   useEffect(() => {
     if (session.status === "loading") return;
 
@@ -53,7 +54,12 @@ const TeamRegister = () => {
 
   useEffect(() => {
     if (registerTeam.isSuccess) window.location.href = "/team-register";
-  }, [registerTeam]);
+    if (registerTeam.isError)
+      toast({
+        title: "Error",
+        description: "One of the members is not registered on the website",
+      });
+  }, [registerTeam, toast]);
   const [teamName, setTeamName] = useState("");
   const updateName = (name: string, index: number) => {
     const newMembersInfo = [...members];
