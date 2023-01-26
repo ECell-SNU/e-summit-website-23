@@ -3,6 +3,7 @@ import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 import { Event, Role } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 
 const teamLeaders: Record<string, Role> = {
   "prathu.agg@gmail.com": Role.HACKATHON,
@@ -98,26 +99,32 @@ export const teamRegisterRouter = router({
       });
       if (!event) return false;
 
-      const team = await ctx.prisma.team.create({
-        data: {
-          name: input.teamName,
-          eventId: event.id,
-        },
-      });
-
-      input.members.forEach(
-        async (member) =>
-          await ctx.prisma.user.update({
-            where: {
-              email: member.email,
-            },
+      try {
+        await ctx.prisma.$transaction(async (tx) => {
+          const team = await ctx.prisma.team.create({
             data: {
-              teamId: team.id,
-              role: teamLeaders[user.email ?? "asd"] ?? Role.USER,
+              name: input.teamName,
+              eventId: event.id,
             },
-          })
-      );
+          });
 
-      return team;
+          input.members.forEach(
+            async (member) =>
+              await ctx.prisma.user.update({
+                where: {
+                  email: member.email,
+                },
+                data: {
+                  teamId: team.id,
+                  role: teamLeaders[user.email ?? "asd"] ?? Role.USER,
+                },
+              })
+          );
+        });
+
+        return team;
+      } catch (e) {
+        throw new TRPCError({ code: "PRECONDITION_FAILED" });
+      }
     }),
 });
