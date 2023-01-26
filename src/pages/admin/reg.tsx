@@ -30,10 +30,10 @@ const AdminRegPage = () => {
   });
 
   const {
-    isLoading: checkInMutLoading,
-    isError: checkInMutError,
-    ...checkInMut
-  } = trpc.adminRouter.adminCheckinParticipant.useMutation();
+    isLoading: regMutLoading,
+    isError: regMutError,
+    ...regMut
+  } = trpc.adminRouter.adminRegParticipant.useMutation();
 
   useEffect(() => {
     if (!qrData) return;
@@ -52,14 +52,14 @@ const AdminRegPage = () => {
   }, [qrUserData]);
 
   useEffect(() => {
-    if (checkInMut.isSuccess) {
+    if (regMut.isSuccess) {
       toast({
-        title: "Checked in successfully",
+        title: "Registered successfully",
         status: "success",
         isClosable: true,
       });
     }
-  }, [checkInMutLoading]);
+  }, [regMutLoading]);
 
   const handleScan = (data: string) => {
     if (data) {
@@ -109,6 +109,7 @@ const AdminRegPage = () => {
               <div>Grad: {qrUser.yearOfStudy}</div>
               <div>Team Lead: {qrUser.teamLeader.toString()}</div>
               <div>Role: {qrUser.role}</div>
+              <div>Checked in: {qrUser.arrivedOnsite.toString()}</div>
               {/* {qrUser.EventReg[0].event.name
                   ? qrUser.EventReg[0].event.name
                   : "none"} */}
@@ -118,35 +119,35 @@ const AdminRegPage = () => {
             <Button
               w="100%"
               mt={3}
-              colorScheme={qrUser.arrivedOnsite ? "gray" : "green"}
-              isLoading={checkInMutLoading}
+              colorScheme={qrUser.registeredForEvent ? "gray" : "yellow"}
+              isLoading={regMutLoading}
               spinner={<Spinner color="white" />}
-              disabled={qrUser.arrivedOnsite}
+              disabled={qrUser.registeredForEvent}
               onClick={() => {
-                if (!qrUser.arrivedOnsite) {
-                  checkInMut.mutate({ userIdToCheckIn: qrUser.id });
+                if (!qrUser.registeredForEvent) {
+                  regMut.mutate({ userIdToReg: qrUser.id });
                   return;
                 }
 
                 toast({
-                  title: "User has already checked in",
+                  title: "User has already registered",
                   status: "error",
                   isClosable: true,
                 });
               }}
             >
-              {qrUser.arrivedOnsite ? (
-                <div className="text-gray-600">Already checked in</div>
+              {qrUser.registeredForEvent ? (
+                <div className="text-gray-600">Already registered</div>
               ) : (
                 <>
-                  Check in <ChevronRightIcon boxSize={6} />
+                  Register <ChevronRightIcon boxSize={6} />
                 </>
               )}
             </Button>
 
-            {checkInMut.error && (
+            {regMut.error && (
               <p className="text-red-600">
-                Something went wrong! {checkInMut.error.message}
+                Something went wrong! {regMut.error.message}
               </p>
             )}
           </>
