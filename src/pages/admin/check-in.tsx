@@ -118,12 +118,12 @@ const CheckinPage = () => {
             <Button
               w="100%"
               mt={3}
-              colorScheme={qrUser.arrivedOnsite ? "gray" : "green"}
+              colorScheme={qrUser.checkedIn ? "gray" : "green"}
               isLoading={checkInMutLoading}
               spinner={<Spinner color="white" />}
-              disabled={qrUser.arrivedOnsite}
+              disabled={qrUser.checkedIn}
               onClick={() => {
-                if (!qrUser.arrivedOnsite) {
+                if (!qrUser.checkedIn) {
                   checkInMut.mutate({ userIdToCheckIn: qrUser.id });
                   return;
                 }
@@ -135,7 +135,7 @@ const CheckinPage = () => {
                 });
               }}
             >
-              {qrUser.arrivedOnsite ? (
+              {qrUser.checkedIn ? (
                 <div className="text-gray-600">Already checked in</div>
               ) : (
                 <>

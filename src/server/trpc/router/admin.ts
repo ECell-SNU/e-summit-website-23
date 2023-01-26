@@ -132,7 +132,7 @@ export const adminRouter = router({
       if (userToCheckIn) {
         await ctx.prisma.user.update({
           where: { id: userIdToCheckIn },
-          data: { arrivedOnsite: true },
+          data: { checkedIn: true },
         });
       }
 
@@ -164,5 +164,32 @@ export const adminRouter = router({
       }
 
       return { isAdmin: true, userToReg };
+    }),
+  adminCheckoutParticipant: protectedProcedure
+    .input(z.object({ userIdToCheckOut: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { id: userId } = ctx.session.user;
+      const { userIdToCheckOut } = input;
+
+      const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
+
+      console.log({ user });
+
+      if (user === null || user.role !== Role.ADMIN) return { isAdmin: false };
+
+      const userToCheckOut = await ctx.prisma.user.findFirst({
+        where: { id: userIdToCheckOut },
+      });
+
+      console.log({ userToCheckOut });
+
+      if (userToCheckOut) {
+        await ctx.prisma.user.update({
+          where: { id: userIdToCheckOut },
+          data: { checkedIn: true },
+        });
+      }
+
+      return { isAdmin: true, userToCheckOut };
     }),
 });
