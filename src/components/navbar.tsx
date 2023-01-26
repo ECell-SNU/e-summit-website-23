@@ -328,6 +328,12 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
                 </MenuItem>
                 <MenuDivider />
               </Link>
+              <Link href="/qr">
+                <MenuItem bgColor="black" py="0" justifyContent="space-between">
+                  Check-in
+                </MenuItem>
+                <MenuDivider />
+              </Link>
               <MenuItem
                 bgColor="black"
                 py="0"

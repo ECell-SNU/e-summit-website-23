@@ -11,11 +11,22 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Role } from "@prisma/client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { signIn, useSession } from "next-auth/react";
+
 import { trpc } from "../utils/trpc";
 
 // type MemInfo =
 const TeamRegister = () => {
+  const session = useSession();
+
+  useEffect(() => {
+    if (session.status === "loading") return;
+
+    if (session.status === "unauthenticated")
+      signIn("google", { callbackUrl: "/team-register" });
+  }, [session.status]);
+
   const { data: isEvent } = trpc.teamRegisterRouter.isEvent.useQuery();
   const registerTeam = trpc.teamRegisterRouter.handleRegisterTeam.useMutation();
   const [size, setSize] = useState(2);

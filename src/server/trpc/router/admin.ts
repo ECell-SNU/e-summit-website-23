@@ -1,5 +1,6 @@
 import { Role } from "@prisma/client";
 import { z } from "zod";
+import { faker } from "@faker-js/faker";
 
 import { protectedProcedure, router } from "../trpc";
 
@@ -23,9 +24,22 @@ export const adminRouter = router({
     if (!specialAdmins.agaash.includes(ctx.session.user.email as string))
       return { isAgaash: false };
 
-    const accoms = await ctx.prisma.accomodation.findMany();
+    // const accoms = await ctx.prisma.accomodation.findMany();
 
-    return { isAgaash: true, accoms };
+    const mockAccoms = [
+      ...Array.from({ length: 10 }).map((_, i) => ({
+        id: faker.random.alphaNumeric(25),
+        cluster: "1A",
+        clusterId: faker.random.alphaNumeric(25),
+        checkInDate: faker.date.soon(),
+        checkOutDate: faker.date.soon(),
+        checkedIn: false,
+        checkedOut: false,
+        paymentId: faker.random.alphaNumeric(25),
+      })),
+    ];
+
+    return { isAgaash: true, accoms: mockAccoms };
   }),
   agaashMutateAccomodation: protectedProcedure
     .input(z.object({ id: z.string(), change: z.any() }))
