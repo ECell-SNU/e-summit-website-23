@@ -11,7 +11,7 @@ const Admin = () => {
   if (!data?.isAdmin)
     return (
       <Center minH="100vh" color="white">
-        You are not an admin
+        Loading...
       </Center>
     );
   return (
@@ -26,6 +26,15 @@ const Admin = () => {
 					onClick={() => setFilter("All")}
 				>
 					All
+				</button>
+				{/* Button for ESUMMIT */}
+				<button
+					className={` p-2 rounded-full px-4
+						${filter === "ESUMMIT" ? "bg-blue-500" : "bg-gray-500"}
+					`}
+					onClick={() => setFilter("ESUMMIT")}
+				>
+					Esummit
 				</button>
 				<button
 					className={` p-2 rounded-full px-4
