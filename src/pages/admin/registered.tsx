@@ -29,7 +29,7 @@ const RegisteredPage = () => {
     <div className="mx-24">
       <div className="mt-20 text-3xl">All registered users</div>
       {adminVRData?.registeredUsers?.map((blob) => (
-        <div className="flex gap-2">
+        <div className="flex gap-2" key={blob.user.id}>
           <div className="w-72">{blob.user.id}</div>
           <div className="w-72">{blob.user.name}</div>
           <div>{blob.user.email}</div>
