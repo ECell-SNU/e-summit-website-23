@@ -214,4 +214,21 @@ export const adminRouter = router({
 
       return { isAdmin: true, userToCheckOut };
     }),
+  adminViewRegistered: protectedProcedure.query(async ({ ctx }) => {
+    const { id: userId } = ctx.session.user;
+    const user = await ctx.prisma.user.findFirst({ where: { id: userId } });
+    console.log({ user });
+
+    if (user === null || user.role !== Role.ADMIN) return { isAdmin: false };
+
+    return {
+      isAdmin: true,
+      // registeredUsers: await ctx.prisma.user.findMany({
+      //   where: { PaymentItem: { every: { state: "" } } },
+      // }),
+      registeredUsers: await ctx.prisma.paymentItem.findMany({
+        include: { EventReg: { include: { event: true } }, user: true },
+      }),
+    };
+  }),
 });
