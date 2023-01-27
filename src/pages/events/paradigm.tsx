@@ -66,7 +66,7 @@ Meet with investors
 ];
 
 const Paradigm: NextPage = () => {
-  const time = useCountdown(new Date("Jan 27, 2023 00:00:00").getTime());
+  const time = useCountdown(new Date("Jan 27, 2023 12:00:00").getTime());
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -127,7 +127,16 @@ const Paradigm: NextPage = () => {
             >
               Event Details
             </a>
-          </div>
+					</div>
+					<a
+						target="_blank"
+						rel="noreferrer"
+						// href="https://drive.google.com/drive/folders/1yopnCBboPkJJAFVwxAkXhg0Tm5LJH0_3?usp=sharing"
+						href=""
+						className="sm:w-[95%] w-full whitespace-nowrap rounded-lg border border-gray-500 text-gray-500 py-2 text-lg text-center pointer-events-none cursor-default"
+					>
+						Problem Statement
+					</a>
           <p className="text-xs sm:text-sm">Registration ends in</p>
           <h1 className="text-lg font-bold sm:text-2xl">{time} Days</h1>
         </div>
