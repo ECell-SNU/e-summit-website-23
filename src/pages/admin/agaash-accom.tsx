@@ -6,7 +6,7 @@ const AgaashAccomPage: NextPage = () => {
   const { data: isAgaash, ...isAgaashQuery } =
     trpc.adminRouter.checkIfAgaash.useQuery();
 
-  const { data: accoms, ...agaashViewAccomsQuery } =
+  const { data: accomsData, ...agaashViewAccomsQuery } =
     trpc.adminRouter.agaashViewAccomodation.useQuery();
 
   if (isAgaashQuery.isLoading) return <div>Loading...</div>;
@@ -20,7 +20,23 @@ const AgaashAccomPage: NextPage = () => {
     <div className="mx-24">
       <div className="mt-20 text-3xl">Hello, Agaash.</div>
 
-      <div>{JSON.stringify(accoms, null, 2)}</div>
+      {/* <div>{JSON.stringify(accoms, null, 2)}</div> */}
+      <table className="border-collapse border">
+        <thead>
+          <tr>
+            {/* <th>id</th> */}
+            <th>Cluster</th>
+            <th>Check In Date</th>
+            <th>Check Out Date</th>
+          </tr>
+        </thead>
+
+        {/* {accomsData?.accoms.map((accom) => (
+          <>
+            <div>{JSON.stringify(accom)}</div>
+          </>
+        ))} */}
+      </table>
     </div>
   );
 };
