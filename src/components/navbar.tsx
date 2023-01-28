@@ -96,10 +96,10 @@ const navItems = [
   //   title: "Sign Out",
   //   href: "/",
   // },
-  // {
-  // 	title: "Check-in",
-  // 	href: "/qr",
-  // }
+  {
+  	title: "Check-in",
+  	href: "/qr",
+  }
 ];
 
 interface NavbarProps {
