@@ -138,7 +138,7 @@ const Home: NextPage = () => {
                 : signIn("google", { callbackUrl: "/checkout" })
             }
           >
-            BUY YOUR TICKET!
+            One day pass!
           </div>
           <div className="mt-6 flex flex-col items-center gap-2 md:mt-12">
             <Countdown
