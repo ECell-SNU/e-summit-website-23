@@ -3,6 +3,7 @@ import {
   Button,
   Center,
   Flex,
+  Heading,
   ListItem,
   Select,
   Text,
@@ -18,25 +19,12 @@ import paymentQr from "../assets/payment_qr.jpg";
 import { trpc } from "../utils/trpc";
 
 const Checkout: NextPage = () => {
-  const [quantity, setQuantity] = useState(1);
+  const quantity = 1;
   const [files, setFiles] = useState<any>([]);
   const toast = useToast();
   const user = useSession();
   const handleInitialCheckout =
     trpc.discountedCheckout.handleInitialCheckout.useMutation();
-
-  const amount = (quantity: number) => {
-    switch (quantity) {
-      case 1:
-        return 599;
-      case 2:
-        return 1099;
-      case 3:
-        return 1599;
-      case 4:
-        return 1999;
-    }
-  };
 
   useEffect(() => {
     if (handleInitialCheckout.isSuccess)
@@ -58,37 +46,10 @@ const Checkout: NextPage = () => {
   return (
     <Center mt="6rem">
       <Flex flexDir="column" align="center" gap="2rem">
-        <UnorderedList maxW="70%">
-          <ListItem>Solo - 1 Ticket worth Rs 599</ListItem>
-          <ListItem>Duo - 2 Tickets worth Rs 1099 (1 ticket = 549)</ListItem>
-          <ListItem>Trio - 3 Tickets worth Rs 1599 (1 Ticket = 535)</ListItem>
-          <ListItem>Squad - 4 Tickets worth Rs 1999 (1 ticket = 499)</ListItem>
-        </UnorderedList>
-        <Flex align="center" gap="1rem">
-          <Text>Select quantity</Text>
-          <Select
-            w="125px"
-            bg="black"
-            value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-          >
-            <option style={{ backgroundColor: "black" }} value={1}>
-              Solo
-            </option>
-            <option style={{ backgroundColor: "black" }} value={2}>
-              Duo
-            </option>
-            <option style={{ backgroundColor: "black" }} value={3}>
-              Trio
-            </option>
-            <option style={{ backgroundColor: "black" }} value={4}>
-              Squad
-            </option>
-          </Select>
-        </Flex>
+        <Heading>One day pass worth Rs. 350</Heading>
 
         <h1 className="text-center text-4xl text-white">
-          Make Payment {amount(quantity)} Rs
+          Make Payment Rs. 350
         </h1>
         <Image
           className="hidden md:block"
@@ -141,7 +102,7 @@ const Checkout: NextPage = () => {
           _hover={{}}
           _focus={{}}
           onClick={() => {
-            handleInitialCheckout.mutate({ quantity });
+            handleInitialCheckout.mutate();
             setFiles([]);
           }}
         >

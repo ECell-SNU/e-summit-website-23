@@ -1,4 +1,4 @@
-import { Center, Text } from "@chakra-ui/react";
+import { Center, Grid, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
 import { trpc } from "../../utils/trpc";
@@ -29,11 +29,14 @@ const RegisteredPage = () => {
     <div className="mx-24">
       <div className="mt-20 text-3xl">All registered users</div>
       {adminVRData?.registeredUsers?.map((blob) => (
-        <div className="flex gap-2" key={blob.user.id}>
-          <div className="w-72">{blob.user.id}</div>
+        <Grid
+          templateColumns={"1fr 1fr 1fr"}
+          key={blob.user.id + Math.random()}
+        >
           <div className="w-72">{blob.user.name}</div>
-          <div>{blob.user.email}</div>
-        </div>
+          <div className="w-75">{blob.user.email}</div>
+          <div>{blob.EventReg[0]?.quantity}</div>
+        </Grid>
       ))}
       <div className="mt-10">count: {adminVRData?.registeredUsers?.length}</div>
     </div>
